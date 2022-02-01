@@ -1,13 +1,12 @@
-/*-----------------------------------------------------------------------*\
-|                  _       _____ __  __  ____  _  ________                |
-|                 | |     / ____|  \/  |/ __ \| |/ /  ____|               |
-|          ___  __| | ___| (___ | \  / | |  | | ' /| |__                  |
-|         / _ \/ _` |/ __|\___ \| |\/| | |  | |  < |  __|                 |
-|        |  __/ (_| | (__ ____) | |  | | |__| | . \| |____                |
-|         \___|\__,_|\___|_____/|_|  |_|\____/|_|\_\______|               |
+/*——————————————————————————————————————————————————————————————————————-*\
+|                              _____ __  __  ____  _  ________            |
+|            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
+|           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
+|           | |_ | ||  _|/ _ \\___ \| |\/| | |  | |  < |  __|             |
+|           |  _|| || | |  __/ ___) | |  | | |__| | . \| |____.           |
+|           |_|  |_||_|  \___|_____/|_|  |_|\____/|_|\_\______|           |
 |                                                                         |
-|                                                                         |
-|   Authors: A. Cuoci, M.R. Malik, Z. Li, A. Parente                      |
+|   Authors: A. Cuoci, R. Amaduzzi, A. Péquin, A. Parente                 |
 |                                                                         |
 |   Contacts: Alberto Cuoci                                               |
 |   email: alberto.cuoci@polimi.it                                        |
@@ -15,32 +14,33 @@
 |   Politecnico di Milano                                                 |
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
-|   Contacts: Mohammad Rafi Malik, Zhiyi Li, Alessandro Parente           |
+|   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
+|	email: alessandro.parente@ulb.be			                          |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
 |                                                                         |
 |-------------------------------------------------------------------------|
 |                                                                         |
-|   This file is part of edcSMOKE solver.                                 |
+|   This file is part of fireSMOKE solver.                                |
 |                                                                         |
-|	License                                                           |
+|       License                                                           |
 |                                                                         |
 |   Copyright(C) 2017-2014 A. Cuoci, A. Parente                           |
-|   edcSMOKE is free software: you can redistribute it and/or modify      |
+|   fireSMOKE is free software: you can redistribute it and/or modify     |
 |   it under the terms of the GNU General Public License as published by  |
 |   the Free Software Foundation, either version 3 of the License, or     |
 |   (at your option) any later version.                                   |
 |                                                                         |
-|   edcSMOKE is distributed in the hope that it will be useful,           |
+|   fireSMOKE is distributed in the hope that it will be useful,          |
 |   but WITHOUT ANY WARRANTY; without even the implied warranty of        |
 |   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         |
 |   GNU General Public License for more details.                          |
 |                                                                         |
 |   You should have received a copy of the GNU General Public License     |
-|   along with edcSMOKE. If not, see <http://www.gnu.org/licenses/>.      |
+|   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*-----------------------------------------------------------------------*/
+\*------------------------------------------------------------------------*/
 
 {	 
 	tmp<volScalarField> tepsilon(turbulence->epsilon());
@@ -140,9 +140,9 @@
 
 				Info<< " * CPU time [s]   = " << tEnd - tStart		<< endl;
 			}
-
+			dimensionedScalar tauStarSMALL("tauStarSMALL", dimensionSet(0,0,1,0,0,0,0), scalar(SMALL));
 			// Fine structures: characteristic time [s]
-			mDotStar = 1./tauStar;
+			mDotStar = 1./(tauStar+tauStarSMALL);
 
 			// Fine structure properties: volumetric fraction
 			gammaL = min(maxGammaL, gammaL);
@@ -153,11 +153,11 @@
 		{
 
 			// Fine structures: characteristic time [s]
-			tauStar = Ctau * sqrt( (mu+musmall_)/rho / (epsilon+epsilonsmall_) );
+			tauStar = Ctau * sqrt( (mu+musmall_)/(rho+rhosmall_) / (epsilon+epsilonsmall_) );
 			mDotStar = 1./tauStar;
 
 			// Fine structure properties: volumetric fraction
-			gammaL = Ccsi * pow025( (mu+musmall_)/rho * epsilon / sqr(k+ksmall_));	
+			gammaL = Ccsi * pow025( (mu+musmall_)/(rho+rhosmall_) * epsilon / sqr(k+ksmall_));	
 			gammaL = min(maxGammaL, gammaL);
 			gammaStarNum = pow(gammaL,edc_exp_1);
 			gammaStarDen = pow(gammaL,edc_exp_2);
@@ -210,21 +210,50 @@
 			{
 				Info << " * using Kolmogorov mixing time scale..." << endl;
 				tauMix =  sqrt( (mu+musmall_)/rho/(epsilon+epsilonsmall_) );	// Kolmogorov mixing scale
+				Cmix = tauMix/((k+ksmall_)/(epsilon+epsilonsmall_));  //global scale
 			}
 			else if ( tauMixType == SCALE_MEAN)
 			{
 				Info << " * using geometrical mean of integral scale and Kolmogorov scale as mixing time scale..." << endl;
 				tauMix =  sqrt( ((k+ksmall_)/(epsilon+epsilonsmall_))*sqrt((mu+musmall_)/rho/(epsilon+epsilonsmall_)) ); //geometrical mean of integral scale and Kolmogorov scale
+				Cmix = tauMix/((k+ksmall_)/(epsilon+epsilonsmall_));  //global scale
 			}
 			else if ( tauMixType == SCALE_GLOBAL)
 			{
 				Info << " * using global mixing time scale..." << endl;
-				tauMix = Cmix*(k+ksmall_)/(epsilon+epsilonsmall_);  //global scale
+				tauMix = Cmixglobal*(k+ksmall_)/(epsilon+epsilonsmall_);  //global scale
 			}
 
+
+                        else if ( tauMixType == SCALE_DYNAMIC)
+                        {
+                                Info << " * using dynamic mixing time scale..." << endl;
+
+				//tauMix = min(max (varf/(Chi+chismall_), tauMixsmall_), ((k+ksmall_)/(epsilon+epsilonsmall_)));  //new Cmix
+				//tauMix = min(max (varf/(Chi+chismall_), tauMixsmall_), tauMixlarge_); 
+                                //Cmix = tauMix/((k+ksmall_)/(epsilon+epsilonsmall_));  //global scale
+				//const scalar tauMix_large = 0.1;	
+				//tauMix = min(max (varf/(Chi+chismall_), tauMixsmall_), ((k+ksmall_)/(epsilon+epsilonsmall_)));
+				tauMix = min(max(varf/(Chi+chismall_),tauMixsmall_),tauMixlarge_);
+				/*	if	( tauMix > ((k+ksmall_)/(epsilon+epsilonsmall_)))
+					{
+						tauMix = ((k+ksmall_)/(epsilon+epsilonsmall_));
+					}*/
+					/*forAll(tauMix, celli)
+					{
+						if	( tauMix[celli] > tauMix_large)
+						{
+							tauMix[celli] = tauMix_large;
+                        			}
+					}*/
+				Cmix = tauMix/((k+ksmall_)/(epsilon+epsilonsmall_));  //global scale
+			}
+
+			Info<< " * min/max(Cmix)     = " << min(Cmix).value()                   << ", " << max(Cmix).value() << endl;
 			Info<< " * min/max(epsilon)  = " << min(epsilon).value() 		<< ", " << max(epsilon).value() << endl;
 			Info<< " * min/max(mut)      = " << min(turbulence->mut()).value()	<< ", " << max(turbulence->mut()).value() << endl;
 			Info<< " * min/max(taumix)   = " << min(tauMix).value() 		<< ", " << max(tauMix).value() << endl;
+
 		}
 
 		// Calculation of characteristic times

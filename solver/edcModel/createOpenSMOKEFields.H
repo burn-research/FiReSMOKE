@@ -1,13 +1,12 @@
-/*-----------------------------------------------------------------------*\
-|                  _       _____ __  __  ____  _  ________                |
-|                 | |     / ____|  \/  |/ __ \| |/ /  ____|               |
-|          ___  __| | ___| (___ | \  / | |  | | ' /| |__                  |
-|         / _ \/ _` |/ __|\___ \| |\/| | |  | |  < |  __|                 |
-|        |  __/ (_| | (__ ____) | |  | | |__| | . \| |____                |
-|         \___|\__,_|\___|_____/|_|  |_|\____/|_|\_\______|               |
+/*——————————————————————————————————————————————————————————————————————-*\
+|                              _____ __  __  ____  _  ________            |
+|            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
+|           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
+|           | |_ | ||  _|/ _ \\___ \| |\/| | |  | |  < |  __|             |
+|           |  _|| || | |  __/ ___) | |  | | |__| | . \| |____.           |
+|           |_|  |_||_|  \___|_____/|_|  |_|\____/|_|\_\______|           |
 |                                                                         |
-|                                                                         |
-|   Authors: A. Cuoci, M.R. Malik, Z. Li, A. Parente                      |
+|   Authors: A. Cuoci, R. Amaduzzi, A. Péquin, A. Parente                 |
 |                                                                         |
 |   Contacts: Alberto Cuoci                                               |
 |   email: alberto.cuoci@polimi.it                                        |
@@ -15,32 +14,33 @@
 |   Politecnico di Milano                                                 |
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
-|   Contacts: Mohammad Rafi Malik, Zhiyi Li, Alessandro Parente           |
+|   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
+|	email: alessandro.parente@ulb.be			                          |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
 |                                                                         |
 |-------------------------------------------------------------------------|
 |                                                                         |
-|   This file is part of edcSMOKE solver.                                 |
+|   This file is part of fireSMOKE solver.                                |
 |                                                                         |
-|	License                                                           |
+|       License                                                           |
 |                                                                         |
 |   Copyright(C) 2017-2014 A. Cuoci, A. Parente                           |
-|   edcSMOKE is free software: you can redistribute it and/or modify      |
+|   fireSMOKE is free software: you can redistribute it and/or modify     |
 |   it under the terms of the GNU General Public License as published by  |
 |   the Free Software Foundation, either version 3 of the License, or     |
 |   (at your option) any later version.                                   |
 |                                                                         |
-|   edcSMOKE is distributed in the hope that it will be useful,           |
+|   fireSMOKE is distributed in the hope that it will be useful,          |
 |   but WITHOUT ANY WARRANTY; without even the implied warranty of        |
 |   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         |
 |   GNU General Public License for more details.                          |
 |                                                                         |
 |   You should have received a copy of the GNU General Public License     |
-|   along with edcSMOKE. If not, see <http://www.gnu.org/licenses/>.      |
+|   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*-----------------------------------------------------------------------*/
+\*------------------------------------------------------------------------*/
 
 // Read the kinetic scheme in XML format
 OpenSMOKE::ThermodynamicsMap_CHEMKIN* thermodynamicsMapXML; 
@@ -113,6 +113,7 @@ const dictionary& drgDictionary = combustionOptionsDictionary.subDict("DRG");
 Switch homogeneousReactions(combustionOptionsDictionary.lookup("homogeneousReactions"));
 Switch momentumEquations(combustionOptionsDictionary.lookup("momentumEquations"));
 Switch energyEquation(combustionOptionsDictionary.lookup("energyEquation"));
+Switch dynamicCmixEquations(combustionOptionsDictionary.lookup("dynamicCmixEquations"));
 
 // RAS or LES
 Switch iLES = false;
@@ -195,8 +196,18 @@ word combustionModel(combustionOptionsDictionary.lookup("combustionModel"));
 const scalar maxT = readScalar(combustionOptionsDictionary.lookup("maxT"));
 const scalar minT = readScalar(combustionOptionsDictionary.lookup("minT"));
 Switch laminarDiffusion(combustionOptionsDictionary.lookup("laminarDiffusion"));
+Switch ChiEquation(combustionOptionsDictionary.lookup("ChiEquation"));
+const scalar maxChi = readScalar(combustionOptionsDictionary.lookup("maxChi"));
 scalar Sct = readScalar(combustionOptionsDictionary.lookup("Sct"));
 scalar Prt = readScalar(combustionOptionsDictionary.lookup("Prt"));
+scalar Cx = readScalar(combustionOptionsDictionary.lookup("Cx"));//Algebraic Scalar Dissipation Coefficient
+scalar Cg = readScalar(combustionOptionsDictionary.lookup("Cg"));//varf equation coefficient
+//ascalar Cd = readScalar(combustionOptionsDictionary.lookup("Cd"));//varf equation coefficient
+scalar Cd1 = readScalar(combustionOptionsDictionary.lookup("Cd1"));//new Cmix
+scalar Cd2 = readScalar(combustionOptionsDictionary.lookup("Cd2"));//new Cmix
+scalar Cp1 = readScalar(combustionOptionsDictionary.lookup("Cp1"));//new Cmix
+scalar Cp2 = readScalar(combustionOptionsDictionary.lookup("Cp2"));//new Cmix
+scalar Cmu = readScalar(combustionOptionsDictionary.lookup("Cmu"));//new Cmix
 
 Info<< "Creating additional terms for EDC-LES\n" << endl;
 
@@ -266,7 +277,7 @@ label  counterToUpdateChemistry = 0;
 // Numerical parameters for EDC/PaSR
 scalar Ccsi = 2.1377;
 scalar Ctau = 0.40825;
-scalar Cmix = 1.;
+scalar Cmixglobal = 1.;
 word   edc_version = "v2005";
 scalar maxGammaL = 0.9;
 scalar numberOfResidenceTimes = 100.;
@@ -303,7 +314,7 @@ enum { REACTORTYPE_PSR, REACTORTYPE_PFR} reactorType;
 enum { SOLVERTYPE_ODE, SOLVERTYPE_NLS} solverType;
 
 // Reactor type: PSR or PFR
-enum { SCALE_KOLMOGOROV, SCALE_MEAN, SCALE_GLOBAL } tauMixType;
+enum { SCALE_KOLMOGOROV, SCALE_MEAN, SCALE_GLOBAL, SCALE_DYNAMIC } tauMixType;
 Switch pasrOldIntegrationTime = true;
 
 // Reading constants from file
@@ -459,13 +470,15 @@ Switch pasrOldIntegrationTime = true;
 			tauMixType = SCALE_MEAN;
 		else if ( tauMixTypestring == "globalScale")
 			tauMixType = SCALE_GLOBAL;
+		else if ( tauMixTypestring == "dynamicScale")
+			tauMixType = SCALE_DYNAMIC;
 		else
 		{
-			Info << "Wrong tau_mix type: kolmogorovScale || geometriMeanScale || globalScale" << endl;
+			Info << "Wrong tau_mix type: kolmogorovScale || geometriMeanScale || globalScale || dynamicScale" << endl;
 			abort();
 		}
 
-		Cmix = readScalar(PaSRSubDictionary.lookup("Cmix"));                        
+		Cmixglobal = readScalar(PaSRSubDictionary.lookup("Cmixglobal"));                        
 		numberIterationsToUpdateChemistry = readLabel(PaSRSubDictionary.lookup("numberIterationsToUpdateChemistry")); 
 		counterToUpdateChemistry = numberIterationsToUpdateChemistry;
 
@@ -785,6 +798,75 @@ volScalarField kappa
 	zeroGradientFvPatchScalarField::typeName
 );
 
+/*volScalarField Cmix      //new Cmix
+(
+        IOobject
+        (
+                "turbulent::Cmix",
+                mesh.time().timeName(),
+                mesh,
+                IOobject::NO_READ,
+                IOobject::AUTO_WRITE,
+                false
+        ),
+        mesh,
+        dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.),
+        zeroGradientFvPatchScalarField::typeName
+);*/
+
+
+volScalarField f      //new Cmix
+(
+        IOobject
+        (
+                "f",
+                runTime.timeName(),
+                mesh,
+                IOobject::READ_IF_PRESENT,
+                IOobject::AUTO_WRITE,
+                true
+        ),
+        mesh,
+        dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.),
+        zeroGradientFvPatchScalarField::typeName
+
+);
+
+
+volScalarField varf      //new Cmix
+(
+        IOobject
+        (
+                "varf",
+                runTime.timeName(),
+                mesh,
+                IOobject::READ_IF_PRESENT,
+                IOobject::AUTO_WRITE,
+		true
+        ),
+        mesh,
+        dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.),
+        zeroGradientFvPatchScalarField::typeName
+
+);
+
+volScalarField Chi      //new Cmix
+(
+        IOobject
+        (
+                "Chi",
+                runTime.timeName(),
+                mesh,
+                IOobject::READ_IF_PRESENT,
+                IOobject::AUTO_WRITE,
+		true
+        ),
+        mesh,
+        dimensionedScalar("zero", dimensionSet(0, 0, -1, 0, 0), 0.),
+        zeroGradientFvPatchScalarField::typeName
+
+);
+
 {
 	// Check the order of species
 	if (thermodynamicsMapXML->NumberOfSpecies() != Y.size())
@@ -1033,6 +1115,10 @@ volScalarField dQ
 dimensionedScalar ksmall_("ksmall", dimensionSet(0,2,-2,0,0,0,0), SMALL );
 dimensionedScalar musmall_("musmall", dimensionSet(1,-1,-1,0,0,0,0), SMALL );
 dimensionedScalar epsilonsmall_("epsilonsmall", dimensionSet(0,2,-3,0,0,0,0), SMALL );
+dimensionedScalar rhosmall_("rhosmall", dimensionSet(1,-3,0,0,0,0,0), SMALL );
+dimensionedScalar chismall_("chismall", dimensionSet(0,0,-1,0,0,0,0), SMALL );
+dimensionedScalar tauMixsmall_("tauMixsmall", dimensionSet(0,0,1,0,0,0,0), runTime.deltaTValue() );
+dimensionedScalar tauMixlarge_("tauMixlarge", dimensionSet(0,0,1,0,0,0,0), 0.1 );
 
 volScalarField one_over_tauStar
 (
@@ -1047,6 +1133,21 @@ volScalarField one_over_tauStar
     mesh,
     dimensionedScalar("one_over_tauStar", dimensionSet(0,0,-1,0,0,0,0), 0.0)
 );
+
+volScalarField Cmix
+(
+    IOobject
+    (
+        "Cmix",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedScalar("Cmix", dimensionSet(0,0,0,0,0,0,0), 0.0)
+);
+
 
 // Normalize the mass fractions (mean fields)
 {

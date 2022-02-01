@@ -64,4 +64,15 @@ Three different options are available to compile the code, according to the leve
 3. Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
 4. Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
 
+4. Run the tutorials
+----------------------------------------------------
+The 'run' folder contains two simple test cases (Sandia D turbulent jet flame). 
+
+1. To run the case, it is necessary to create the 'kinetics.xml' file present in the 'kinetics' folder. The file is created by the kinetics pre-processor of the 'OpenSMOKE++ Suite' framework which uses chemkin format mechanisms as input. The paths in 'constant/thermophysicalProperties' must be then modified accordingly.
+
+2. Unsteady simulation: open 'run/tutorials/Sandia_D' folder, build the mesh using 'blockMesh', and run the case using 'firePimpleSMOKE' solver. We suggest to always start the calculations with the reactions switched off and to switch them on after the velocity, temperature and species have evolved reasonably.
+
+3. Dynamic PaSR simulation: open 'run/tutorials/Sandia_D_dynamic' folder, build the mesh using 'blockMesh', and run the case using 'firePimpleSMOKE' solver. To start the case, we suggest to switch on the 'dynamicCmixEquations' on while keeping 'globalScale' as 'tauMixType' option to start the 'f', 'varf' and 'Chi' fields. After that, the 'dynamicScale' option can be selected as 'tauMixType'.
+As a general guideline, we suggest to always start from a 'globalScale' solution before attempting a dynamic PaSR simulation. Moreover, usually the dynamic model requires a finer mesh. 
+
 [1]: https://www.opensmokepp.polimi.it/
