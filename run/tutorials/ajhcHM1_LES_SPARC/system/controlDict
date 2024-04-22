@@ -1,0 +1,243 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     edcPimpleSMOKE;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.1978002;
+
+deltaT          1e-7;
+
+writeControl    timeStep;
+
+writeInterval   2e-4;
+
+writeControl    adjustableRunTime;
+
+purgeWrite      5;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression on;
+
+timeFormat      general;
+
+timePrecision   8;
+
+graphFormat     raw;
+
+runTimeModifiable true;
+
+adjustTimeStep  false;
+
+maxco             0.2;
+
+libs (	"libinflowGenerator.so"
+	"libOpenFOAM.so"
+	"libgroovyBC.so"
+     );
+// ************************************************************************* //
+functions
+{
+
+    fieldAverage1
+    {
+        type            fieldAverage;
+        functionObjectLibs ( "libfieldFunctionObjects.so" );
+        enabled         true;
+        cleanRestart    true;//false;
+        outputControl   outputTime;
+        //outputControl   timeStep;
+        timeStart	    0.1848002;
+	timeEnd		1.180;
+	fields
+        (
+            U
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            CH4
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+             CO2
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+   
+            H2
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            H2O
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            N2
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            O2
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            CO
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+    
+            T
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+
+            OH
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+           
+	    O
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+
+	    CH
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+	   
+	    C
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+
+	    HCO
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+
+           //vorticity
+            //{
+              //  mean        on;
+               // prime2Mean  off;
+              //  base        time;
+           // }
+
+            clusterIndex
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+
+	    clusterReactions
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+	
+	    clusterSpecies
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+
+	    clusterWeight
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+
+            
+        );
+
+    }
+
+
+        outputFrequency 50;
+
+/*        probes
+        {
+                // Where to load it from
+                functionObjectLibs ( "libsampling.so" );
+
+                // Type
+                type probes;
+
+                // Name of the directory for probe data
+                name probes;
+
+                // Write at same frequency as fields
+                outputControl timeStep;
+                outputInterval $outputFrequency;
+
+                // Fields to be probed
+                fields
+                (
+                        T H2 O2 H2O
+                );
+
+                // Locations to be probed. runTime modifiable!
+                probeLocations
+                (
+                        (0.06 0 0.03)
+                        (0.12 0 0.03)
+                        (0.18 0 0.03)
+                );
+
+        }*/
+
+
+}

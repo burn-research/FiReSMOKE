@@ -1,0 +1,11 @@
+Dictionary CHEMKIN_PreProcessor
+{
+    @Kinetics       /workdir/ppagani/SPARC2022/JJournal/AJHC_gri36_7K_V_30NOV/data_for_sparc/canteraFormat/reduced0.inp;
+    @Thermodynamics /workdir/ppagani/SPARC2022/JJournal/AJHC_gri36_7K_V_30NOV/data_for_sparc/canteraFormat/reduced0_thermo.dat;
+    @Transport      /workdir/ppagani/SPARC2022/JJournal/AJHC_gri36_7K_V_30NOV/data_for_sparc/canteraFormat/reduced0_transport.dat;
+    @Output         								                         kinetics.0;
+
+
+}
+
+// /software/OpenSMOKEpp_V0.10.0/OpenSMOKEpp_CHEMKIN_PreProcessor.sh --input kinetics.dic //

@@ -1,0 +1,110 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+"(rho|rhoFinal)"
+    {
+        solver          diagonal;
+    };
+
+    p
+    {
+        solver          smoothSolver;
+        smoother  	GaussSeidel;
+        tolerance       1e-08;
+        relTol          1e-06;
+        nSweeps         1;
+    };
+
+    pFinal
+    {
+        solver          smoothSolver;
+        smoother  	GaussSeidel;
+        tolerance       1e-08;
+        relTol          0;
+        nSweeps         1;
+    };
+
+    "(U|h|k|epsilon)"
+    {
+        solver          smoothSolver;
+        smoother	GaussSeidel;
+        tolerance       1e-07;
+        relTol          0;
+        nSweeps         1;
+    }
+
+    "(U|h|k|epsilon)Final"
+    {
+        solver          smoothSolver;
+        smoother	GaussSeidel;
+        tolerance       1e-07;
+        relTol          0;
+        nSweeps         1;
+    }
+
+    Yi
+    {
+	solver          smoothSolver;
+        smoother	GaussSeidel;
+        tolerance       1e-07;
+        relTol          0;
+        nSweeps         1;
+    }
+
+    YiFinal
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-07;
+        relTol          0;
+        nSweeps         1;
+    }
+
+
+    G
+    {
+        solver          smoothSolver;
+        smoother  	GaussSeidel;
+        tolerance       1e-06;
+        relTol          0;
+        nSweeps         1;
+    }
+
+    GFinal
+    {
+        solver          smoothSolver;
+        smoother  	GaussSeidel;
+        tolerance       1e-06;
+        relTol          0;
+        nSweeps         1;
+    }
+}
+
+PIMPLE
+{
+    momentumPredictor no;
+    nOuterCorrectors  1;
+    nCorrectors       2;
+    nNonOrthogonalCorrectors 0;
+    rhoMin          rhoMin [ 1 -3 0 0 0 ] 0.01;
+    rhoMax          rhoMax [ 1 -3 0 0 0 ] 2.;
+}
+
+
+// ************************************************************************* //

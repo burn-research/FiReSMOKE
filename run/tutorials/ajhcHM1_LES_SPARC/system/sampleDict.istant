@@ -1,0 +1,191 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.7.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    location        system;
+    object          sampleDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Set output format : choice of
+//      xmgr
+//      jplot
+//      gnuplot
+//      raw
+setFormat raw;
+
+// Surface output format. Choice of
+//      null        : suppress output
+//      foamFile    : separate points, faces and values file
+//      dx          : DX scalar or vector format
+//      vtk         : VTK ascii format
+//      raw         : x y z value format for use with e.g. gnuplot 'splot'.
+//
+// Note:
+// other formats such as obj, stl, etc can also be written (by proxy)
+// but without any values!
+surfaceFormat foamFile;
+
+// interpolationScheme. choice of
+//      cell          : use cell-centre value only; constant over cells (default)
+//      cellPoint     : use cell-centre and vertex values
+//      cellPointFace : use cell-centre, vertex and face values.
+// 1] vertex values determined from neighbouring cell-centre values
+// 2] face values determined using the current face interpolation scheme
+//    for the field (linear, gamma, etc.)
+interpolationScheme cell;
+
+// Fields to sample.
+fields
+(
+/*CH
+CH2
+CH2O
+CH3
+CH4
+CO
+CO2
+H
+H2
+H2O
+H2O2
+HCO
+HO2
+N2
+O
+O2
+OH
+ccx
+ccy
+ccz
+Ydiff_CH
+Ydiff_CH2
+Ydiff_CH2O
+Ydiff_CH3
+Ydiff_CH4
+Ydiff_CO
+Ydiff_CO2
+Ydiff_H
+Ydiff_H2
+Ydiff_H2O
+Ydiff_H2O2
+Ydiff_HCO
+Ydiff_HO2
+Ydiff_N2
+Ydiff_O
+Ydiff_O2
+Ydiff_OH
+Yconvec_CH
+Yconvec_CH2
+Yconvec_CH2O
+Yconvec_CH3
+Yconvec_CH4
+Yconvec_CO
+Yconvec_CO2
+Yconvec_H
+Yconvec_H2
+Yconvec_H2O
+Yconvec_H2O2
+Yconvec_HCO
+Yconvec_HO2
+Yconvec_N2
+Yconvec_O
+Yconvec_O2
+Yconvec_OH
+p
+T
+Tdiff
+Tconvec
+vorticity
+U */
+//OH
+//OHMean
+PaSR::tau_mix
+Da       
+);
+
+
+// Set sampling definition: choice of
+//      uniform             evenly distributed points on line
+//      face                one point per face intersection
+//      midPoint            one point per cell, inbetween two face intersections
+//      midPointAndFace     combination of face and midPoint
+//
+//      curve               specified points, not nessecary on line, uses
+//                          tracking
+//      cloud               specified points, uses findCell
+//
+// axis: how to write point coordinate. Choice of
+// - x/y/z: x/y/z coordinate only
+// - xyz: three columns
+//  (probably does not make sense for anything but raw)
+// - distance: distance from start of sampling line (if uses line) or
+//             distance from first specified sampling point
+//
+// type specific:
+//      uniform, face, midPoint, midPointAndFace : start and end coordinate
+//      uniform: extra number of sampling points
+//      curve, cloud: list of coordinates
+sets
+(
+);
+
+
+// Surface sampling definition: choice of
+//      plane : values on plane defined by point, normal.
+//      patch : values on patch.
+//
+// 1] patches are not triangulated by default
+// 2] planes are always triangulated
+// 3] iso-surfaces are always triangulated
+surfaces 
+(
+ /*           sampledPlane1
+            {
+                type            plane;
+
+                basePoint       (0.01 0 0);
+                normalVector    (1 0 0);
+                interpolate     false;
+            }
+            sampledPlan2
+            {
+                type            plane;
+
+                basePoint       (0.02 0 0);
+                normalVector    (1 0 0);
+                interpolate     false;
+            }
+            sampledPlan3
+            {
+                type            plane;
+
+                basePoint       (0.03 0 0);
+                normalVector    (1 0 0);
+                interpolate     false;
+            }
+
+*/
+
+            sampledPlane
+            {
+                type            plane;
+                basePoint       (0 0 0);
+                normalVector    (0 1 0);
+                interpolate     false;
+            }
+
+
+);
+
+// *********************************************************************** //
