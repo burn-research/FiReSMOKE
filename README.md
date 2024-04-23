@@ -25,6 +25,8 @@ If you use the SPARC plugin for your publications, we kindly ask you to cite the
 > Automated adaptive chemistry for Large Eddy Simulations of turbulent reacting flows. 
 > (2024) Combustion and Flame, Volume 259, pp. 113-136. DOI: 10.1016/j.combustflame.2023.113136.
 
+Docker installation provides a self-contained environment for OpenFOAM 7 with a pre-compiled version of FiReSMOKE.
+
 Compulsory libraries
 --------------------
 - OpenSMOKE++ (already included in fireSMOKE)
@@ -82,5 +84,26 @@ Three different options are available to compile the code, according to the leve
   -  Type: `source mybashrc.minimalist.mkl`
   - Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
   - Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
+
+<a/>
+=====================================================
+Docker Installation
+
+1. Install Docker for your OS [Docker Installation](https://docs.docker.com/engine/install/)
+2. OpenFOAM7 + FiReSMOKE is launched from the script `firesmoke2-macos` in this repository. The script needs to be located somewhere on the user’s `PATH` for convenient execution. The following commands will then install in the system-wide /usr/local/bin directory and make the script executable:
+  
+   `sudo curl --create-dirs -o /usr/local/bin/firesmoke2-macos firesmoke2-macos`
+   
+   `sudo chmod 755 /usr/local/bin/firesmoke2-macos`
+   
+   `xattr -d com.apple.quarantine /usr/local/bin/firesmoke2-macos`
+   
+4. The Docker container mounts the user’s file system so that case files are stored permanently. The container mounts the directory from where `firesmoke2-macos` is launched by default, but the user can also specify the directory using the “-d” option.  Mounting the user’s $HOME directory is disallowed.  Where a case-sensitive volume has been created, the container mount directory would typically coincide with the mount directory (or sub-directory) of the volume.  For example, for a case-sensitive volume mounted in the default location, `$HOME/openfoam`:
+   
+   `cd $HOME/openfoam`
+   
+   `firesmoke2-macos`
+
+
 
 [1]: https://www.opensmokepp.polimi.it/
