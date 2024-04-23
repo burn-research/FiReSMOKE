@@ -50,32 +50,34 @@ Three different options are available to compile the code, according to the leve
 2. Minimalist + Intel MKL: only the native OpenSMOKE++ ODE solver can be used, but linear algebra operations are managed by the Intel MKL libraries
 3. Complete: all the optional libraries are linked to the code, in order to have the possibility to work with different ODE solvers
 
+<a/>
+
 1. Instructions to compile the Minimalist version
 -------------------------------------------------
-1. Open the `mybashrc.minimalist` and adjust the paths to the compulsory external libraries (in particular choose the OpenFOAM version you are working with)
-2. Type: `source mybashrc.minimalist`
-3. Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
-4. Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
+  - Open the `mybashrc.minimalist` and adjust the paths to the compulsory external libraries (in particular choose the OpenFOAM version you are working with)
+  - Type: `source mybashrc.minimalist`
+  - Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
+  - Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
 
 2. Instructions to compile the Minimalist+MKL version
 -----------------------------------------------------
-1. Open the `mybashrc.minimalist.mkl` and adjust the paths to the compulsory external libraries and the paths to the Intel MKL library (in particular choose the OpenFOAM version you are working with)
-2. Type: `source mybashrc.minimalist.mkl`
-3. Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
-4. Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
+  - Open the `mybashrc.minimalist.mkl` and adjust the paths to the compulsory external libraries and the paths to the Intel MKL library (in particular choose the OpenFOAM version you are working with)
+  -  Type: `source mybashrc.minimalist.mkl`
+  - Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
+  - Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
 
 3. Instructions to compile the Complete version
 -----------------------------------------------------
-1. Open the `mybashrc.complete` and adjust the paths to the compulsory external libraries and the Intel MKL library (in particular choose the OpenFOAM version you are working with). You can choose the additional external libraries you want to add to edcSMOKE, by modifying the `EXTERNAL_ODE_SOLVERS` variable: in particular `1` means that the support is requested, while `0` means that no support is requested. Obviously, for each requested library, you need to provide the correct path.
-2. Type: `source mybashrc.complete`
-3. Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
-4. Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
+  - Open the `mybashrc.complete` and adjust the paths to the compulsory external libraries and the Intel MKL library (in particular choose the OpenFOAM version you are working with). You can choose the additional external libraries you want to add to edcSMOKE, by modifying the `EXTERNAL_ODE_SOLVERS` variable: in particular `1` means that the support is requested, while `0` means that no support is requested. Obviously, for each requested library, you need to provide the correct path.
+  - Type: `source mybashrc.complete`
+  - Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
+  - Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
 
 4. Instructions to compile with SPARC plugin
 -----------------------------------------------------
-1. Adjust the paths in the desired `mybashrc` file to the armadillo libraries.
-2. Type: `source mybashrc.minimalist.mkl`
-3. Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
-4. Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
+  - Adjust the paths in the desired `mybashrc` file to the armadillo libraries.
+  -  Type: `source mybashrc.minimalist.mkl`
+  - Compile the steady-state solver: from the `solver/fireSimpleSMOKE` folder type `wmake`
+  - Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
 
 [1]: https://www.opensmokepp.polimi.it/
