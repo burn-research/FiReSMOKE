@@ -87,7 +87,7 @@ Three different options are available to compile the code, according to the leve
 
 <a/>
 
-# Docker Installation 
+## Docker Installation 
 Only tested for MacOS.
 
 1. Install Docker for your OS [Docker Installation](https://docs.docker.com/engine/install/)
