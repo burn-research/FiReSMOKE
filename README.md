@@ -86,8 +86,8 @@ Three different options are available to compile the code, according to the leve
   - Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
 
 <a/>
-=====================================================
-Docker Installation
+========
+# Docker Installation
 
 1. Install Docker for your OS [Docker Installation](https://docs.docker.com/engine/install/)
 2. OpenFOAM7 + FiReSMOKE is launched from the script `firesmoke2-macos` in this repository. The script needs to be located somewhere on the user’s `PATH` for convenient execution. The following commands will then install in the system-wide /usr/local/bin directory and make the script executable:
