@@ -97,7 +97,7 @@ Only tested for MacOS.
    
    `sudo chmod 755 /usr/local/bin/firesmoke2-macos`
    
-   `xattr -d com.apple.quarantine /usr/local/bin/firesmoke2-macos`
+   + if you do not have permissions to open the application: `xattr -d com.apple.quarantine /usr/local/bin/firesmoke2-macos`
    
 4. The Docker container mounts the user’s file system so that case files are stored permanently. The container mounts the directory from where `firesmoke2-macos` is launched by default, but the user can also specify the directory using the “-d” option.  Mounting the user’s $HOME directory is disallowed.  Where a case-sensitive volume has been created, the container mount directory would typically coincide with the mount directory (or sub-directory) of the volume.  For example, for a case-sensitive volume mounted in the default location, `$HOME/openfoam`:
    
