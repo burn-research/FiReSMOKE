@@ -47,18 +47,24 @@ if (homogeneousReactions == true)
 	if (combustionModel == "ED" || combustionModel == "EDFR")
 		#include "EDFR.H"
 	else if (combustionModel == "EDC")
-		if (SPARCswitch == true)
-			#include "extensions/sparc/EDC_SPARC.H"
-		else
-			#include "EDC.H"
-	else if (combustionModel == "PaSR")
-	if (SPARCswitch == true)
-			#include "extensions/sparc/PaSR_SPARC.H"
-		else
-			#include "PaSR.H"
-	else if (combustionModel == "QLFR")
-	if (SPARCswitch == true)
-			#include "extensions/sparc/QLFR_SPARC.H"
-		else
-			#include "QLFR.H"
+	#if SPARC==1
+                if (SPARCswitch == true)
+                        #include "extensions/sparc/EDC_SPARC.H"
+        #else
+                        #include "EDC.H"
+        #endif
+        else if (combustionModel == "PaSR")
+        #if SPARC==1
+                if (SPARCswitch == true)
+                        #include "extensions/sparc/PaSR_SPARC.H"
+        #else
+                        #include "PaSR.H"
+        #endif
+        else if (combustionModel == "QLFR")
+        #if SPARC==1
+                if (SPARCswitch == true)
+                        #include "extensions/sparc/QLFR_SPARC.H"
+        #else
+                        #include "QLFR.H"
+        #endif
 }
