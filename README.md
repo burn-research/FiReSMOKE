@@ -43,7 +43,7 @@ Optional libraries
 - Sundials (http://computation.llnl.gov/casc/sundials/main.html)
 - MEBDF (http://wwwf.imperial.ac.uk/~jcash/IVP_software/readme.html)
 - RADAU (http://www.unige.ch/~hairer/software.html)
-- Armadillo (for SPARC compilation, https://arma.sourceforge.net/) 
+- Armadillo (for SPARC compilation, https://arma.sourceforge.net/) - version 9.800.6
 
 Compilation
 -----------
