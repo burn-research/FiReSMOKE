@@ -44,34 +44,54 @@
 
 if (homogeneousReactions == true)
 {
-        if (combustionModel == "ED" || combustionModel == "EDFR")
-                #include "EDFR.H"
-        else if (combustionModel == "EDC")
-        #if SPARC==1
-                if (SPARCswitch == true)
-                        #include "extensions/sparc/EDC_SPARC.H"
-                else if (SPARCswitch == false)
-                        #include "EDC.H"
-        #else
-                        #include "EDC.H"
-        #endif
-        else if (combustionModel == "PaSR")
-        #if SPARC==1
-                if (SPARCswitch == true)
-                        #include "extensions/sparc/PaSR_SPARC.H"
-                else if (SPARCswitch == false)
-                        #include "PaSR.H"
-        #else
-                        #include "PaSR.H"
-        #endif
-        else if (combustionModel == "QLFR")
-        #if SPARC==1
-                if (SPARCswitch == true)
-                        #include "extensions/sparc/QLFR_SPARC.H"
-                else if (SPARCswitch == false)
-                        #include "QLFR.H"
-        #else
-                        #include "QLFR.H"
-        #endif
+	if (combustionModel == "ED" || combustionModel == "EDFR")
+	{
+		#include "EDFR.H"
+	}
+	else if (combustionModel == "EDC")
+	{
+		#if SPARC==1
+			if (SPARCswitch == true)
+			{
+				#include "extensions/sparc/EDC_SPARC.H"
+			}
+			else if (SPARCswitch == false)
+			{
+				#include "EDC.H"
+			}
+		#else
+				#include "EDC.H"
+		#endif
+	}
+	else if (combustionModel == "PaSR")
+	{
+		#if SPARC==1
+			if (SPARCswitch == true)
+			{
+				#include "extensions/sparc/PaSR_SPARC.H"
+			}
+			else if (SPARCswitch == false)
+			{
+				#include "PaSR.H"
+			}
+		#else
+				#include "PaSR.H"
+		#endif
+	}	
+	else if (combustionModel == "QLFR")
+	{
+		#if SPARC==1
+			if (SPARCswitch == true)
+			{
+				#include "extensions/sparc/QLFR_SPARC.H"
+			}
+			else if (SPARCswitch == false)
+			{
+				#include "QLFR.H"
+			}
+		#else
+				#include "QLFR.H"
+		#endif
+	}
 }
 
