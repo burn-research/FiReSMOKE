@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -46,9 +46,7 @@
 {
 	if (ChiEquation == true)
 	{
-	// Solving equaition of Scalar Dissipation Rate 
-	
-	
+	// Solving equation of Scalar Dissipation Rate 
 	volScalarField D1 = Cd1*rho*sqr(Chi)/(varf+SMALL);
 	volScalarField D2 = Cd2*rho*turbulence->epsilon()/(turbulence->k()+ksmall_)*Chi;
 	volScalarField P1 = 2.00*Cp1*turbulence->epsilon()/(turbulence->k()+ksmall_)*turbulence->mut()/Sct*magSqr(fvc::grad(f));
@@ -65,10 +63,9 @@
 		S_chi
 	);
 
-
 	ChiEqn.relax();
 	ChiEqn.solve();
-    	Chi.max(0.00000001);
+	Chi.max(0.00000001);
 	Chi.min(maxChi);
 
     	Info << "Scalar dissipation rate transport equation solved" << endl;
