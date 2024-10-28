@@ -96,7 +96,6 @@ CharacteristicChemicalTimes::CharacteristicChemicalTimes(
 	// Memory allocation: Jacobian matrices
 	Jc_.resize(ns_, ns_);
 
-	//
 	kineticsMapXML_.stoichiometry().GetSumOfStoichiometricCoefficientsOfProducts(sum_nu_);
 }
 
