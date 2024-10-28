@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -180,9 +180,9 @@ Switch ChiEquation(combustionOptionsDictionary.lookup("ChiEquation"));
 const scalar maxChi = readScalar(combustionOptionsDictionary.lookup("maxChi"));
 scalar Sct = readScalar(combustionOptionsDictionary.lookup("Sct"));
 scalar Prt = readScalar(combustionOptionsDictionary.lookup("Prt"));
-scalar Cx = readScalar(combustionOptionsDictionary.lookup("Cx")); //Algebraic Scalar Dissipation Coefficient
-scalar Cg = readScalar(combustionOptionsDictionary.lookup("Cg")); //varf equation coefficient
-scalar Cd1 = readScalar(combustionOptionsDictionary.lookup("Cd1")); // scalar dissipation transport equation coefficients
+scalar Cx = readScalar(combustionOptionsDictionary.lookup("Cx"));    // Algebraic Scalar Dissipation Coefficient
+scalar Cg = readScalar(combustionOptionsDictionary.lookup("Cg"));    // varf equation coefficient
+scalar Cd1 = readScalar(combustionOptionsDictionary.lookup("Cd1"));  // scalar dissipation transport equation coefficients
 scalar Cd2 = readScalar(combustionOptionsDictionary.lookup("Cd2"));
 scalar Cp1 = readScalar(combustionOptionsDictionary.lookup("Cp1"));
 scalar Cp2 = readScalar(combustionOptionsDictionary.lookup("Cp2"));
@@ -328,10 +328,10 @@ enum { DT_LES, MIN_DTLES_TAUMIX } tauStarType;
 
 		dictionary edcSubDictionary(combustionOptionsDictionary.subDict("EDC"));
 
-		edc_version = word(edcSubDictionary.lookup("version"));								// default: v2005
+		edc_version = word(edcSubDictionary.lookup("version"));							// default: v2005
 		Ccsi = readScalar(edcSubDictionary.lookup("Ccsi"));								// default: 2.1377
 		Ctau = readScalar(edcSubDictionary.lookup("Ctau"));								// default: 0.40825
-		maxGammaL = readScalar(edcSubDictionary.lookup("maxGammaL"));							// default: 0.9
+		maxGammaL = readScalar(edcSubDictionary.lookup("maxGammaL"));					// default: 0.9
 		numberOfResidenceTimes = readScalar(edcSubDictionary.lookup("numberOfResidenceTimes"));				// default: 100.
         direct_integration_minimum_temperature_for_chemistry  = readScalar(edcSubDictionary.lookup("minTemperature4Chemistry"));        // default: 200 K
 		numberIterationsToUpdateChemistry = readLabel(edcSubDictionary.lookup("numberIterationsToUpdateChemistry")); 	// default 1
@@ -363,7 +363,6 @@ enum { DT_LES, MIN_DTLES_TAUMIX } tauStarType;
 			Info << "Wrong EDC version: v1981 || v1996 || v2005 || v2016" << endl;
 			abort();
 		}
-
 
 		// Reactor type options
 		{
@@ -822,7 +821,8 @@ volScalarField kappa
 	zeroGradientFvPatchScalarField::typeName
 );
 
-volScalarField Cmix      //new Cmix
+// Cmix constant for mixing time
+volScalarField Cmix
 (
         IOobject
         (
@@ -838,8 +838,8 @@ volScalarField Cmix      //new Cmix
         zeroGradientFvPatchScalarField::typeName
 );
 
-
-volScalarField f      //new Cmix
+// Scalar fraction
+volScalarField f
 (
         IOobject
         (
@@ -856,8 +856,8 @@ volScalarField f      //new Cmix
 
 );
 
-
-volScalarField varf      //new Cmix
+// Scalar variance
+volScalarField varf
 (
         IOobject
         (
@@ -874,7 +874,8 @@ volScalarField varf      //new Cmix
 
 );
 
-volScalarField Chi      //new Cmix
+// Scalar dissipation rate
+volScalarField Chi
 (
         IOobject
         (
@@ -1374,7 +1375,6 @@ if (odeParametersFineStructures.type() == OpenSMOKE::ODE_Parameters::ODE_INTEGRA
 	SolverMEBDFPSR->SetAnalyticalJacobian(false);
 }
 #endif
-
 
 // --------------------------------------------------------------------------------------------------------
 // Fine structure as a PFR
