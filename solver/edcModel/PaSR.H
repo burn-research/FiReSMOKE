@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -78,13 +78,10 @@
 		const scalarField& TCells = thermo.T().internalField();
 		const scalarField& kappaCells = kappa.internalField(); 
 
-		
 		scalarField& QdotCells = Qdot.ref();
 		scalarField& dQCells = dQ.ref();
-		
 
 		// DRG Fields
-		
 		scalarField& drgSpeciesCells = drg_important_species.ref();
 		scalarField& drgReactionsCells = drg_important_reactions.ref();
 		scalarField& cpuReactionsCells = cpu_reaction_times.ref();

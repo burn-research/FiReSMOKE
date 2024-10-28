@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -24,7 +24,7 @@
 |                                                                         |
 |   This file is part of fireSMOKE solver.                                |
 |                                                                         |
-|       License                                                           |
+|   License                                                               |
 |                                                                         |
 |   Copyright(C) 2017-2014 A. Cuoci, A. Parente                           |
 |   fireSMOKE is free software: you can redistribute it and/or modify     |
@@ -44,25 +44,25 @@
 
 {	 
 	tmp<volScalarField> tepsilon(turbulence->epsilon());
-        const volScalarField& epsilon = tepsilon();
-
-        tmp<volScalarField> tk(turbulence->k());
-        const volScalarField& k = tk();
-
-        tmp<volScalarField> tmu(thermo.mu());
-        const volScalarField& mu = tmu();
-
+	const volScalarField& epsilon = tepsilon();
+	
+	tmp<volScalarField> tk(turbulence->k());
+	const volScalarField& k = tk();
+	
+	tmp<volScalarField> tmu(thermo.mu());
+	const volScalarField& mu = tmu();
+	
 	tmp<volScalarField> trho(thermo.rho());
-        const volScalarField& rho = trho();
+	const volScalarField& rho = trho();
 
 	if (combustionModel == "ED" || combustionModel == "EDFR")
 	{
-		if (iLES == true)	// LES
+		if (iLES == true) // LES
 		{
 			tauStar = Ctau * sqrt( (mu+musmall_)/rho / (epsilon+epsilonsmall_) );
 			one_over_tauStar = 1./tauStar;
 		}
-		else			// RANS
+		else // RANS
 		{
 			tauStar = k/(epsilon+epsilonsmall_);
 			one_over_tauStar = 1./tauStar;
@@ -114,7 +114,7 @@
 					const scalar ReTLocal = CRe_coefficient*sqr(k[i])/(nu*epsilon[i] + SMALL);
 
 					const scalar C1 = Foam::sqrt(Ctau_coefficient/3.);
-		        	const scalar CtauLocal = max( min(C1/(DaLocal*Foam::sqrt(ReTLocal + 1)), 5), 0.40825);
+					const scalar CtauLocal = max( min(C1/(DaLocal*Foam::sqrt(ReTLocal + 1)), 5), 0.40825);
 					const scalar CgammaLocal = max( min( Cgamma_coefficient *Foam::sqrt(DaLocal*(ReTLocal+1.)), 2.1377), 0.5);
 					
 					// Fill fields
@@ -147,7 +147,6 @@
 		}
 		else
 		{
-
 			// Fine structures: characteristic time [s]
 			tauStar = Ctau * sqrt( (mu+musmall_)/(rho+rhosmall_) / (epsilon+epsilonsmall_) );
 			mDotStar = 1./tauStar;
@@ -185,24 +184,22 @@
 		if (iLES == true)
 		{
 			const Foam::compressible::LESModel& lesModel = U.db().lookupObject<Foam::compressible::LESModel>("turbulenceProperties");
+			epsilonSGS = 0.54433*pow((k+ksmall_), 1.5)/lesModel.delta();
 			
 			if ( tauMixType == SCALE_MEAN)
 			{
 				Info << " * using geometrical mean of subgrid velocity stretch time and Kolmogorov scale as mixing time scale..." << endl;
-		        epsilonSGS = 0.54433*pow((k+ksmall_), 1.5)/lesModel.delta();
-		        tauMix =  sqrt( (0.8165*lesModel.delta()/sqrt(k+ksmall_))*sqrt(mu/rho/epsilonSGS) ); //geometrical mean of Kolmogorov scale and sub-grid velocity stretch time (filter size)
+				tauMix =  sqrt( (0.8165*lesModel.delta()/sqrt(k+ksmall_))*sqrt(mu/rho/epsilonSGS) ); //geometrical mean of Kolmogorov scale and sub-grid velocity stretch time (filter size)
 			}
 			else if ( tauMixType == SCALE_DYNAMIC )
 			{	
 				Info << " * using dynamic mixing time scale..." << endl;
-				epsilonSGS = 0.54433*pow((k+ksmall_), 1.5)/lesModel.delta();
 				tauMix = min(max (varf/(Chi+chismall_), tauMixsmall_), ((k+ksmall_)/(epsilonSGS+epsilonsmall_)));  // dynamic scale
 			}
 			Info<< " * min/max(epsilon(ssg)) = " << min(epsilonSGS).value() 	<< ", " << max(epsilonSGS).value() 		<< endl;
 			Info<< " * min/max(epsilon(les)) = " << min(lesModel.epsilon()).value() << ", " << max(lesModel.epsilon()).value() 	<< endl;
 			Info<< " * min/max(mut)          = " << min(turbulence->mut()).value() 	<< ", " << max(turbulence->mut()).value() 	<< endl;
 			Info<< " * min/max(taumix)       = " << min(tauMix).value() 		<< ", " << max(tauMix).value()	 		<< endl;
-
 		}
 		else
 		#endif	// RANS
@@ -224,19 +221,17 @@
 				Info << " * using global mixing time scale..." << endl;
 				tauMix = Cmixglobal*(k+ksmall_)/(epsilon+epsilonsmall_);  //global scale
 			}
-
-            else if ( tauMixType == SCALE_DYNAMIC)
-            {
-                Info << " * using dynamic mixing time scale..." << endl;
+			
+			else if ( tauMixType == SCALE_DYNAMIC)
+			{
+				Info << " * using dynamic mixing time scale..." << endl;
 				tauMix = min(max (varf/(Chi+chismall_), tauMixsmall_), ((k+ksmall_)/(epsilon+epsilonsmall_)));  // dynamic scale
-                Cmix = tauMix/((k+ksmall_)/(epsilon+epsilonsmall_));  // equivalent Cmix
-            }
-
+				Cmix = tauMix/((k+ksmall_)/(epsilon+epsilonsmall_));  // equivalent Cmix
+			}
 
 			Info<< " * min/max(epsilon)  = " << min(epsilon).value() 		<< ", " << max(epsilon).value() << endl;
 			Info<< " * min/max(mut)      = " << min(turbulence->mut()).value()	<< ", " << max(turbulence->mut()).value() << endl;
 			Info<< " * min/max(taumix)   = " << min(tauMix).value() 		<< ", " << max(tauMix).value() << endl;
-
 		}
 
 		// Calculation of characteristic times
@@ -259,7 +254,6 @@
 			scalarField& DaCells = Da.ref(); 
 			scalarField& kappaCells = kappa.ref(); 
 			
-
 			forAll(tauStar, i)
 			{
 				const double Ti = TCells[i];
@@ -306,9 +300,21 @@
 			const Foam::compressible::LESModel& lesModel = U.db().lookupObject<Foam::compressible::LESModel>("turbulenceProperties");
 			epsilonSGS = 0.54433*pow((k+ksmall_), 1.5)/lesModel.delta();
 			
+			if ( tauMixType == SCALE_MEAN)
+			{
+				Info << " * using geometrical mean of subgrid velocity stretch time and Kolmogorov scale as mixing time scale..." << endl;
+				tauMix =  sqrt( (0.8165*lesModel.delta()/sqrt(k+ksmall_))*sqrt(mu/rho/epsilonSGS) ); //geometrical mean of Kolmogorov scale and sub-grid velocity stretch time (filter size)
+			}
+			else if ( tauMixType == SCALE_DYNAMIC )
+			{	
+				Info << " * using dynamic mixing time scale..." << endl;
+				tauMix = min(max (varf/(Chi+chismall_), tauMixsmall_), ((k+ksmall_)/(epsilonSGS+epsilonsmall_)));  // dynamic scale
+			}
+
 			Info<< " * min/max(epsilon(ssg)) = " << min(epsilonSGS).value() 	    << ", " << max(epsilonSGS).value() 		<< endl;
 			Info<< " * min/max(epsilon(les)) = " << min(lesModel.epsilon()).value() << ", " << max(lesModel.epsilon()).value() 	<< endl;
 			Info<< " * min/max(mut)          = " << min(turbulence->mut()).value() 	<< ", " << max(turbulence->mut()).value() 	<< endl;
+			Info<< " * min/max(taumix)       = " << min(tauMix).value() 		<< ", " << max(tauMix).value()	 		<< endl;
 		}
 		else
 		#endif	// RANS
@@ -327,7 +333,6 @@
 			const scalarField& pCells = p.internalField(); 
 			
 			scalarField& kappaCells = kappa.ref(); 
-			
 
 			forAll(tauStar, i)
 			{
