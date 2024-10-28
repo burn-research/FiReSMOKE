@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
