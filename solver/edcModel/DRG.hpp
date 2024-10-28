@@ -24,7 +24,7 @@
 |                                                                         |
 |   This file is part of edcSMOKE solver.                                 |
 |                                                                         |
-|	License                                                           |
+|   License                                                               |
 |                                                                         |
 |   Copyright(C) 2017-2014 A. Cuoci, A. Parente                           |
 |   edcSMOKE is free software: you can redistribute it and/or modify      |
