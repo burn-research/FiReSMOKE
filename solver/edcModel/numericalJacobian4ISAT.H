@@ -99,5 +99,4 @@ void numericalJacobian(const Eigen::VectorXd& y_eig, Eigen::MatrixXd &J, const E
 //     for(unsigned int i=0;i<NE;i++)
 //         for(unsigned int j=0;j<NE;j++)
 //             J(i,j) *= (sF(i)/sF(j));
-
- };	
+};	
