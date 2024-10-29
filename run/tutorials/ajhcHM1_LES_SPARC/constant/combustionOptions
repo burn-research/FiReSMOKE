@@ -81,7 +81,7 @@ EDC
 PaSR
 {
         reactorType                             "PFR";			// Reactor type: PFR (default)
-        tauStarType                             "minDeltaTLEStauMix";   // reactor residence time (LES only): deltaTLES (default for QLFR) | minDeltaTLEStauMix
+        tauStarType                             "minDeltaTLEStauMix";   // reactor residence time (LES only): deltaTLES (default for QLFR) | minDeltaTLEStauMix | tauMix
         tauMixType                              "geometricMeanScale";   // Calculation of mixing time: kolmogorovScale | geometriMeanScale | globalScale (default)
         Cmixglobal                              0.5;			// PaSR parameter (default 0.1)
         numberIterationsToUpdateChemistry       1;			// number of CFD iteration to solve the ODE system (default 1)
