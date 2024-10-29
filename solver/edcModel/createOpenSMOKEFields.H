@@ -297,7 +297,7 @@ enum { SOLVERTYPE_ODE, SOLVERTYPE_NLS} solverType;
 enum { SCALE_KOLMOGOROV, SCALE_MEAN, SCALE_GLOBAL, SCALE_DYNAMIC } tauMixType;
 
 // tauStar type
-enum { DT_LES, MIN_DTLES_TAUMIX } tauStarType;
+enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 
 // Reading constants from file
 {
@@ -506,9 +506,11 @@ enum { DT_LES, MIN_DTLES_TAUMIX } tauStarType;
 				tauStarType = DT_LES;
 			else if ( tauStarTypeString == "minDeltaTLEStauMix")
 				tauStarType = MIN_DTLES_TAUMIX;
+			else if ( tauStarTypeString == "tauMix")
+				tauStarType = TAUMIX;
 			else
 			{
-				Info << "Wrong tauStar type: deltaTLES | minDeltaTLEStauMix" << endl;
+				Info << "Wrong tauStar type: deltaTLES | minDeltaTLEStauMix | tauMix" << endl;
 				abort();
 			}
 		}

@@ -131,6 +131,10 @@
 						{
 							tf = min(tauMix[celli], runTime.deltaTValue());
 						}
+						else if ( tauStarType == TAUMIX)
+						{
+							tf = tauMix[celli];
+						}
 					}
 					else // RANS tauStar
 					{
