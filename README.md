@@ -1,8 +1,8 @@
 FiReSMOKE
 ========
 
-Finite-rate combustion solvers (ED, ED/FR, EDC, PaSR, QLFR) for OpenFOAM based on the [OpenSMOKE++ framework][1]
-fireSMOKE requires one of the following OpenFOAM versions:
+Finite-rate combustion solvers (ED, ED/FR, EDC, PaSR, QLFR) for OpenFOAM based on the [OpenSMOKE++ framework][1].
+FiReSMOKE requires one of the following OpenFOAM versions:
 - OpenFOAM-7.x
 
 If you use fireSMOKE for your publications, we kindly ask you to cite the following two papers:
