@@ -1,4 +1,4 @@
-fireSMOKE
+FiReSMOKE
 ========
 
 Finite-rate combustion solvers (ED, ED/FR, EDC, PaSR) for OpenFOAM based on the [OpenSMOKE++ framework][1]
