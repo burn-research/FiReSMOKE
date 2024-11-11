@@ -1,4 +1,4 @@
-/*——————————————————————————————————————————————————————————————————————-*\
+/*-----------------------------------------------------------------------*\
 |                              _____ __  __  ____  _  ________            |
 |            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
 |           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
@@ -24,7 +24,7 @@
 |                                                                         |
 |   This file is part of fireSMOKE solver.                                |
 |                                                                         |
-|   License                                                               |
+|       License                                                           |
 |                                                                         |
 |   Copyright(C) 2017-2014 A. Cuoci, A. Parente                           |
 |   fireSMOKE is free software: you can redistribute it and/or modify     |
@@ -40,7 +40,7 @@
 |   You should have received a copy of the GNU General Public License     |
 |   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 {	 
 	tmp<volScalarField> tepsilon(turbulence->epsilon());
