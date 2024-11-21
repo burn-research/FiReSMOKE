@@ -189,7 +189,7 @@
 			if ( tauMixType == SCALE_MEAN)
 			{
 				Info << " * using geometrical mean of subgrid velocity stretch time and Kolmogorov scale as mixing time scale..." << endl;
-				tauMix =  sqrt( (0.8165*lesModel.delta()/sqrt(k+ksmall_))*sqrt(mu/rho/epsilonSGS) ); //geometrical mean of Kolmogorov scale and sub-grid velocity stretch time (filter size)
+				tauMix =  sqrt( (1.2247*lesModel.delta()/sqrt(k+ksmall_))*sqrt(mu/rho/epsilonSGS) ); //geometrical mean of Kolmogorov scale and sub-grid velocity stretch time (filter size)
 			}
 			else if ( tauMixType == SCALE_DYNAMIC )
 			{	
@@ -303,7 +303,7 @@
 			if ( tauMixType == SCALE_MEAN)
 			{
 				Info << " * using geometrical mean of subgrid velocity stretch time and Kolmogorov scale as mixing time scale..." << endl;
-				tauMix =  sqrt( (0.8165*lesModel.delta()/sqrt(k+ksmall_))*sqrt(mu/rho/epsilonSGS) ); //geometrical mean of Kolmogorov scale and sub-grid velocity stretch time (filter size)
+				tauMix =  sqrt( (1.2247*lesModel.delta()/sqrt(k+ksmall_))*sqrt(mu/rho/epsilonSGS) ); //geometrical mean of Kolmogorov scale and sub-grid velocity stretch time (filter size)
 			}
 			else if ( tauMixType == SCALE_DYNAMIC )
 			{	
