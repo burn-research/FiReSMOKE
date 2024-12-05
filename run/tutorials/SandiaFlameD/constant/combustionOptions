@@ -22,7 +22,9 @@ dynamicCmixEquations    off;            // local cmix transport equations
 minT			280.;		// minimum temperature in K (useful for steady-state)
 maxT 			3500.;		// maximum temperature in K (useful for steady-state)
 
-combustionModel 	"PaSR";		// combustion model: ED | EDFR | EDC | PaSR | QLFR (LES only)
+minTemperature4Chemistry 350.;		// minimum temperature to activate combustion models
+
+combustionModel         "PaSR"; 	// ED | EDFR | EDC | PaSR | QLFR (LES only) | PaSR_LFR | LFR
 SPARCswitch		off;		// SPARC on/off
 
 ChiEquation		off;		// off -> algebraic Chi, on -> Chi tranport equation
@@ -39,7 +41,6 @@ Cd2 			1.8;
 Cp1 			3.4;
 Cp2 			1.4;
 Cmu 			0.09;
-
 
 ED
 {
@@ -76,8 +77,6 @@ EDC
         ChemicalTimesType                       "formationRates";       // type of analysis: formationRates (default) | reactionRates | eigenvalues
 }
 
-
-
 PaSR
 {
         reactorType                             "PFR";			// Reactor type: PFR (default)
@@ -92,6 +91,19 @@ PaSR
         ChemicalTimesTemperatureThreshold       300.;                   // minimum temperature for carrying out the analysis [K], default 300 K
         ChemicalTimesType                       "formationRates";          // type of analysis: formationRates (default) | reactionRates | eigenvalues
 }
+
+PaSR_LFR
+{
+        tauMixType                              globalScale;            // Calculation of mixing time: kolmogorovScale | geometriMeanScale | globalScale (default)
+        Cmixglobal                              0.10;                   // PaSR parameter (default 0.1)
+        numberIterationsToUpdateChemistry       1;                      // number of CFD iteration to solve the ODE system (default 1)
+
+        // Calculation of chemical time
+        ChemicalTimesThreshold                  100;                   // maximum chemical time [s], default 0.10 s
+        ChemicalTimesTemperatureThreshold       300.;                   // minimum temperature for carrying out the analysis [K], default 300 K
+        ChemicalTimesType                       "formationRates";          // type of analysis: formationRates (default) | reactionRates | eigenvalues
+}
+
 
 Ode
 {
