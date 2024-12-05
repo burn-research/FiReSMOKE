@@ -109,7 +109,7 @@ volVectorField U
 
 volScalarField& p = thermo.p();
 const volScalarField& psi = thermo.psi();
-      volScalarField& T = thermo.T();
+volScalarField& T = thermo.T();
 const label inertIndex(composition.species()[inertSpecie]);
 
 #include "compressibleCreatePhi.H"
@@ -213,7 +213,7 @@ volScalarField drg_important_species
         runTime.timeName(),
         mesh,
         IOobject::NO_READ,
-        IOobject::AUTO_WRITE
+        IOobject::NO_WRITE
     ),
     mesh,
     dimensionedScalar("drg::important_species", dimensionSet(0, 0, 0, 0, 0), 0.0)
@@ -227,7 +227,7 @@ volScalarField drg_important_reactions
         runTime.timeName(),
         mesh,
         IOobject::NO_READ,
-        IOobject::AUTO_WRITE
+        IOobject::NO_WRITE
     ),
     mesh,
     dimensionedScalar("drg::important_reactions", dimensionSet(0, 0, 0, 0, 0), 0.0)
@@ -241,7 +241,7 @@ volScalarField cpu_reaction_times
         runTime.timeName(),
         mesh,
         IOobject::NO_READ,
-        IOobject::AUTO_WRITE
+        IOobject::NO_WRITE
     ),
     mesh,
     dimensionedScalar("cpu::reaction_times", dimensionSet(0, 0, 0, 0, 0), 0.0)

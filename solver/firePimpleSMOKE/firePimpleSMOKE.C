@@ -162,6 +162,9 @@ int main(int argc, char *argv[])
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
+    
+    double CPUtime_comb_model = 0.;
+    double CPUtime_comb_model_part = 0.;
 
     while (runTime.run())
     {
@@ -226,8 +229,10 @@ int main(int argc, char *argv[])
 
 	Pav << runTime.timeName() << "\t" << p.weightedAverage(mesh.V()).value() << endl;
 
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s,  "
+            << "ClockTime = " << runTime.elapsedClockTime() << " s,  "
+	    << "TotalTime combustion model = " << CPUtime_comb_model << " s,  "
+	    << "TotalTime combustion model part = " << CPUtime_comb_model_part << " s"
             << nl << endl;
     }
 
