@@ -44,6 +44,10 @@
 
 if (homogeneousReactions == true)
 {
+    Info << " ************************************************************** " << endl;
+    Info << " * Using " << combustionModel << " model (if T > " << minTemperature4Chemistry << " [K])" << endl;
+	const double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
+
 	if (combustionModel == "ED" || combustionModel == "EDFR")
 	{
 		#include "EDFR.H"
@@ -93,5 +97,18 @@ if (homogeneousReactions == true)
 				#include "QLFR.H"
 		#endif
 	}
+	else if (combustionModel == "PaSR_LFR") // SPARC not currently available for PaSR_LFR model
+	{
+		#include "PaSR_LFR.H"
+	}
+	else if (combustionModel == "LFR") // SPARC not currently available for LFR model
+	{
+		#include "LFR.H"
+	}
+
+    const double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
+    CPUtime_comb_model_part = CPUtime_comb_model_part + (tEnd - tStart);
+    Info << " * Time for combustion model [s] = " << tEnd - tStart << endl;
+    Info << " ************************************************************** " << endl;
 }
 

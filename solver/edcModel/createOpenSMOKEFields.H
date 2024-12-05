@@ -198,7 +198,7 @@ volScalarField tauStar
 	mesh.time().timeName(),
 	mesh,
 	IOobject::NO_READ,
-	IOobject::AUTO_WRITE,
+	IOobject::NO_WRITE,
 	false
     ),
     mesh,
@@ -228,7 +228,7 @@ volScalarField gammaL
 	mesh.time().timeName(),
 	mesh,
 	IOobject::NO_READ,
-	IOobject::AUTO_WRITE,
+	IOobject::NO_WRITE,
 	false
     ),
     mesh,
@@ -269,7 +269,7 @@ scalar Ctau_coefficient   = 0.75;
 scalar Cgamma_coefficient = std::sqrt(3./2.);
 scalar CRe_coefficient    = 0.09;
 
-scalar direct_integration_minimum_temperature_for_chemistry = 200.;
+const scalar minTemperature4Chemistry = readScalar(combustionOptionsDictionary.lookup("minTemperature4Chemistry"));// minimum temperature for combustion model activation
 scalar threshold_temperature_chemical_time = 300.;
 scalar threshold_chemical_time = 0.1;
 CharacteristicChemicalTimes::CharacteristicChemicalTimesType characteristic_chemical_times_type = CharacteristicChemicalTimes::CHEMICAL_TIMES_FORMATION_RATES;
@@ -294,7 +294,7 @@ enum { REACTORTYPE_PSR, REACTORTYPE_PFR} reactorType;
 enum { SOLVERTYPE_ODE, SOLVERTYPE_NLS} solverType;
 
 // tauMix type
-enum { SCALE_KOLMOGOROV, SCALE_MEAN, SCALE_GLOBAL, SCALE_DYNAMIC } tauMixType;
+enum { SCALE_KOLMOGOROV, SCALE_MEAN, SCALE_GLOBAL, SCALE_STRETCH, SCALE_DYNAMIC, SCALE_DT_LES} tauMixType;
 
 // tauStar type
 enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
@@ -333,7 +333,6 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 		Ctau = readScalar(edcSubDictionary.lookup("Ctau"));								// default: 0.40825
 		maxGammaL = readScalar(edcSubDictionary.lookup("maxGammaL"));					// default: 0.9
 		numberOfResidenceTimes = readScalar(edcSubDictionary.lookup("numberOfResidenceTimes"));				// default: 100.
-        direct_integration_minimum_temperature_for_chemistry  = readScalar(edcSubDictionary.lookup("minTemperature4Chemistry"));        // default: 200 K
 		numberIterationsToUpdateChemistry = readLabel(edcSubDictionary.lookup("numberIterationsToUpdateChemistry")); 	// default 1
 		counterToUpdateChemistry = numberIterationsToUpdateChemistry;
 
@@ -369,9 +368,9 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 			word reactorTypeString(edcSubDictionary.lookup("reactorType"));
 	
 			if ( reactorTypeString == "PSR")
-			     reactorType = REACTORTYPE_PSR;
+				reactorType = REACTORTYPE_PSR;
 			else if ( reactorTypeString == "PFR")
-				  reactorType = REACTORTYPE_PFR;
+				reactorType = REACTORTYPE_PFR;
 			else
 			{
 				Info << "Wrong reactor type: PSR || PFR" << endl;
@@ -389,9 +388,9 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 		{
 			word solverTypeString(edcSubDictionary.lookup("solverType"));
 			if ( solverTypeString == "ODE")
-			     solverType = SOLVERTYPE_ODE;
+				solverType = SOLVERTYPE_ODE;
 			else if ( solverTypeString == "NLS")
-				  solverType = SOLVERTYPE_NLS;
+				solverType = SOLVERTYPE_NLS;
 			else
 			{
 				Info << "Wrong solver type: ODE || NLS" << endl;
@@ -452,18 +451,21 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 			tauMixType = SCALE_MEAN;
 		else if ( tauMixTypeString == "globalScale")
 			tauMixType = SCALE_GLOBAL;
+		else if ( tauMixTypeString == "stretchScale")
+			tauMixType = SCALE_STRETCH;
 		else if ( tauMixTypeString == "dynamicScale")
 			tauMixType = SCALE_DYNAMIC;
+		else if ( tauMixTypeString == "deltaTLES")
+			tauMixType = SCALE_DT_LES;
 		else
 		{
-			Info << "Wrong tau_mix type: kolmogorovScale || geometricMeanScale || globalScale || dynamicScale" << endl;
+			Info << "Wrong tau_mix type: kolmogorovScale || geometricMeanScale || globalScale || stretchScale || dynamicScale || deltaTLES (LES only)" << endl;
 			abort();
 		}
 
 		Cmixglobal = readScalar(PaSRSubDictionary.lookup("Cmixglobal"));                        
 		numberIterationsToUpdateChemistry = readLabel(PaSRSubDictionary.lookup("numberIterationsToUpdateChemistry")); 
 		counterToUpdateChemistry = numberIterationsToUpdateChemistry;
-		direct_integration_minimum_temperature_for_chemistry  = readScalar(PaSRSubDictionary.lookup("minTemperature4Chemistry"));        // default: 200 K
 		
 		// Reactor type options (PSR not implemented for PaSR)
 		{
@@ -514,8 +516,6 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 				abort();
 			}
 		}
-
-
 	}
 	// QLFR Constants
 	else if (combustionModel == "QLFR")
@@ -526,7 +526,6 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 		
 		numberIterationsToUpdateChemistry = readLabel(QLFRSubDictionary.lookup("numberIterationsToUpdateChemistry")); 
 		counterToUpdateChemistry = numberIterationsToUpdateChemistry;
-		direct_integration_minimum_temperature_for_chemistry  = readScalar(QLFRSubDictionary.lookup("minTemperature4Chemistry"));        // default: 200 K
 		
 		// Reactor type options (PSR not implemented for QLFR)
 		{
@@ -541,12 +540,138 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 				abort();
 			}
 		}
+	}
+	// PaSR_LFR Constants
+	else if (combustionModel == "PaSR_LFR")
+	{
+		combustion_model_tag = "pasr_lfr";
+
+		dictionary PaSR_LFRSubDictionary(combustionOptionsDictionary.subDict("PaSR_LFR"));
+		word tauMixTypeString(PaSR_LFRSubDictionary.lookup("tauMixType"));
+	
+		if ( tauMixTypeString == "kolmogorovScale")
+			tauMixType = SCALE_KOLMOGOROV;
+		else if ( tauMixTypeString == "geometricMeanScale")
+			tauMixType = SCALE_MEAN;
+		else if ( tauMixTypeString == "globalScale")
+			tauMixType = SCALE_GLOBAL;
+		else if ( tauMixTypeString == "stretchScale")
+			tauMixType = SCALE_STRETCH;
+		else if ( tauMixTypeString == "dynamicScale")
+			tauMixType = SCALE_DYNAMIC;
+		else if ( tauMixTypeString == "deltaTLES")
+			tauMixType = SCALE_DT_LES;
+		else
+		{
+			Info << "Wrong tau_mix type: kolmogorovScale || geometricMeanScale || globalScale || stretchScale || dynamicScale || deltaTLES (LES only)" << endl;
+			abort();
+		}
+
+		Cmixglobal = readScalar(PaSR_LFRSubDictionary.lookup("Cmixglobal"));                        
+		numberIterationsToUpdateChemistry = readLabel(PaSR_LFRSubDictionary.lookup("numberIterationsToUpdateChemistry")); 
+		counterToUpdateChemistry = numberIterationsToUpdateChemistry;
+
+		// Characteristic chemical type options
+		{
+			threshold_temperature_chemical_time = readScalar(PaSR_LFRSubDictionary.lookup("ChemicalTimesTemperatureThreshold"));
+			threshold_chemical_time = readScalar(PaSR_LFRSubDictionary.lookup("ChemicalTimesThreshold"));
+			word chemicalTimesTypeString(PaSR_LFRSubDictionary.lookup("ChemicalTimesType"));
+
+			if (chemicalTimesTypeString == "formationRates")
+				characteristic_chemical_times_type = CharacteristicChemicalTimes::CHEMICAL_TIMES_FORMATION_RATES;
+			else if (chemicalTimesTypeString == "reactionRates")
+				characteristic_chemical_times_type = CharacteristicChemicalTimes::CHEMICAL_TIMES_REACTION_RATES;
+			else if (chemicalTimesTypeString == "eigenvalues")
+				characteristic_chemical_times_type = CharacteristicChemicalTimes::CHEMICAL_TIMES_EIGENVALUES;
+			else
+			{
+				Info << "Wrong chemical times type: formationRates | reactionRates | eigenvalues" << endl;
+				abort();
+			}
+		}
+	}
+	// mPaSR Constants
+	else if (combustionModel == "mPaSR")
+	{
+		combustion_model_tag = "mPaSR";
+		
+		dictionary mPaSRSubDictionary(combustionOptionsDictionary.subDict("mPaSR"));
+
+		Switch switch_ODE_reader(mPaSRSubDictionary.lookup("switch_ODE"));
+		Switch switch_LAPACK_reader(mPaSRSubDictionary.lookup("switch_LAPACK"));
+		Switch switch_Jconst_reader(mPaSRSubDictionary.lookup("switch_Jconst"));
+		Switch switch_Ekeep_reader(mPaSRSubDictionary.lookup("switch_Ekeep"));
+
+		switch_ODE = switch_ODE_reader;
+		switch_LAPACK = switch_LAPACK_reader;
+		switch_Jconst = switch_Jconst_reader;
+		switch_Ekeep = switch_Ekeep_reader;
+
+		activation_threshold = readScalar(mPaSRSubDictionary.lookup("activation_threshold"));
+
+		// tauMix
+		word tauMixTypeString(mPaSRSubDictionary.lookup("tauMixType"));
+
+		if ( tauMixTypeString == "kolmogorovScale")
+			tauMixType = SCALE_KOLMOGOROV;
+		else if ( tauMixTypeString == "geometricMeanScale")
+			tauMixType = SCALE_MEAN;
+		else if ( tauMixTypeString == "globalScale")
+			tauMixType = SCALE_GLOBAL;
+		else if ( tauMixTypeString == "stretchScale")
+			tauMixType = SCALE_STRETCH;
+		else if ( tauMixTypeString == "dynamicScale")
+			tauMixType = SCALE_DYNAMIC;
+		else if ( tauMixTypeString == "deltaTLES")
+			tauMixType = SCALE_DT_LES;
+		else
+		{
+			Info << "Wrong tau_mix type: kolmogorovScale || geometricMeanScale || globalScale || stretchScale || dynamicScale || deltaTLES (LES only)" << endl;
+			abort();
+		}
+
+		Cmixglobal = readScalar(mPaSRSubDictionary.lookup("Cmixglobal"));
+
+		numberIterationsToUpdateChemistry = readLabel(mPaSRSubDictionary.lookup("numberIterationsToUpdateChemistry")); 
+		counterToUpdateChemistry = numberIterationsToUpdateChemistry;
+		threshold_temperature_chemical_time = readScalar(mPaSRSubDictionary.lookup("ChemicalTimesTemperatureThreshold"));
+		threshold_chemical_time = readScalar(mPaSRSubDictionary.lookup("ChemicalTimesThreshold"));
+
+		if (switch_ODE == true)// Reactor type options (PSR not implemented for mPaSR)
+        {
+			word reactorTypeString(mPaSRSubDictionary.lookup("reactorType"));
+			if ( reactorTypeString == "PFR")
+			{
+				reactorType = REACTORTYPE_PFR;
+			}
+			else
+			{
+				Info << "Wrong reactor type: only PFR" << endl;
+				abort();
+			}
+
+			if ( iLES == true ) // Reactor residence time (tauStar) options (LES only)
+			{
+				word tauStarTypeString(mPaSRSubDictionary.lookup("tauStarType"));
+				if ( tauStarTypeString == "deltaTLES")
+					tauStarType = DT_LES;
+				else if ( tauStarTypeString == "minDeltaTLEStauMix")
+					tauStarType = MIN_DTLES_TAUMIX;
+				else if ( tauStarTypeString == "tauMix")
+					tauStarType = TAUMIX;
+				else
+				{
+					Info << "Wrong tauStar type: deltaTLES | minDeltaTLEStauMix | tauMix" << endl;
+					abort();
+				}
+			}
+		}
 
 	}
 	// Error Message
 	else
 	{
-		FatalError << "Combustion model available: ED || EDFR || EDC || PaSR || QLFR" << endl;
+		FatalError << "Combustion model available: ED || EDFR || EDC || PaSR || QLFR || PaSR_LFR || LFR" << endl;
 	}
 
 
@@ -611,9 +736,9 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 	// Type
 	word homogeneousODESolverString(odeParametersFineStructuresDictionary.lookup("odeSolver"));
 	if (	homogeneousODESolverString != "OpenSMOKE" 	&& homogeneousODESolverString != "DVODE"  && 
-			homogeneousODESolverString != "DLSODE" 		&& homogeneousODESolverString != "DLSODA" && 
-			homogeneousODESolverString != "CVODE" 		&& homogeneousODESolverString != "DASPK"  &&
-			homogeneousODESolverString != "MEBDF" 		&& homogeneousODESolverString != "RADAU5"  
+		homogeneousODESolverString != "DLSODE" 		&& homogeneousODESolverString != "DLSODA" && 
+		homogeneousODESolverString != "CVODE" 		&& homogeneousODESolverString != "DASPK"  &&
+		homogeneousODESolverString != "MEBDF" 		&& homogeneousODESolverString != "RADAU5"  
 	   )
 	{
 		Info << "Wrong homogeneous ODE Solver: OpenSMOKE || DVODE || DLSODE || DLSODA || CVODE || DASPK || MEBDF || RADAU5" << endl;
@@ -748,7 +873,7 @@ volScalarField tauMix
 		mesh,
 		IOobject::NO_READ,
 		IOobject::AUTO_WRITE,
-		false
+		true
 	),
 	mesh,
 	dimensionedScalar("zero", dimensionSet(0, 0, 1, 0, 0), 0.), 
@@ -765,7 +890,7 @@ volScalarField tauChem
 		mesh,
 		IOobject::READ_IF_PRESENT,
 		IOobject::AUTO_WRITE,
-		false
+		true
 	),
 	mesh,
 	dimensionedScalar("zero", dimensionSet(0, 0, 1, 0, 0), 0.), 
@@ -798,7 +923,7 @@ volScalarField ReT
 		mesh.time().timeName(),
 		mesh,
 		IOobject::NO_READ,
-		IOobject::AUTO_WRITE,
+		IOobject::NO_WRITE,
 		false
 	),
 	mesh,
@@ -816,7 +941,7 @@ volScalarField kappa
 		mesh,
 		IOobject::NO_READ,
 		IOobject::AUTO_WRITE,
-		false
+		true
 	),
 	mesh,
 	dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.), 
@@ -949,8 +1074,8 @@ volScalarField Chi
 							combustion_model_tag + "::YStar_"+ Y[i].name(),
 							mesh.time().timeName(),
 							mesh,
-							IOobject::MUST_READ,
-							IOobject::AUTO_WRITE
+							IOobject::NO_READ,
+							IOobject::NO_WRITE
 						),
 						mesh
 					)
@@ -971,7 +1096,7 @@ volScalarField Chi
 							mesh.time().timeName(),
 							mesh,
 							IOobject::NO_READ,
-							IOobject::AUTO_WRITE
+							IOobject::NO_WRITE
 						),
 						mesh,
 						dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.)
@@ -1097,7 +1222,7 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 						mesh.time().timeName(),
 						mesh,
 						IOobject::NO_READ,
-						IOobject::AUTO_WRITE
+						IOobject::NO_WRITE
 					),
 					mesh,
 					dimensionedScalar("zero", dimensionSet(0, 0, 0, 1, 0), 0.)
@@ -1109,6 +1234,24 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 	}
 }
 
+
+// Combustion model activation map
+volScalarField activation_map// binary field, 0 laminar rates only; 1  mPaSR computed
+(
+        IOobject
+        (
+                "activation_map",
+                runTime.timeName(),
+                mesh,
+                IOobject::NO_READ,
+                IOobject::AUTO_WRITE
+        ),
+        mesh,
+        dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0),-1),
+        zeroGradientFvPatchScalarField::typeName
+);
+
+// Heat release
 volScalarField Qdot
 (
     IOobject
@@ -1145,7 +1288,7 @@ dimensionedScalar epsilonsmall_("epsilonsmall", dimensionSet(0,2,-3,0,0,0,0), SM
 dimensionedScalar rhosmall_("rhosmall", dimensionSet(1,-3,0,0,0,0,0), SMALL );
 dimensionedScalar chismall_("chismall", dimensionSet(0,0,-1,0,0,0,0), SMALL );
 dimensionedScalar tauMixsmall_("tauMixsmall", dimensionSet(0,0,1,0,0,0,0), runTime.deltaTValue() );
-dimensionedScalar tauMixlarge_("tauMixlarge", dimensionSet(0,0,1,0,0,0,0), 0.02 );
+dimensionedScalar tauMixlarge_("tauMixlarge", dimensionSet(0,0,1,0,0,0,0), 0.1 );
 
 volScalarField one_over_tauStar
 (
@@ -1155,7 +1298,7 @@ volScalarField one_over_tauStar
         runTime.timeName(),
         mesh,
         IOobject::NO_READ,
-        IOobject::AUTO_WRITE
+        IOobject::NO_WRITE
     ),
     mesh,
     dimensionedScalar("one_over_tauStar", dimensionSet(0,0,-1,0,0,0,0), 0.0)
@@ -1227,8 +1370,6 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 		for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
 			YStar_[i].internalField()[celli]/=sum;
 		#endif
-
-		
 
 		sumTotal += sum;
 		if (e>maxError) maxError = e;
