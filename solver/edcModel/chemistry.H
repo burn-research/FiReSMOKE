@@ -105,7 +105,10 @@ if (homogeneousReactions == true)
 	{
 		#include "LFR.H"
 	}
-
+        else
+        {
+                FatalError << "Please select one of the available combustion closure" << exit(FatalError);
+        }
     const double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
     CPUtime_comb_model_part = CPUtime_comb_model_part + (tEnd - tStart);
     Info << " * Time for combustion model [s] = " << tEnd - tStart << endl;
