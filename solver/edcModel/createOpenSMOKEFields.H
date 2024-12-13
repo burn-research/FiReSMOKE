@@ -1158,7 +1158,7 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 
 
 // Combustion model activation map
-volScalarField activation_map// binary field, 0 laminar rates only; 1  mPaSR computed
+volScalarField activation_map
 (
         IOobject
         (
