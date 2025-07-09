@@ -1,11 +1,13 @@
-FiReSMOKE
+FiReSMOKE with mPaSR model
 ========
 
-Finite-rate combustion solvers (ED, ED/FR, EDC, PaSR, QLFR, PaSR_LFR, LFR) for OpenFOAM based on the [OpenSMOKE++ framework][1].
-FiReSMOKE requires one of the following OpenFOAM versions:
+Finite-rate combustion solvers (ED, ED/FR, EDC, QLFR, PaSR, mPaSR) for OpenFOAM based on the [OpenSMOKE++ framework][1]
+fireSMOKE requires one of the following OpenFOAM versions:
 - OpenFOAM-7.x
 
-If you use FiReSMOKE for your publications, we kindly ask you to cite the following two papers:
+Docker installation provides a self-contained environment for OpenFOAM 7 with a pre-compiled version of FiReSMOKE.
+
+If you use fireSMOKE for your publications, we kindly ask you to cite the following two papers:
 
 > Parente, A., Malik, R.M., Contino, F., Cuoci, A., Dally, B., 
 > Extension of the Eddy Dissipation Concept for turbulence/chemistry interactions to MILD combustion
@@ -25,7 +27,13 @@ If you use the SPARC plugin for your publications, we kindly ask you to cite the
 > Automated adaptive chemistry for Large Eddy Simulations of turbulent reacting flows. 
 > (2024) Combustion and Flame, Volume 259, pp. 113-136. DOI: 10.1016/j.combustflame.2023.113136.
 
-Docker installation provides a self-contained environment for OpenFOAM 7 with a pre-compiled version of FiReSMOKE.
+If you use the mPaSR model for your publications, we kindly ask you to cite the following paper:
+
+> Quadarella, E., Péquin, A., Stagni, A., Parente, A., Faravelli, T., Im, H. G.,
+> A generalized partially stirred reactor model for turbulent closure.
+> (2023) Proceedings of the Combustion Institute, Volume 39, Issue 4, pp 5329-5338. DOI: 10.1016/j.proci.2022.08.061
+
+![](https://github.com/apequin/FiReSMOKE_mPaSR/blob/main/runs/1_SandiaFlameD_RANS/flameD_ignition_mPaSR.gif)
 
 Compulsory libraries
 --------------------
@@ -43,7 +51,7 @@ Optional libraries
 - Sundials (http://computation.llnl.gov/casc/sundials/main.html)
 - MEBDF (http://wwwf.imperial.ac.uk/~jcash/IVP_software/readme.html)
 - RADAU (http://www.unige.ch/~hairer/software.html)
-- Armadillo (for SPARC compilation, https://arma.sourceforge.net/) - version 9.800.6
+- Armadillo (for SPARC compilation, https://arma.sourceforge.net/) 
 
 Compilation
 -----------

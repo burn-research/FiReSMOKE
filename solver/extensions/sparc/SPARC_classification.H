@@ -1,4 +1,4 @@
-/*-----------------------------------------------------------------------*\
+/*——————————————————————————————————————————————————————————————————————-*\
 |                              _____ __  __  ____  _  ________            |
 |            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
 |           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|   email: alessandro.parente@ulb.be                                      |
+|	email: alessandro.parente@ulb.be			                          |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -40,7 +40,7 @@
 |   You should have received a copy of the GNU General Public License     |
 |   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*-----------------------------------------------------------------------*/
+\*------------------------------------------------------------------------*/
 
 #if SPARC==1
 
@@ -71,7 +71,7 @@ if (iSOM == true)
 
 		forAll(TCells, celli)
 		{
-			if (TCells[celli] > direct_integration_minimum_temperature_for_chemistry)
+			if (TCells[celli] > minTemperature4Chemistry)
 			{
 				// PCA transformation
 				original(0) = (TCells[celli]-pca_mu(0))/pca_sigma(0);
@@ -153,7 +153,7 @@ if (iVQ2 == true || iSOFTMAX == true)
 
 		forAll(TCells, celli)
 		{
-			if (TCells[celli] > direct_integration_minimum_temperature_for_chemistry)
+			if (TCells[celli] > minTemperature4Chemistry)
 			{
 				int index = idx[celli];
 				clusterIndexCells[celli] = index;
@@ -207,7 +207,7 @@ if (iFitCTree == true)
 
 		forAll(TCells, celli)
 		{
-			if (TCells[celli] > direct_integration_minimum_temperature_for_chemistry)
+			if (TCells[celli] > minTemperature4Chemistry)
 			{
 				// PCA transformation
 				original(0) = (TCells[celli]-fitctree_mu(0))/fitctree_sigma(0);
@@ -300,7 +300,7 @@ if (iNEURAL == true)
 		NEURAL.ClassifyNN(observations, idx);
 		forAll(TCells, celli)
 				{
-						if (TCells[celli] > direct_integration_minimum_temperature_for_chemistry)
+						if (TCells[celli] > minTemperature4Chemistry)
 						{
 								int index = idx[celli];
 								clusterIndexCells[celli] = index;
@@ -365,7 +365,7 @@ if (iPREDICTIONS == true)
 				forAll(TCells, celli)
 				{
 			predictedTargetCells[celli]= PREDICTIONS.predictedTarget(celli);
-						if (TCells[celli] > direct_integration_minimum_temperature_for_chemistry)
+						if (TCells[celli] > minTemperature4Chemistry)
 						{
 								int index = idx[celli];
 								clusterIndexCells[celli] = index;

@@ -1,0 +1,4 @@
+# Tutorial cases for mPaSR model
+
+1: Sandia flame D, RANS, KEE mechanism (17 spec for methane)
+2: Multi-Regime Burner (MRB), LES, DIMA15 (15 spec for methane)

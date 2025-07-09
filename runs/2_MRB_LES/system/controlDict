@@ -1,0 +1,206 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     firePimpleSMOKE;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.045;
+
+deltaT          1e-7;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-5;
+
+purgeWrite      2;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression on;
+
+timeFormat      general;
+
+timePrecision   6;
+
+graphFormat     raw;
+
+runTimeModifiable true;
+
+adjustTimeStep  false;
+
+maxCo             0.3;
+
+libs (  "libinflowGenerator.so"
+    	"libOpenFOAM.so" );
+
+// ************************************************************************* //
+
+functions
+{
+/*
+        #includeFunc    singleGraphAx
+        #includeFunc    singleGraph3
+        #includeFunc    singleGraph4
+        #includeFunc    singleGraph6
+        #includeFunc    singleGraph10
+        #includeFunc    singleGraph15
+        #includeFunc    singleGraph22
+        #includeFunc    singleGraph30
+        #includeFunc    singleGraph45
+        #includeFunc    singleGraph60
+        #includeFunc    singleGraph90
+*/
+    fieldAverage1
+    {
+        type            fieldAverage;
+        libs            ("libfieldFunctionObjects.so");
+        timeStart       0.0050000;
+        timeEnd         0.0450001;
+        writeControl    outputTime;
+
+        fields
+        (
+            U
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            f
+            {
+                mean        off;
+                prime2Mean  off;
+                base        time;
+            }
+            Chi
+            {
+                mean        off;
+                prime2Mean  off;
+                base        time;
+            }
+            varf
+            {
+                mean        off;
+                prime2Mean  off;
+                base        time;
+            }
+            CH4
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            O2
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            N2
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            CO
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            CO2
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            H2
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            H2O
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            OH  
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }   
+            O   
+            {   
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }   
+            H   
+            {   
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }   
+            HCO 
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }   
+            CH3O
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }   
+            CH2O
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }   
+            CH3 
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }   
+            HO2 
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+            T
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+        );
+    }
+}

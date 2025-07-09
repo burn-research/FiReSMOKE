@@ -1,0 +1,99 @@
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "/workdir/arpequin/";
+    case            "MRB26b";
+    instance        "system";
+    local           "";
+
+    class           dictionary;
+    object          funkySetFieldsDict;
+}
+
+
+expressions
+(
+
+	BilgerZ
+	{
+		field Z;
+		expression "Zfield"; 
+		keepPatches true; //keep the boundary conditions that were set before
+	 variables // DON'T PUT SPACES !!!
+		(
+		 "W_C=12.0107;"                                                                                 // atomic weights
+		 "W_H=1.00849;"
+                 "W_O=15.9994;"
+                 "CH4_F=0.132;"                                                                                 // Fuel elemental mass fractions // MRB18b case !
+                 "O2_F=0.202;"
+                 "Y_C_F=CH4_F*(W_C/(W_C+4*W_H));"                                                                     
+                 "Y_H_F=CH4_F*(4*W_H/(W_C+4*W_H));"
+                 "Y_O_F=O2_F;"
+                 "O2_Ox=0.233;"                                                                                 // Oxidiser elemental mass fractions
+                 "Y_C_Ox=0;"                                                                    
+                 "Y_H_Ox=0;"
+                 "Y_O_Ox=O2_Ox;"
+                 "Y_C=CH4*(W_C/(W_C+4*W_H))+CO2*(W_C/(W_C+2*W_O))+CO*(W_C/(W_C+W_O));"                          // Elemental mass fractions
+                 "Y_H=CH4*(4*W_H/(W_C+4*W_H))+H2+H2O*(2*W_H/(2*W_H+W_O));"
+                 "Y_O=O2+CO2*(2*W_O/(W_C+2*W_O))+CO*(W_O/(W_C+W_O))+H2O*(W_O/(2*W_H+W_O));"
+                 "Zfield=(2/W_C*(Y_C-Y_C_Ox)+1/(2*W_H)*(Y_H-Y_H_Ox)-1/W_O*(Y_O-Y_O_Ox))/(2/W_C*(Y_C_F-Y_C_Ox)+1/(2*W_H)*(Y_H_F-Y_H_Ox)-1/W_O*(Y_O_F-Y_O_Ox));"
+		);
+	}
+
+        BilgerZmean
+        {
+                field Zmean;
+                expression "Zfieldmean";
+                keepPatches true; //keep the boundary conditions that were set before
+         variables // DON'T PUT SPACES !!!
+                (
+                 "W_C=12.0107;"                                                                                 // atomic weights
+                 "W_H=1.00849;"                                                                                 
+                 "W_O=15.9994;"
+                 "CH4_F=0.132;"                                                                                 // Fuel elemental mass fractions // MRB18b case !
+                 "O2_F=0.202;"
+                 "Y_C_F=CH4_F*(W_C/(W_C+4*W_H));"
+                 "Y_H_F=CH4_F*(4*W_H/(W_C+4*W_H));"
+                 "Y_O_F=O2_F;"
+                 "O2_Ox=0.233;"                                                                                 // Oxidiser elemental mass fractions           
+                 "Y_C_Ox=0;"
+                 "Y_H_Ox=0;"
+                 "Y_O_Ox=O2_Ox;"
+                 "Y_C=CH4Mean*(W_C/(W_C+4*W_H))+CO2Mean*(W_C/(W_C+2*W_O))+COMean*(W_C/(W_C+W_O));"                          // Elemental mass fractions
+                 "Y_H=CH4Mean*(4*W_H/(W_C+4*W_H))+H2Mean+H2OMean*(2*W_H/(2*W_H+W_O));"
+                 "Y_O=O2Mean+CO2Mean*(2*W_O/(W_C+2*W_O))+COMean*(W_O/(W_C+W_O))+H2OMean*(W_O/(2*W_H+W_O));"
+                 "Zfieldmean=(2/W_C*(Y_C-Y_C_Ox)+1/(2*W_H)*(Y_H-Y_H_Ox)-1/W_O*(Y_O-Y_O_Ox))/(2/W_C*(Y_C_F-Y_C_Ox)+1/(2*W_H)*(Y_H_F-Y_H_Ox)-1/W_O*(Y_O_F-Y_O_Ox));" 
+                );
+        }
+
+        BilgerZPrime2mean
+        {
+                field ZPrime2mean;
+                expression "ZfieldPrime2mean";
+                keepPatches true; //keep the boundary conditions that were set before
+         variables // DON'T PUT SPACES !!!
+                (
+                 "W_C=12.0107;"                                                                                 // atomic weights
+                 "W_H=1.00849;"
+                 "W_O=15.9994;"
+                 "CH4_F=0.132;"                                                                                 // Fuel elemental mass fractions // MRB18b case !
+                 "O2_F=0.202;"
+                 "Y_C_F=CH4_F*(W_C/(W_C+4*W_H));"
+                 "Y_H_F=CH4_F*(4*W_H/(W_C+4*W_H));"
+                 "Y_O_F=O2_F;"
+                 "O2_Ox=0.233;"                                                                                 // Oxidiser elemental mass fractions
+                 "Y_C_Ox=0;"
+                 "Y_H_Ox=0;"
+                 "Y_O_Ox=O2_Ox;"
+                 "Y_C=CH4Prime2Mean*(W_C/(W_C+4*W_H))+CO2Prime2Mean*(W_C/(W_C+2*W_O))+COPrime2Mean*(W_C/(W_C+W_O));"                          // Elemental mass fractions
+                 "Y_H=CH4Prime2Mean*(4*W_H/(W_C+4*W_H))+H2Prime2Mean+H2OPrime2Mean*(2*W_H/(2*W_H+W_O));"
+                 "Y_O=O2Prime2Mean+CO2Prime2Mean*(2*W_O/(W_C+2*W_O))+COPrime2Mean*(W_O/(W_C+W_O))+H2OPrime2Mean*(W_O/(2*W_H+W_O));"
+                 "ZfieldPrime2mean=(2/W_C*(Y_C-Y_C_Ox)+1/(2*W_H)*(Y_H-Y_H_Ox)-1/W_O*(Y_O-Y_O_Ox))/(2/W_C*(Y_C_F-Y_C_Ox)+1/(2*W_H)*(Y_H_F-Y_H_Ox)-1/W_O*(Y_O_F-Y_O_Ox));"
+                );
+        }
+
+);
+
+// ************************************************************************* //

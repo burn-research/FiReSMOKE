@@ -62,6 +62,9 @@
 #if OPENSMOKE_USE_MKL == 1
 #include "mkl.h"
 #include "mkl_lapacke.h"
+#else
+// #include "/software/libs/OpenBLAS/OpenBLAS-0.3.24/include/lapacke.h"
+#include "/usr/include/lapacke.h"
 #endif
 
 CharacteristicChemicalTimes::CharacteristicChemicalTimes(
@@ -242,7 +245,7 @@ double CharacteristicChemicalTimes::FromEigenValueAnalysis(const double T, const
 			lambda_mod_[i] = std::sqrt(lambda_real_[i] * lambda_real_[i] + lambda_imag_[i] * lambda_imag_[i]);
 		}
 	}
-	#if OPENSMOKE_USE_MKL == 1
+	//#if OPENSMOKE_USE_MKL == 1
 	else
 	{
 		int info = LAPACKE_dgeev(LAPACK_COL_MAJOR, 'V', 'V', ns_, Jc_.data(), ns_, lambda_real_.data(), lambda_imag_.data(), vl_.data(), ns_, vr_.data(), ns_);
@@ -253,7 +256,7 @@ double CharacteristicChemicalTimes::FromEigenValueAnalysis(const double T, const
 		for (unsigned int i = 0; i < ns_; i++)
 			lambda_mod_[i] = std::sqrt(lambda_real_[i] * lambda_real_[i] + lambda_imag_[i] * lambda_imag_[i]);
 	}
-	#endif
+	//#endif
 
 	// Search conservative modes
 	SearchConservativeModes(lambda_real_, lambda_mod_, lambda_real_cleaned_);
@@ -339,3 +342,264 @@ void CharacteristicChemicalTimes::SearchConservativeModes(const std::vector<doub
 		lambda_real_cleaned[i] = std::fabs(lambda_real_cleaned[i]);
 }
 
+// -------------------------- mPaSR ------------------------------ //
+Eigen::MatrixXd CharacteristicChemicalTimes::mPaSR_computeNumericalJacobian(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y)
+{
+	// ------------------------------------------------------------------------------------------ //
+	// mPaSR function to return the Numerical Jacobian to mPaSR model
+	// @A. Péquin, Université Libre de Bruxelles
+
+	// T : temperature
+	// P : pressure
+	// y : vector of mass fractions (vec_y)
+
+	// Jac_i_j 		= d y_dot_i / d y_j
+	// d y_dot_i 	= ( y_dot_i(vec_y with perturbation on y_j) - y_dot_i(reference vec_y) )
+	// d y_j 		= perturbation applied on y_j
+	// ------------------------------------------------------------------------------------------ //
+
+	// Definitions
+	int N = y.Size();
+
+	OpenSMOKE::OpenSMOKEVectorDouble y_plus(N);					// vec_y holding a perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble y_dot_reference(N);		// rates of reference
+	OpenSMOKE::OpenSMOKEVectorDouble y_dot_plus(N);				// rates from y_plus
+
+	OpenSMOKE::OpenSMOKEVectorDouble omega(N);					// mass fractions modified indices
+	OpenSMOKE::OpenSMOKEVectorDouble omega_plus(N);				// mass fractions modified indices holding a perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble x(N); 						// mole fractions
+	OpenSMOKE::OpenSMOKEVectorDouble x_plus(N); 				// mole fractions holding a perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble c(N); 						// molar concentrations
+	OpenSMOKE::OpenSMOKEVectorDouble c_plus(N); 				// molar concentrations holding a perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble dc_over_dt(N);				// molar rates [kmol.m-3.s-1]
+	OpenSMOKE::OpenSMOKEVectorDouble dc_over_dt_plus(N);		// molar rates [kmol.m-3.s-1] holding a perturbation
+
+	Eigen::MatrixXd J(N, N);									// Jacobian matrix
+
+	// Perturbation
+	const double ZERO_DER = std::sqrt(OPENSMOKE_TINY_FLOAT);
+	const double ETA2 = std::sqrt(OpenSMOKE::OPENSMOKE_MACH_EPS_DOUBLE);			
+	const double TOLR = 100. * OpenSMOKE::OPENSMOKE_MACH_EPS_FLOAT;
+	const double TOLA = 1.e-8;
+
+	// Setting up: temperature and pressure
+	T_ = T;
+	P_ = P;
+
+	// Calculations of the reference rates: y_dot_reference
+	for(unsigned int i=0;i<N;i++)
+		omega[i+1] = y[i];																								// filling up mass fraction vector with modified indices
+
+	double MW;
+	thermodynamicsMapXML_.MoleFractions_From_MassFractions(x.GetHandle(), MW, omega.GetHandle());
+	const double cTot = P/(PhysicalConstants::R_J_kmol * T);
+	const double rho = cTot*MW;
+
+	Product(cTot, x, &c);																								// getting molar concentrations c
+
+	Equations(c, dc_over_dt);																							// getting molar rates
+	
+
+	for(unsigned int i=0;i<N;i++)
+		y_dot_reference[i] = dc_over_dt[i+1]*thermodynamicsMapXML_.MW(i)/rho;											// rates [s-1]
+	
+	// Compute perturbed y_dot and fill the Jacobian matrix
+	for(unsigned int j=0;j<N;j++)
+	{
+		for(unsigned int i=0;i<N;i++)
+			y_plus[i] = y[i];																							// reference mass fractions
+		
+		double hf = 1.e0;
+		double error_weight = 1./(TOLA+TOLR*std::fabs(y[j]));
+		double hJ = ETA2 * std::fabs(std::max(y[j], 1./error_weight));
+		double hJf = hf/error_weight;
+		hJ = std::max(hJ, hJf);
+		hJ = std::max(hJ, ZERO_DER);
+		double dy = std::min(hJ, 1.e-3 + 1e-3*std::fabs(y[j]));
+
+		y_plus[j] = y[j] + dy;																							// perturbed mass fractions
+
+		for(unsigned int i=0;i<N;i++)
+			omega_plus[i+1] = y_plus[i];																				// modified indices
+
+		double MW_plus;
+		thermodynamicsMapXML_.MoleFractions_From_MassFractions(x_plus.GetHandle(), MW_plus, omega_plus.GetHandle());
+		Product(cTot, x_plus, &c_plus);																					// perturbed molar concentrations
+
+		Equations(c_plus, dc_over_dt_plus);																				// perturbed molar rates
+
+		for(unsigned int i=0;i<N;i++)
+			y_dot_plus[i] = dc_over_dt_plus[i+1]*thermodynamicsMapXML_.MW(i)/rho;										// perturbed rates [s-1]
+
+		
+		// Populate Jacobian matrix
+		for(unsigned int i=0;i<N;i++)
+			J(i,j) = (y_dot_plus[i]-y_dot_reference[i])/dy;
+	}
+
+	return J;
+}
+
+Eigen::MatrixXd CharacteristicChemicalTimes::mPaSR_computeNumericalJacobian_const(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y)
+{
+	// ------------------------------------------------------------------------------------------ //
+	// mPaSR function to return the constrained Numerical Jacobian to mPaSR model
+	// @A. Péquin, Université Libre de Bruxelles
+	// -> inspired from Valorani et al., Comb. Th. & Mod., 2022.
+	// -> The spectral characterisation of reduced order models in chemical kinetic systems.
+	// -> @R. Malpica Galassi, University of Rome.
+	// ...
+	// The objective is to enforce the conservation of energy (enthalpy form) onto the Jacobian matrix of the chemical source terms 
+	// by accounting for the temperature variation (non-isothermal) due to the perturbation on the composition space,
+	// i.e., applying dY induces a dT as dh=0.
+	// The Constrained (C) jacobian matrix J_C is obtained by developping the derivatives with the chain rule and results of the addition of
+	// the isothermal Jacobian matrix, i.e., the Kinetic (K) matrix J_K and the thermal (T) Jacobian matrix J_T,
+	// i.e., J_C = J_K + J_T, where J_T is calculated as the dyadic matrix from the outer product of the last column x last row of the full Jacobian matrix.
+	// ...
+
+	// T : temperature
+	// P : pressure
+	// y : vector of mass fractions (vec_y)
+
+	// Kinetic Jacobian
+	// Jac_i_j 		= d y_dot_i / d y_j
+	// d y_dot_i 	= ( y_dot_i(vec_y with perturbation on y_j) - y_dot_i(reference vec_y) )
+	// d y_j 		= perturbation applied on y_j
+	// ------------------------------------------------------------------------------------------ //
+
+	// Definitions
+	int N = y.Size();
+
+	OpenSMOKE::OpenSMOKEVectorDouble y_plus(N);					// vec_y holding a perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble y_dot_reference(N);		// rates of reference
+	OpenSMOKE::OpenSMOKEVectorDouble y_dot_plus(N);				// rates from y_plus
+	OpenSMOKE::OpenSMOKEVectorDouble y_dot_Tplus(N);			// rates from T_plus
+
+	OpenSMOKE::OpenSMOKEVectorDouble omega(N);					// mass fractions modified indices
+	OpenSMOKE::OpenSMOKEVectorDouble omega_plus(N);				// mass fractions modified indices holding a perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble x(N); 						// mole fractions
+	OpenSMOKE::OpenSMOKEVectorDouble x_plus(N); 				// mole fractions holding a perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble c(N); 						// molar concentrations
+	OpenSMOKE::OpenSMOKEVectorDouble c_plus(N); 				// molar concentrations holding a perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble c_Tplus(N); 				// molar concentrations holding a T perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble dc_over_dt(N);				// molar rates [kmol.m-3.s-1]
+	OpenSMOKE::OpenSMOKEVectorDouble dc_over_dt_plus(N);		// molar rates [kmol.m-3.s-1] holding a perturbation
+	OpenSMOKE::OpenSMOKEVectorDouble dc_over_dt_Tplus(N);		// molar rates [kmol.m-3.s-1] holding a T perturbation
+
+	Eigen::MatrixXd J_K(N, N);									// Kinetic Jacobian matrix
+	Eigen::MatrixXd J_T(N, N);									// Thermal Jacobian matrix
+	Eigen::MatrixXd J_C(N, N);									// Constrained Jacobian matrix
+
+	// Thermal Jacobian vectors: J_T = J_T_col * J_T_row
+	Eigen::VectorXd J_T_col(N);// d_y_dot_dT [s-1.K-1]
+	Eigen::VectorXd J_T_row(N);// d_F_T_dy [K]
+	OpenSMOKE::OpenSMOKEVectorDouble h_species(N);
+	OpenSMOKE::OpenSMOKEVectorDouble cp_species(N);
+
+	// Perturbation
+	const double ZERO_DER = std::sqrt(OPENSMOKE_TINY_FLOAT);
+	const double ETA2 = std::sqrt(OpenSMOKE::OPENSMOKE_MACH_EPS_DOUBLE);			
+	const double TOLR = 100. * OpenSMOKE::OPENSMOKE_MACH_EPS_FLOAT;
+	const double TOLA = 1.e-8;
+
+	// Setting up: temperature and pressure
+	T_ = T;
+	P_ = P;
+
+	// Calculations of the reference rates: y_dot_reference
+	for(unsigned int i=0;i<N;i++)
+		omega[i+1] = y[i];																								// filling up mass fraction vector with modified indices
+
+	double MW;
+	thermodynamicsMapXML_.MoleFractions_From_MassFractions(x.GetHandle(), MW, omega.GetHandle());
+	const double cTot = P/(PhysicalConstants::R_J_kmol * T);
+	const double rho = cTot*MW;
+	Product(cTot, x, &c);																								// getting molar concentrations c
+
+	Equations(c, dc_over_dt);																							// getting molar rates
+
+	for(unsigned int i=0;i<N;i++)
+		y_dot_reference[i] = dc_over_dt[i+1]*thermodynamicsMapXML_.MW(i)/rho;											// rates [s-1]
+
+	// --------------------------- J_K --------------------------- //
+	// Compute perturbed y_dot and fill the Kinetic Jacobian matrix
+	for(unsigned int j=0;j<N;j++)
+	{
+		for(unsigned int i=0;i<N;i++)
+			y_plus[i] = y[i];																							// reference mass fractions
+		
+		double hf = 1.e0;
+		double error_weight = 1./(TOLA+TOLR*std::fabs(y[j]));
+		double hJ = ETA2 * std::fabs(std::max(y[j], 1./error_weight));
+		double hJf = hf/error_weight;
+		hJ = std::max(hJ, hJf);
+		hJ = std::max(hJ, ZERO_DER);
+		double dy = std::min(hJ, 1.e-3 + 1e-3*std::fabs(y[j]));
+
+		y_plus[j] = y[j] + dy;																							// perturbed mass fractions
+
+		for(unsigned int i=0;i<N;i++)
+			omega_plus[i+1] = y_plus[i];																				// modified indices
+
+		double MW_plus;
+		thermodynamicsMapXML_.MoleFractions_From_MassFractions(x_plus.GetHandle(), MW_plus, omega_plus.GetHandle());
+		Product(cTot, x_plus, &c_plus);																					// perturbed molar concentrations
+
+		Equations(c_plus, dc_over_dt_plus);																				// perturbed molar rates
+
+		for(unsigned int i=0;i<N;i++)
+			y_dot_plus[i] = dc_over_dt_plus[i+1]*thermodynamicsMapXML_.MW(i)/rho;										// perturbed rates [s-1]
+
+		// Populate Kinetic Jacobian matrix J_K
+		for(unsigned int i=0;i<N;i++)
+			J_K(i,j) = (y_dot_plus[i]-y_dot_reference[i])/dy;
+	}
+
+	// --------------------------- J_T --------------------------- //
+	// Compute d_y_dot/dT [s-1.K-1] with the perturbation of temperature: dT
+
+	double dT = max(ZERO_DER*abs(T_),1.e-3);// from PyCSP
+
+	T_ = T + dT;
+	P_ = P;
+
+	const double cTot_Tplus = P/(PhysicalConstants::R_J_kmol * (T + dT));
+	const double rho_Tplus = cTot_Tplus*MW;
+	Product(cTot_Tplus, x, &c_Tplus);
+
+	Equations(c_Tplus, dc_over_dt_Tplus);
+
+	for(unsigned int i=0;i<N;i++)
+		y_dot_Tplus[i] = dc_over_dt_Tplus[i+1]*thermodynamicsMapXML_.MW(i)/rho_Tplus;											// rates [s-1]
+
+	for(unsigned int i=0;i<N;i++)	
+		J_T_col[i] = (y_dot_Tplus[i] - y_dot_reference[i])/dT;																	// [s-1.K-1]
+
+	// Compute d_F_T_dy = H/Cp [K]
+	T_ = T;// reset temperature
+	P_ = P;
+
+	thermodynamicsMapXML_.SetTemperature(T_);
+	thermodynamicsMapXML_.SetPressure(P_);
+	thermodynamicsMapXML_.hMolar_Species(h_species.GetHandle());																// [J.kmol-1]
+	thermodynamicsMapXML_.cpMolar_Species(cp_species.GetHandle());																// [J.kmol-1.K-1]
+
+	double CpMix=0;																												// Heat capacity of mass of the mixture
+	for(unsigned int i=0;i<N;i++)
+		CpMix += cp_species[i+1]*y[i]/thermodynamicsMapXML_.MW(i);																// [J.kg-1.K-1]
+
+	for(unsigned int i=0;i<N;i++)
+		J_T_row[i] = h_species[i+1]/thermodynamicsMapXML_.MW(i)/CpMix;															// [K] (with h/MW [J.kg-1])
+
+	// J_T
+	J_T = - J_T_col * J_T_row.transpose();																						// [s-1]
+
+	// --------------------------- J_C --------------------------- //
+	J_C = J_K + J_T;
+
+	return J_C;
+}
+
+#if SPARC == 1
+	#include "extensions/sparc/SPARC_computeNumericalJacobian.H"
+#endif

@@ -287,6 +287,13 @@ std::vector< std::vector<double> > ed_product_nu_;
 std::vector< std::vector<double> > ed_denominator_reactants_;
 std::vector<double> ed_denominator_products_;
 
+// Numerical parameters for mPaSR
+scalar activation_threshold = 1.e-32;
+Switch switch_ODE 		= false;
+Switch switch_LAPACK 	= true;
+Switch switch_Jconst 	= false;
+Switch switch_Ekeep 	= true;
+
 // Reactor type: PSR or PFR
 enum { REACTORTYPE_PSR, REACTORTYPE_PFR} reactorType;
 
@@ -590,12 +597,89 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 			}
 		}
 	}
+	// mPaSR Constants
+	else if (combustionModel == "mPaSR")
+	{
+		combustion_model_tag = "mPaSR";
+		
+		dictionary mPaSRSubDictionary(combustionOptionsDictionary.subDict("mPaSR"));
+
+		Switch switch_ODE_reader(mPaSRSubDictionary.lookup("switch_ODE"));
+		Switch switch_LAPACK_reader(mPaSRSubDictionary.lookup("switch_LAPACK"));
+		Switch switch_Jconst_reader(mPaSRSubDictionary.lookup("switch_Jconst"));
+		Switch switch_Ekeep_reader(mPaSRSubDictionary.lookup("switch_Ekeep"));
+
+		switch_ODE = switch_ODE_reader;
+		switch_LAPACK = switch_LAPACK_reader;
+		switch_Jconst = switch_Jconst_reader;
+		switch_Ekeep = switch_Ekeep_reader;
+
+		activation_threshold = readScalar(mPaSRSubDictionary.lookup("activation_threshold"));
+
+		// tauMix
+		word tauMixTypeString(mPaSRSubDictionary.lookup("tauMixType"));
+
+		if ( tauMixTypeString == "kolmogorovScale")
+			tauMixType = SCALE_KOLMOGOROV;
+		else if ( tauMixTypeString == "geometricMeanScale")
+			tauMixType = SCALE_MEAN;
+		else if ( tauMixTypeString == "globalScale")
+			tauMixType = SCALE_GLOBAL;
+		else if ( tauMixTypeString == "stretchScale")
+			tauMixType = SCALE_STRETCH;
+		else if ( tauMixTypeString == "dynamicScale")
+			tauMixType = SCALE_DYNAMIC;
+		else if ( tauMixTypeString == "deltaTLES")
+			tauMixType = SCALE_DT_LES;
+		else
+		{
+			Info << "Wrong tau_mix type: kolmogorovScale || geometricMeanScale || globalScale || stretchScale || dynamicScale || deltaTLES (LES only)" << endl;
+			abort();
+		}
+
+		Cmixglobal = readScalar(mPaSRSubDictionary.lookup("Cmixglobal"));
+
+		numberIterationsToUpdateChemistry = readLabel(mPaSRSubDictionary.lookup("numberIterationsToUpdateChemistry")); 
+		counterToUpdateChemistry = numberIterationsToUpdateChemistry;
+		threshold_temperature_chemical_time = readScalar(mPaSRSubDictionary.lookup("ChemicalTimesTemperatureThreshold"));
+		threshold_chemical_time = readScalar(mPaSRSubDictionary.lookup("ChemicalTimesThreshold"));
+
+		if (switch_ODE == true)// Reactor type options (PSR not implemented for mPaSR)
+        {
+			word reactorTypeString(mPaSRSubDictionary.lookup("reactorType"));
+			if ( reactorTypeString == "PFR")
+			{
+				reactorType = REACTORTYPE_PFR;
+			}
+			else
+			{
+				Info << "Wrong reactor type: only PFR" << endl;
+				abort();
+			}
+
+			if ( iLES == true ) // Reactor residence time (tauStar) options (LES only)
+			{
+				word tauStarTypeString(mPaSRSubDictionary.lookup("tauStarType"));
+				if ( tauStarTypeString == "deltaTLES")
+					tauStarType = DT_LES;
+				else if ( tauStarTypeString == "minDeltaTLEStauMix")
+					tauStarType = MIN_DTLES_TAUMIX;
+				else if ( tauStarTypeString == "tauMix")
+					tauStarType = TAUMIX;
+				else
+				{
+					Info << "Wrong tauStar type: deltaTLES | minDeltaTLEStauMix | tauMix" << endl;
+					abort();
+				}
+			}
+		}
+
+	}
 	// Error Message
 	else
 	{
-		FatalError << "Combustion model available: ED || EDFR || EDC || PaSR || QLFR || PaSR_LFR || LFR" << endl;
+		FatalError << "Combustion model available: ED || EDFR || EDC || PaSR || QLFR || PaSR_LFR || LFR || mPaSR" << endl;
 	}
-
 
 	if (combustionModel == "ED" || combustionModel == "EDFR")
 	{
@@ -637,7 +721,7 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 // Ode parameters
 OpenSMOKE::ODE_Parameters odeParametersFineStructures;
 
-if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == "QLFR")
+if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == "QLFR" || combustionModel == "mPaSR")
 {
 	const dictionary& odeParametersFineStructuresDictionary = combustionOptionsDictionary.subDict("Ode");
 
@@ -879,7 +963,7 @@ volScalarField Cmix
                 mesh.time().timeName(),
                 mesh,
                 IOobject::NO_READ,
-                IOobject::AUTO_WRITE,
+                IOobject::NO_WRITE,
                 false
         ),
         mesh,
@@ -977,7 +1061,7 @@ volScalarField Chi
 		);
 
 		// check if field exists and can be read
-		if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == "QLFR")
+		if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == "QLFR" || combustionModel == "mPaSR")
 		{
 			#if DEVVERSION == 1
 			if (header.typeHeaderOk<volScalarField>(true))
@@ -1093,7 +1177,7 @@ volScalarField Chi
 }
 
 // TStar
-if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == "QLFR")
+if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == "QLFR" || combustionModel == "mPaSR")
 {
 	std::cout << " * Reading TStar field..." << std::endl;
 	{
@@ -1156,9 +1240,59 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 	}
 }
 
+// ------------------------------ mPaSR model ---------------------------------//
+// if (combustionModel == "mPaSR")
+// {
+PtrList<volScalarField> modal_tauc_;
+PtrList<volScalarField> modal_kappa_;
+
+modal_tauc_.resize(Y.size());
+modal_kappa_.resize(Y.size());
+
+forAll(Y,i)
+{
+	modal_tauc_.set
+	(
+		i,
+		new volScalarField
+		(
+			IOobject
+			(
+				"tauc" + std::__cxx11::to_string(i),
+				mesh.time().timeName(),
+				mesh,
+				IOobject::NO_READ,
+				IOobject::AUTO_WRITE
+			),
+			mesh,
+			dimensionedScalar("zero", dimensionSet(0, 0, 1, 0, 0), 0.),
+			zeroGradientFvPatchScalarField::typeName
+		)
+	);
+	modal_kappa_.set
+	(
+		i,
+		new volScalarField
+		(
+			IOobject
+			(
+				"kappa" + std::__cxx11::to_string(i),
+				mesh.time().timeName(),
+				mesh,
+				IOobject::NO_READ,
+				IOobject::AUTO_WRITE
+			),
+			mesh,
+			dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.),
+			zeroGradientFvPatchScalarField::typeName
+		)
+	);
+}
+// }
+// ---------------------------------------------------------------//
 
 // Combustion model activation map
-volScalarField activation_map
+volScalarField activation_map// binary field, 0 laminar rates only; 1  mPaSR computed
 (
         IOobject
         (
@@ -1197,11 +1331,11 @@ volScalarField dQ
         	runTime.timeName(),
         	mesh,
         	IOobject::NO_READ,
-        	IOobject::AUTO_WRITE
+        	IOobject::NO_WRITE
 	),
 	mesh,
 	dimensionedScalar("dQ", dimEnergy/dimTime, 0.0), 
-    	zeroGradientFvPatchScalarField::typeName
+	zeroGradientFvPatchScalarField::typeName
 );
 
 dimensionedScalar ksmall_("ksmall", dimensionSet(0,2,-2,0,0,0,0), SMALL );
@@ -1264,7 +1398,7 @@ volScalarField one_over_tauStar
 }
 
 // Normalize the mass fractions (fine structures)
-if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == "QLFR")
+if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == "QLFR" || combustionModel == "mPaSR")
 {
 	Info << "Normalizing mass fractions (on entry...)" << endl;
 

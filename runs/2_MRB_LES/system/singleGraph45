@@ -1,0 +1,29 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+Description
+    Writes graph data for specified fields along a line, specified by start
+    and end points.
+
+\*---------------------------------------------------------------------------*/
+
+start   (0.045 0 0);
+end     (0.045 0.5 0);
+fields  (UMean UPrime2Mean CH4Mean CH4Prime2Mean O2Mean O2Prime2Mean COMean COPrime2Mean CO2Mean CO2Prime2Mean H2Mean H2Prime2Mean H2OMean H2OPrime2Mean OHMean OHPrime2Mean N2Mean N2Prime2Mean TMean TPrime2Mean);
+
+#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+
+setConfig
+{
+	type		lineCell;
+	axis		distance;
+}
+
+// Must be last entry
+#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+
+// ************************************************************************* //

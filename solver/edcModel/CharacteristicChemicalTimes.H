@@ -66,13 +66,21 @@ class CharacteristicChemicalTimes
 
 	double FromFormationRates(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
 	double FromReactionRates(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
-	double FromEigenValueAnalysis(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
-
 	void Equations(const OpenSMOKE::OpenSMOKEVectorDouble& c, OpenSMOKE::OpenSMOKEVectorDouble& dc_over_dt);
 
-	void NumericalJacobian(const OpenSMOKE::OpenSMOKEVectorDouble& y, Eigen::MatrixXd& J);
+	public:
 
+	double FromEigenValueAnalysis(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
+
+	void NumericalJacobian(const OpenSMOKE::OpenSMOKEVectorDouble& y, Eigen::MatrixXd& J);
 	void SearchConservativeModes(const std::vector<double>& lambda_real, const std::vector<double>& lambda_mod, std::vector<double>& lambda_real_cleaned);
+
+	Eigen::MatrixXd mPaSR_computeNumericalJacobian(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y);
+	Eigen::MatrixXd mPaSR_computeNumericalJacobian_const(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y);
+
+	#if SPARC==1
+		Eigen::MatrixXd SPARC_computeNumericalJacobian(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y, OpenSMOKE::ThermodynamicsMap_CHEMKIN& thermoMap, OpenSMOKE::KineticsMap_CHEMKIN& kineticsMap);
+	#endif
 
 	private:
 
@@ -110,6 +118,20 @@ class CharacteristicChemicalTimes
 	double tauChem_temperature_threshold_;
 
 	CharacteristicChemicalTimesType type_;
+
+	// OpenSMOKE::OpenSMOKEVectorDouble y_plus_;					// vec_y holding a perturbation
+	// OpenSMOKE::OpenSMOKEVectorDouble y_dot_reference_;		// rates of reference
+	// OpenSMOKE::OpenSMOKEVectorDouble y_dot_plus_;				// rates from y_plus
+
+	// OpenSMOKE::OpenSMOKEVectorDouble omega_;					// mass fractions modified indices
+	// OpenSMOKE::OpenSMOKEVectorDouble omega_plus_;				// mass fractions modified indices holding a perturbation
+	// //OpenSMOKE::OpenSMOKEVectorDouble x_; 						// mole fractions
+	// OpenSMOKE::OpenSMOKEVectorDouble x_plus_; 				// mole fractions holding a perturbation
+	// //OpenSMOKE::OpenSMOKEVectorDouble c_; 						// molar concentrations
+	// OpenSMOKE::OpenSMOKEVectorDouble c_plus_; 				// molar concentrations holding a perturbation
+	// OpenSMOKE::OpenSMOKEVectorDouble dc_over_dt_;				// molar rates [kmol.m-3.s-1]
+	// OpenSMOKE::OpenSMOKEVectorDouble dc_over_dt_plus_;	
+
 };
 
 #include "CharacteristicChemicalTimes.C"

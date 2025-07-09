@@ -1,0 +1,178 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.7.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    location        system;
+    object          sampleDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Set output format : choice of
+//      xmgr
+//      jplot
+//      gnuplot
+//      raw
+setFormat raw;
+
+// Surface output format. Choice of
+//      null        : suppress output
+//      foamFile    : separate points, faces and values file
+//      dx          : DX scalar or vector format
+//      vtk         : VTK ascii format
+//      raw         : x y z value format for use with e.g. gnuplot 'splot'.
+//
+// Note:
+// other formats such as obj, stl, etc can also be written (by proxy)
+// but without any values!
+surfaceFormat vtk;
+
+// interpolationScheme. choice of
+//      cell          : use cell-centre value only; constant over cells (default)
+//      cellPoint     : use cell-centre and vertex values
+//      cellPointFace : use cell-centre, vertex and face values.
+// 1] vertex values determined from neighbouring cell-centre values
+// 2] face values determined using the current face interpolation scheme
+//    for the field (linear, gamma, etc.)
+interpolationScheme cellPoint;
+
+// Fields to sample.
+fields
+(
+UMean
+UPrime2Mean
+CH4Mean
+CH4Prime2Mean
+O2Mean
+O2Prime2Mean
+COMean
+COPrime2Mean
+CO2Mean
+CO2Prime2Mean
+N2Mean
+N2Prime2Mean
+TMean
+TPrime2Mean
+Zmean
+ZPrime2mean        
+);
+
+
+// Set sampling definition: choice of
+//      lineUniform             evenly distributed points on line
+//      face                one point per face intersection
+//      midPoint            one point per cell, inbetween two face intersections
+//      midPointAndFace     combination of face and midPoint
+//
+//      curve               specified points, not nessecary on line, uses
+//                          tracking
+//      cloud               specified points, uses findCell
+//
+// axis: how to write point coordinate. Choice of
+// - x/y/z: x/y/z coordinate only
+// - xyz: three columns
+//  (probably does not make sense for anything but raw)
+// - distance: distance from start of sampling line (if uses line) or
+//             distance from first specified sampling point
+//
+// type specific:
+//      lineUniform, face, midPoint, midPointAndFace : start and end coordinate
+//      lineUniform: extra number of sampling points
+//      curve, cloud: list of coordinates
+type sets;
+libs ("libsampling.so");
+
+sets
+(
+    Centerline
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0 0 0);
+        end         (0.12 0 0);
+    }
+    Radial_3
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0.003 0 0);
+        end         (0.003 0.5 0 );
+    }
+    Radial_4
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0.004 0 0);
+        end         (0.004 0.5 0 );
+    } 
+    Radial_6
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0.006 0 0);
+        end         (0.006 0.5 0 );
+    }
+    Radial_10
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0.010 0 0);
+        end         (0.010 0.5 0 );
+    } 
+    Radial_15
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0.015 0 0);
+        end         (0.015 0.5 0 );
+    }
+    Radial_22
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0.0225 0 0);
+        end         (0.0225 0.5 0 );
+    } 
+    Radial_30
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0.030 0 0);
+        end         (0.030 0.5 0 );
+    } 
+    Radial_60
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0.060 0 0);
+        end         (0.060 0.5 0 );
+    } 
+    Radial_90
+    {
+        type        lineCell;
+        axis        distance;
+        start       (0.090 0 0);
+        end         (0.090 0.5 0 );
+    }     
+);
+
+
+// Surface sampling definition: choice of
+//      plane : values on plane defined by point, normal.
+//      patch : values on patch.
+//
+// 1] patches are not triangulated by default
+// 2] planes are always triangulated
+// 3] iso-surfaces are always triangulated
+surfaces ();
+
+// *********************************************************************** //

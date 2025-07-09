@@ -1,0 +1,75 @@
+ELEMENTS
+H  O  C   N
+END
+SPECIES
+CH4     H2      O2      CO2     H2O     CO      H
+O       OH      HO2     CH2     CH3     HCO     CH2O    
+H2O2    CH      N2  
+END
+THERMO
+END
+REACTIONS							KELVINS
+!Units are cal/mole, mole,  cm-3,  s, K
+CH3+H(+M)=CH4(+M)		6.E+16		-1.00		      0.
+LOW  / 8.E26	-3.   0. /                                                       
+CH4+O2=CH3+HO2			7.9E+13		 0.00		28181.
+CH4+H=CH3+H2			2.2E04		 3.00		  4403.
+CH4+O=CH3+OH			1.6E+06		 2.36		  3724.
+CH4+OH=CH3+H2O			1.6E+06		 2.10		  1238.
+CH3+O=CH2O+H			6.8E+13		 0.00		       0.
+CH3+OH=CH2O+H2			1.E+12		 0.00		       0.
+CH3+OH=CH2+H2O			1.5E+13		 0.00		  2516.
+CH3+H=CH2+H2			9.E+13		 0.00		  7599.
+CH2+H=CH+H2			1.4E+19		-2.00		        0.
+CH2+OH=CH2O+H			2.5E+13		 0.00		        0.
+CH2+OH=CH+H2O			4.5E+13		 0.00		  1510.
+CH+O2=HCO+O			3.3E+13		 0.00		        0.
+CH+O=CO+H			5.7E+13		 0.00		        0.
+CH+OH=HCO+H			3.E+13		 0.00		        0.
+CH+CO2=HCO+CO			3.4E+12		 0.00		    347.
+CH2+CO2=CH2O+CO			1.1E+11		 0.00		    503.
+CH2+O=CO+2H			3.E+13		 0.00		        0.
+CH2+O=CO+H2			5.E+13		 0.00		        0.
+CH2+O2=CO2+2H			1.6E+12		 0.00		    503.
+CH2+O2=CH2O+O			5.E+13		 0.00		  4529.
+CH2+O2=CO2+H2			6.9E+11		 0.00		    252.		
+CH2+O2=CO+H2O			1.9E+10		 0.00		   -503.
+CH2+O2=CO+OH+H			8.6E+10		 0.00		   -252.
+CH2+O2=HCO+OH			4.3E+10		 0.00		   -252.
+CH2O+OH=HCO+H2O			3.43E+09	 1.18		   -225.
+CH2O+H=HCO+H2			2.19E+08	 1.77		  1510.
+CH2O+M=HCO+H+M			3.31E+16	 0.00		40762.
+CH2O+O=HCO+OH			1.81E+13	 0.00		  1551.
+HCO+OH=CO+H2O			5.E+12		 0.00		        0.
+HCO+M=CO+H+M			1.6E+14		 0.00		  7397.
+HCO+H=CO+H2			4.E+13		 0.00		        0.
+HCO+O=CO2+H			1.E+13		 0.00		        0.
+HCO+O2=CO+HO2			3.3E+13		-0.40		        0.
+CO+O+M=CO2+M			3.2E+13		 0.00		-2114.
+CO+OH=CO2+H			1.51E+07	 1.30	                -381.
+CO+O2=CO2+O			1.6E+13		 0.00	             20632.
+CO+HO2=CO2+OH			5.8E+13		 0.00		11541.
+H2+O2=2OH			1.7E+13		 0.00	              24044.
+OH+H2=H2O+H			1.17E+09	 1.30		  1825.
+H+O2=OH+O			5.13E+16	-0.82		  8307.
+O+H2=OH+H			1.8E+10		 1.00		  4442.
+H+O2+M=HO2+M			3.61E+17	-0.72		        0.
+H2O/18.6/ H2/2.86/ N2/1.26/ CO/2.11/ CO2/4.2/
+OH+HO2=H2O+O2			7.5E+12		 0.00		        0.
+H+HO2=2OH			1.4E+14		 0.00		    540.
+O+HO2=O2+OH			1.4E+13		 0.00		    540.
+2OH=O+H2O			6.E+08		 1.30		        0.
+2H+M=H2+M			1.E+18		-1.00		        0.
+2H+H2=2H2			9.2E+16		-0.60		        0.
+2H+H2O=H2+H2O			6.E+19		-1.25		        0.
+2H+CO2=H2+CO2			5.49E+20	-2.00		        0.
+H+OH+M=H2O+M			1.6E+22		-2.00		        0.
+H2O/5./
+H+O+M=OH+M			6.2E+16		-0.60		        0.
+H2O/5./ 
+H+HO2=H2+O2			1.25E+13	 0.00		        0.
+2HO2=H2O2+O2			2.E+12		 0.00		        0.
+H2O2+M=2OH+M			1.3E+17		 0.00		22897.
+H2O2+H=HO2+H2			1.6E+12		 0.00	                1912.
+H2O2+OH=H2O+HO2			1.E+13		 0.00		    906.
+END

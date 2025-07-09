@@ -59,7 +59,7 @@ if (homogeneousReactions == true)
 			{
 				#include "extensions/sparc/EDC_SPARC.H"
 			}
-			else if (SPARCswitch == false)
+			else
 			{
 				#include "EDC.H"
 			}
@@ -74,7 +74,7 @@ if (homogeneousReactions == true)
 			{
 				#include "extensions/sparc/PaSR_SPARC.H"
 			}
-			else if (SPARCswitch == false)
+			else
 			{
 				#include "PaSR.H"
 			}
@@ -89,7 +89,7 @@ if (homogeneousReactions == true)
 			{
 				#include "extensions/sparc/QLFR_SPARC.H"
 			}
-			else if (SPARCswitch == false)
+			else
 			{
 				#include "QLFR.H"
 			}
@@ -105,10 +105,21 @@ if (homogeneousReactions == true)
 	{
 		#include "LFR.H"
 	}
-        else
-        {
-                FatalError << "Please select one of the available combustion closure" << exit(FatalError);
-        }
+	else if (combustionModel == "mPaSR")
+	{
+		#if SPARC==1
+			if (SPARCswitch == true)
+			{
+				#include "extensions/sparc/mPaSR_SPARC.H"
+			}
+			else
+			{
+				#include "mPaSR.H"
+			}
+		#else
+				#include "mPaSR.H"
+		#endif
+	}
     const double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
     CPUtime_comb_model_part = CPUtime_comb_model_part + (tEnd - tStart);
     Info << " * Time for combustion model [s] = " << tEnd - tStart << endl;
