@@ -27,7 +27,7 @@ If you use the SPARC plugin for your publications, we kindly ask you to cite the
 > Automated adaptive chemistry for Large Eddy Simulations of turbulent reacting flows. 
 > (2024) Combustion and Flame, Volume 259, pp. 113-136. DOI: 10.1016/j.combustflame.2023.113136.
 
-If you use the mPaSR model for your publications, we kindly ask you to cite the following paper:
+If you use the mPaSR model for your publications, we kindly ask you to cite the following two papers:
 
 > Quadarella, E., Péquin, A., Stagni, A., Parente, A., Faravelli, T., Im, H. G.,
 > A generalized partially stirred reactor model for turbulent closure.
