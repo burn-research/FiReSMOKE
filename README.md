@@ -33,6 +33,10 @@ If you use the mPaSR model for your publications, we kindly ask you to cite the 
 > A generalized partially stirred reactor model for turbulent closure.
 > (2023) Proceedings of the Combustion Institute, Volume 39, Issue 4, pp 5329-5338. DOI: 10.1016/j.proci.2022.08.061
 
+> Péquin, A., Quadarella, E., Malpica Galassi, R., Iavarone, S., Im, H. G., Parente, A.,
+> A modal decomposition-based partially stirred reactor (mPaSR) model for turbulent combustion closure: Implementation details and a posteriori validation.
+> (2025) Combustion and Flame, Volume 279, 2025, 114269. DOI: 10.1016/j.combustflame.2025.114269.
+
 ![](https://github.com/apequin/FiReSMOKE_mPaSR/blob/main/runs/1_SandiaFlameD_RANS/flameD_ignition_mPaSR.gif)
 
 Compulsory libraries
