@@ -1,0 +1,16 @@
+$(OBJECTS_DIR)/src/classifyPoint_initialize.C.dep: \
+src/classifyPoint_initialize.C \
+src/rt_nonfinite.h \
+src/classifyPoint.h \
+src/classifyPoint_initialize.h \
+src/rtwtypes.h \
+src/classifyPoint_types.h \
+src/tmwtypes.h \
+
+src/rt_nonfinite.h :
+src/classifyPoint.h :
+src/classifyPoint_initialize.h :
+src/rtwtypes.h :
+src/classifyPoint_types.h :
+src/tmwtypes.h :
+

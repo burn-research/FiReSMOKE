@@ -1,0 +1,1915 @@
+---------------------------------------------------------------------------------------
+                                  CHEMICAL REACTIONS                                   
+
+                          Units: [mol, cm3, s] and [cal/mol]                           
+---------------------------------------------------------------------------------------
+
+
+      1. 2O +M  = O2 +M 
+         k:       1.200000e+17	   -1.00          0.00
+         kRev:    9.136880e+12	    0.00     115840.33
+         Third body efficiencies
+         H2                  	enhanced by	   2.400
+         H2O                 	enhanced by	  15.400
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.750
+         CO2                 	enhanced by	   3.600
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.830
+
+
+      2. H + O +M  = OH +M 
+         k:       5.000000e+17	   -1.00          0.00
+         kRev:    1.896976e+12	    0.00      99168.94
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+      3. H2 + O  = H + OH 
+         k:       3.870000e+04	    2.70       6260.00
+         kRev:    2.759591e+13	    0.00       8117.68
+
+
+      4. O + HO2  = O2 + OH 
+         k:       2.000000e+13	    0.00          0.00
+         kRev:    2.592555e+13	    0.00      53242.09
+
+
+      5. O + H2O2  = OH + HO2 
+         k:       9.630000e+06	    2.00       4000.00
+         kRev:    1.161096e+13	    0.00      21788.93
+
+
+      6. O + CH  = H + CO 
+         k:       5.700000e+13	    0.00          0.00
+         kRev:    2.613151e+15	    0.00     176620.01
+
+
+      7. O + CH2  = H + HCO 
+         k:       8.000000e+13	    0.00          0.00
+         kRev:    5.059112e+14	    0.00      91060.62
+
+
+      8. O + CH2(S)  = H2 + CO 
+         k:       1.500000e+13	    0.00          0.00
+         kRev:    1.946364e+14	    0.00     188665.51
+
+
+      9. O + CH2(S)  = H + HCO 
+         k:       1.500000e+13	    0.00          0.00
+         kRev:    4.316268e+13	    0.00      99927.02
+
+
+     10. O + CH3  = H + CH2O 
+         k:       5.060000e+13	    0.00          0.00
+         kRev:    7.388694e+14	    0.00      68535.31
+
+
+     11. O + CH4  = OH + CH3 
+         k:       1.020000e+09	    1.50       8600.00
+         kRev:    2.224765e+12	    0.00       7695.83
+
+
+     12. O + CO (+M)  = CO2 (+M) 
+         Fall-off (Lindemann)
+         k0:      6.020000e+14	    0.00       3000.00
+         kInf:    1.800000e+10	    0.00       2385.00
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         O2                  	enhanced by	   6.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   3.500
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.500
+
+
+     13. O + HCO  = OH + CO 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    6.063926e+13	    0.00      86786.30
+
+
+     14. O + HCO  = H + CO2 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    1.401337e+16	    0.00     111020.52
+
+
+     15. O + CH2O  = OH + HCO 
+         k:       3.900000e+13	    0.00       3540.00
+         kRev:    1.092666e+12	    0.00      17624.94
+
+
+     16. O + CH2OH  = OH + CH2O 
+         k:       1.000000e+13	    0.00          0.00
+         kRev:    3.210508e+13	    0.00      73211.15
+
+
+     17. O + CH3O  = OH + CH2O 
+         k:       1.000000e+13	    0.00          0.00
+         kRev:    2.500744e+12	    0.00      80157.26
+
+
+     18. O + CH3OH  = OH + CH2OH 
+         k:       3.880000e+05	    2.50       3100.00
+         kRev:    2.579197e+12	    0.00      11829.23
+
+
+     19. O + CH3OH  = OH + CH3O 
+         k:       1.300000e+05	    2.50       5000.00
+         kRev:    1.109432e+13	    0.00       6783.12
+
+
+     20. O + C2H  = CH + CO 
+         k:       5.000000e+13	    0.00          0.00
+         kRev:    6.678840e+13	    0.00      79277.34
+
+
+     21. O + C2H2  = H + HCCO 
+         k:       1.350000e+07	    2.00       1900.00
+         kRev:    6.784451e+13	    0.00      24086.61
+
+
+     22. O + C2H2  = OH + C2H 
+         k:       4.600000e+19	   -1.41      28950.00
+         kRev:    1.250460e+13	    0.00      -3512.53
+
+
+     23. O + C2H2  = CH2 + CO 
+         k:       6.940000e+06	    2.00       1900.00
+         kRev:    3.778997e+12	    0.00      52299.62
+
+
+     24. O + C2H3  = H + CH2CO 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    1.192037e+15	    0.00      89839.51
+
+
+     25. O + C2H4  = CH3 + HCO 
+         k:       1.250000e+07	    1.83        220.00
+         kRev:    2.712242e+11	    0.00      29956.29
+
+
+     26. O + C2H5  = CH3 + CH2O 
+         k:       2.240000e+13	    0.00          0.00
+         kRev:    2.380780e+13	    0.00      79218.91
+
+
+     27. O + C2H6  = OH + C2H5 
+         k:       8.980000e+07	    1.92       5690.00
+         kRev:    2.337167e+12	    0.00      10183.63
+
+
+     28. O + HCCO  = H + 2CO 
+         k:       1.000000e+14	    0.00          0.00
+         kRev:    8.721090e+13	    0.00     104068.87
+
+
+     29. O + CH2CO  = OH + HCCO 
+         k:       1.000000e+13	    0.00       8000.00
+         kRev:    4.044215e+11	    0.00       4461.79
+
+
+     30. O + CH2CO  = CH2 + CO2 
+         k:       1.750000e+12	    0.00       1350.00
+         kRev:    1.772136e+12	    0.00      50259.02
+
+
+     31. O2 + CO  = O + CO2 
+         k:       2.500000e+12	    0.00      47800.00
+         kRev:    3.612767e+13	    0.00      55362.84
+
+
+     32. O2 + CH2O  = HO2 + HCO 
+         k:       1.000000e+14	    0.00      40000.00
+         kRev:    2.161348e+12	    0.00        842.85
+
+
+     33. H + O2 +M  = HO2 +M 
+         k:       2.800000e+18	   -0.86          0.00
+         kRev:    1.742778e+13	    0.00      46124.40
+         Third body efficiencies
+         O2                  	enhanced by	   0.000
+         H2O                 	enhanced by	   0.000
+         CO                  	enhanced by	   0.750
+         CO2                 	enhanced by	   1.500
+         C2H6                	enhanced by	   1.500
+         N2                  	enhanced by	   0.000
+         AR                  	enhanced by	   0.000
+
+
+     34. H + 2O2  = O2 + HO2 
+         k:       2.080000e+19	   -1.24          0.00
+         kRev:    1.514677e+15	    0.00      46999.26
+
+
+     35. H + O2 + H2O  = H2O + HO2 
+         k:       1.126000e+19	   -0.76          0.00
+         kRev:    3.545177e+16	    0.00      47676.57
+
+
+     36. H + O2 + N2  = HO2 + N2 
+         k:       2.600000e+19	   -1.24          0.00
+         kRev:    1.893346e+15	    0.00      46999.26
+
+
+     37. H + O2 + AR  = HO2 + AR 
+         k:       7.000000e+17	   -0.80          0.00
+         kRev:    1.610191e+15	    0.00      47620.13
+
+
+     38. H + O2  = O + OH 
+         k:       2.650000e+16	   -0.67      17041.00
+         kRev:    8.582375e+12	    0.00       -576.79
+
+
+     39. 2H +M  = H2 +M 
+         k:       1.000000e+18	   -1.00          0.00
+         kRev:    6.527527e+12	    0.00     101121.13
+         Third body efficiencies
+         H2                  	enhanced by	   0.000
+         H2O                 	enhanced by	   0.000
+         CH4                 	enhanced by	   2.000
+         CO2                 	enhanced by	   0.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.630
+
+
+     40. H2 + 2H  = 2H2 
+         k:       9.000000e+16	   -0.60          0.00
+         kRev:    2.876101e+15	    0.00     103096.62
+
+
+     41. 2H + H2O  = H2 + H2O 
+         k:       6.000000e+19	   -1.25          0.00
+         kRev:    1.168177e+16	    0.00     102179.43
+
+
+     42. 2H + CO2  = H2 + CO2 
+         k:       5.500000e+20	   -2.00          0.00
+         kRev:    2.976567e+14	    0.00     101121.13
+
+
+     43. H + OH +M  = H2O +M 
+         k:       2.200000e+22	   -2.00          0.00
+         kRev:    2.966426e+14	    0.00     114938.39
+         Third body efficiencies
+         H2                  	enhanced by	   0.730
+         H2O                 	enhanced by	   3.650
+         CH4                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.380
+
+
+     44. H + HO2  = O + H2O 
+         k:       3.970000e+12	    0.00        671.00
+         kRev:    3.316904e+12	    0.00      54422.21
+
+
+     45. H + HO2  = H2 + O2 
+         k:       4.480000e+13	    0.00       1068.00
+         kRev:    1.295565e+14	    0.00      56262.28
+
+
+     46. H + HO2  = 2OH 
+         k:       8.400000e+13	    0.00        635.00
+         kRev:    6.809084e+12	    0.00      37205.70
+
+
+     47. H + H2O2  = H2 + HO2 
+         k:       1.210000e+07	    2.00       5200.00
+         kRev:    3.254696e+13	    0.00      24941.12
+
+
+     48. H + H2O2  = OH + H2O 
+         k:       1.000000e+13	    0.00       3600.00
+         kRev:    1.538764e+12	    0.00      72318.01
+
+
+     49. H + CH  = H2 + C 
+         k:       1.650000e+14	    0.00          0.00
+         kRev:    5.466457e+14	    0.00      23673.76
+
+
+     50. H + CH2 (+M)  = CH3 (+M) 
+         Fall-off (Troe)
+         k0:      1.040000e+26	   -2.76       1600.00
+         kInf:    6.000000e+14	    0.00          0.00
+         Troe Parameters
+         a    5.62e-01
+         T*** 9.10e+01
+         T*   5.84e+03
+         T**  8.55e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     51. H + CH2(S)  = H2 + CH 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    8.491108e+12	    0.00      12045.50
+
+
+     52. H + CH3 (+M)  = CH4 (+M) 
+         Fall-off (Troe)
+         k0:      2.620000e+33	   -4.76       2440.00
+         kInf:    1.390000e+16	   -0.53        536.00
+         Troe Parameters
+         a    7.83e-01
+         T*** 7.40e+01
+         T*   2.94e+03
+         T**  6.96e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   3.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     53. H + CH4  = H2 + CH3 
+         k:       6.600000e+08	    1.62      10840.00
+         kRev:    8.235152e+12	    0.00      12057.35
+
+
+     54. H + HCO (+M)  = CH2O (+M) 
+         Fall-off (Troe)
+         k0:      2.470000e+24	   -2.57        425.00
+         kInf:    1.090000e+12	    0.48       -260.00
+         Troe Parameters
+         a    7.82e-01
+         T*** 2.71e+02
+         T*   2.76e+03
+         T**  6.57e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     55. H + HCO  = H2 + CO 
+         k:       7.340000e+13	    0.00          0.00
+         kRev:    3.309876e+14	    0.00      88738.49
+
+
+     56. H + CH2O (+M)  = CH2OH (+M) 
+         Fall-off (Troe)
+         k0:      1.270000e+32	   -4.82       6530.00
+         kInf:    5.400000e+11	    0.45       3600.00
+         Troe Parameters
+         a    7.19e-01
+         T*** 1.03e+02
+         T*   1.29e+03
+         T**  4.16e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+
+
+     57. H + CH2O (+M)  = CH3O (+M) 
+         Fall-off (Troe)
+         k0:      2.200000e+30	   -4.80       5560.00
+         kInf:    5.400000e+11	    0.45       2600.00
+         Troe Parameters
+         a    7.58e-01
+         T*** 9.40e+01
+         T*   1.56e+03
+         T**  4.20e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+
+
+     58. H + CH2O  = H2 + HCO 
+         k:       5.740000e+07	    1.90       2742.00
+         kRev:    1.071592e+13	    0.00      21460.15
+
+
+     59. H + CH2OH (+M)  = CH3OH (+M) 
+         Fall-off (Troe)
+         k0:      4.360000e+31	   -4.65       5080.00
+         kInf:    1.055000e+12	    0.50         86.00
+         Troe Parameters
+         a    6.00e-01
+         T*** 1.00e+02
+         T*   9.00e+04
+         T**  1.00e+04
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+
+
+     60. H + CH2OH  = H2 + CH2O 
+         k:       2.000000e+13	    0.00          0.00
+         kRev:    1.432474e+14	    0.00      75163.34
+
+
+     61. H + CH2OH  = OH + CH3 
+         k:       1.650000e+11	    0.65       -284.00
+         kRev:    5.954490e+12	    0.00       5309.04
+
+
+     62. H + CH2OH  = H2O + CH2(S) 
+         k:       3.280000e+13	   -0.09        610.00
+         kRev:    5.215137e+12	    0.00       5032.59
+
+
+     63. H + CH3O (+M)  = CH3OH (+M) 
+         Fall-off (Troe)
+         k0:      4.660000e+41	   -7.44      14080.00
+         kInf:    2.430000e+12	    0.52         50.00
+         Troe Parameters
+         a    7.00e-01
+         T*** 1.00e+02
+         T*   9.00e+04
+         T**  1.00e+04
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+
+
+     64. H + CH3O  = H + CH2OH 
+         k:       4.150000e+07	    1.63       1924.00
+         kRev:    1.160363e+12	    0.00      11170.14
+
+
+     65. H + CH3O  = H2 + CH2O 
+         k:       2.000000e+13	    0.00          0.00
+         kRev:    1.115789e+13	    0.00      82109.45
+
+
+     66. H + CH3O  = OH + CH3 
+         k:       1.500000e+12	    0.50       -110.00
+         kRev:    1.299411e+12	    0.00      12217.49
+
+
+     67. H + CH3O  = H2O + CH2(S) 
+         k:       2.620000e+14	   -0.23       1070.00
+         kRev:    1.081603e+12	    0.00      12241.15
+
+
+     68. H + CH3OH  = H2 + CH2OH 
+         k:       1.700000e+07	    2.10       4870.00
+         kRev:    1.092402e+13	    0.00      14986.99
+
+
+     69. H + CH3OH  = H2 + CH3O 
+         k:       4.200000e+06	    2.10       4870.00
+         kRev:    3.464872e+13	    0.00       8040.88
+
+
+     70. H + C2H (+M)  = C2H2 (+M) 
+         Fall-off (Troe)
+         k0:      3.750000e+33	   -4.80       1900.00
+         kInf:    1.000000e+17	   -1.00          0.00
+         Troe Parameters
+         a    6.46e-01
+         T*** 1.32e+02
+         T*   1.32e+03
+         T**  5.57e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     71. H + C2H2 (+M)  = C2H3 (+M) 
+         Fall-off (Troe)
+         k0:      3.800000e+40	   -7.27       7220.00
+         kInf:    5.600000e+12	    0.00       2400.00
+         Troe Parameters
+         a    7.51e-01
+         T*** 9.85e+01
+         T*   1.30e+03
+         T**  4.17e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     72. H + C2H3 (+M)  = C2H4 (+M) 
+         Fall-off (Troe)
+         k0:      1.400000e+30	   -3.86       3320.00
+         kInf:    6.080000e+12	    0.27        280.00
+         Troe Parameters
+         a    7.82e-01
+         T*** 2.08e+02
+         T*   2.66e+03
+         T**  6.10e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     73. H + C2H3  = H2 + C2H2 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    1.401002e+14	    0.00      68889.00
+
+
+     74. H + C2H4 (+M)  = C2H5 (+M) 
+         Fall-off (Troe)
+         k0:      6.000000e+41	   -7.62       6970.00
+         kInf:    5.400000e+11	    0.45       1820.00
+         Troe Parameters
+         a    9.75e-01
+         T*** 2.10e+02
+         T*   9.84e+02
+         T**  4.37e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     75. H + C2H4  = H2 + C2H3 
+         k:       1.325000e+06	    2.53      12240.00
+         kRev:    1.170499e+13	    0.00       8747.85
+
+
+     76. H + C2H5 (+M)  = C2H6 (+M) 
+         Fall-off (Troe)
+         k0:      1.990000e+41	   -7.08       6685.00
+         kInf:    5.210000e+17	   -0.99       1580.00
+         Troe Parameters
+         a    8.42e-01
+         T*** 1.25e+02
+         T*   2.22e+03
+         T**  6.88e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     77. H + C2H5  = H2 + C2H4 
+         k:       2.000000e+12	    0.00          0.00
+         kRev:    1.055942e+13	    0.00      68101.99
+
+
+     78. H + C2H6  = H2 + C2H5 
+         k:       1.150000e+08	    1.90       7530.00
+         kRev:    5.707345e+12	    0.00      13947.60
+
+
+     79. H + HCCO  = CH2(S) + CO 
+         k:       1.000000e+14	    0.00          0.00
+         kRev:    2.381241e+13	    0.00      19346.62
+
+
+     80. H + CH2CO  = H2 + HCCO 
+         k:       5.000000e+13	    0.00       8000.00
+         kRev:    4.511150e+12	    0.00       6413.98
+
+
+     81. H + CH2CO  = CH3 + CO 
+         k:       1.130000e+13	    0.00       3428.00
+         kRev:    7.654083e+11	    0.00      36543.18
+
+
+     82. H + HCCOH  = H + CH2CO 
+         k:       1.000000e+13	    0.00          0.00
+         kRev:    9.130685e+12	    0.00      30577.73
+
+
+     83. H2 + CO (+M)  = CH2O (+M) 
+         Fall-off (Troe)
+         k0:      5.070000e+27	   -3.42      84350.00
+         kInf:    4.300000e+07	    1.50      79600.00
+         Troe Parameters
+         a    9.32e-01
+         T*** 1.97e+02
+         T*   1.54e+03
+         T**  1.03e+04
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     84. H2 + OH  = H + H2O 
+         k:       2.160000e+08	    1.51       3430.00
+         kRev:    1.396989e+14	    0.00      20789.02
+
+
+     85. 2OH (+M)  = H2O2 (+M) 
+         Fall-off (Troe)
+         k0:      2.300000e+18	   -0.90      -1700.00
+         kInf:    7.400000e+13	   -0.37          0.00
+         Troe Parameters
+         a    7.35e-01
+         T*** 9.40e+01
+         T*   1.76e+03
+         T**  5.18e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+     86. 2OH  = O + H2O 
+         k:       3.570000e+04	    2.40      -2110.00
+         kRev:    5.559249e+13	    0.00      18457.06
+
+
+     87. OH + HO2  = O2 + H2O 
+         k:       1.450000e+13	    0.00       -500.00
+         kRev:    1.937310e+14	    0.00      69922.60
+
+
+     88. OH + H2O2  = H2O + HO2 
+         k:       2.000000e+12	    0.00        427.00
+         kRev:    3.796580e+12	    0.00      32574.31
+
+
+     89. OH + H2O2  = H2O + HO2 
+         k:       1.700000e+18	    0.00      29410.00
+         kRev:    3.227093e+18	    0.00      61557.31
+
+
+     90. OH + C  = H + CO 
+         k:       5.000000e+13	    0.00          0.00
+         kRev:    1.543550e+15	    0.00     154898.45
+
+
+     91. OH + CH  = H + HCO 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    6.804220e+14	    0.00      89833.71
+
+
+     92. OH + CH2  = H + CH2O 
+         k:       2.000000e+13	    0.00          0.00
+         kRev:    4.514311e+15	    0.00      76975.69
+
+
+     93. OH + CH2  = H2O + CH 
+         k:       1.130000e+07	    2.00       3000.00
+         kRev:    2.125941e+14	    0.00      24229.55
+
+
+     94. OH + CH2(S)  = H + CH2O 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    3.081169e+15	    0.00      85842.08
+
+
+     95. OH + CH3 (+M)  = CH3OH (+M) 
+         Fall-off (Troe)
+         k0:      4.000000e+36	   -5.92       3140.00
+         kInf:    2.790000e+18	   -1.43       1330.00
+         Troe Parameters
+         a    4.12e-01
+         T*** 1.95e+02
+         T*   5.90e+03
+         T**  6.39e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+
+
+     96. OH + CH3  = H2O + CH2 
+         k:       5.600000e+07	    1.60       5420.00
+         kRev:    1.059221e+13	    0.00      16417.83
+
+
+     97. OH + CH3  = H2O + CH2(S) 
+         k:       6.440000e+17	   -1.34       1417.00
+         kRev:    2.559254e+13	    0.00       -600.09
+
+
+     98. OH + CH4  = H2O + CH3 
+         k:       1.000000e+08	    1.60       3120.00
+         kRev:    4.927397e+12	    0.00      19537.44
+
+
+     99. OH + CO  = H + CO2 
+         k:       4.760000e+07	    1.23         70.00
+         kRev:    1.684330e+14	    0.00      26037.01
+
+
+    100. OH + HCO  = H2O + CO 
+         k:       5.000000e+13	    0.00          0.00
+         kRev:    1.041683e+15	    0.00     103966.81
+
+
+    101. OH + CH2O  = H2O + HCO 
+         k:       3.430000e+09	    1.18       -447.00
+         kRev:    1.040632e+13	    0.00      32483.50
+
+
+    102. OH + CH2OH  = H2O + CH2O 
+         k:       5.000000e+12	    0.00          0.00
+         kRev:    1.654538e+14	    0.00      90391.66
+
+
+    103. OH + CH3O  = H2O + CH2O 
+         k:       5.000000e+12	    0.00          0.00
+         kRev:    1.288761e+13	    0.00      97337.77
+
+
+    104. OH + CH3OH  = H2O + CH2OH 
+         k:       1.440000e+06	    2.00       -840.00
+         kRev:    1.950497e+12	    0.00      24364.20
+
+
+    105. OH + CH3OH  = H2O + CH3O 
+         k:       6.300000e+06	    2.00       1500.00
+         kRev:    1.095539e+14	    0.00      19758.10
+
+
+    106. OH + C2H  = H + HCCO 
+         k:       2.000000e+13	    0.00          0.00
+         kRev:    8.842960e+14	    0.00      49837.41
+
+
+    107. OH + C2H2  = H + CH2CO 
+         k:       2.180000e-04	    4.50      -1000.00
+         kRev:    8.970543e+12	    0.00      28252.49
+
+
+    108. OH + C2H2  = H + HCCOH 
+         k:       5.040000e+05	    2.30      13500.00
+         kRev:    7.222303e+14	    0.00       9070.41
+
+
+    109. OH + C2H2  = H2O + C2H 
+         k:       3.370000e+07	    2.00      14000.00
+         kRev:    3.947992e+13	    0.00       3529.71
+
+
+    110. OH + C2H2  = CH3 + CO 
+         k:       4.830000e-04	    4.00      -2000.00
+         kRev:    2.661466e+10	    0.00      59662.13
+
+
+    111. OH + C2H3  = H2O + C2H2 
+         k:       5.000000e+12	    0.00          0.00
+         kRev:    1.078791e+14	    0.00      84117.32
+
+
+    112. OH + C2H4  = H2O + C2H3 
+         k:       3.600000e+06	    2.00       2500.00
+         kRev:    2.295431e+12	    0.00      13488.30
+
+
+    113. OH + C2H6  = H2O + C2H5 
+         k:       3.540000e+06	    2.12        870.00
+         kRev:    4.561954e+12	    0.00      22826.35
+
+
+    114. OH + CH2CO  = H2O + HCCO 
+         k:       7.500000e+12	    0.00       2000.00
+         kRev:    3.126285e+12	    0.00      15642.29
+
+
+    115. 2HO2  = O2 + H2O2 
+         k:       1.300000e+11	    0.00      -1630.00
+         kRev:    9.149805e+11	    0.00      36645.28
+
+
+    116. 2HO2  = O2 + H2O2 
+         k:       4.200000e+14	    0.00      12000.00
+         kRev:    2.956091e+15	    0.00      50275.28
+
+
+    117. HO2 + CH2  = OH + CH2O 
+         k:       2.000000e+13	    0.00          0.00
+         kRev:    3.659324e+14	    0.00     113546.39
+
+
+    118. HO2 + CH3  = O2 + CH4 
+         k:       1.000000e+12	    0.00          0.00
+         kRev:    7.691719e+13	    0.00      56262.85
+
+
+    119. HO2 + CH3  = OH + CH3O 
+         k:       3.780000e+13	    0.00          0.00
+         kRev:    1.789160e+14	    0.00      24948.74
+
+
+    120. HO2 + CO  = OH + CO2 
+         k:       1.500000e+14	    0.00      23600.00
+         kRev:    2.809890e+15	    0.00      84404.92
+
+
+    121. HO2 + CH2O  = H2O2 + HCO 
+         k:       5.600000e+06	    2.00      12000.00
+         kRev:    5.576911e+12	    0.00      13940.26
+
+
+    122. O2 + C  = O + CO 
+         k:       5.800000e+13	    0.00        576.00
+         kRev:    1.119670e+14	    0.00     138803.06
+
+
+    123. C + CH2  = H + C2H 
+         k:       5.000000e+13	    0.00          0.00
+         kRev:    3.221936e+14	    0.00      76848.02
+
+
+    124. C + CH3  = H + C2H2 
+         k:       5.000000e+13	    0.00          0.00
+         kRev:    1.200526e+15	    0.00      98880.57
+
+
+    125. O2 + CH  = O + HCO 
+         k:       6.710000e+13	    0.00          0.00
+         kRev:    9.516801e+13	    0.00      73162.32
+
+
+    126. H2 + CH  = H + CH2 
+         k:       1.080000e+14	    0.00       3110.00
+         kRev:    1.736255e+14	    0.00        -69.11
+
+
+    127. H2O + CH  = H + CH2O 
+         k:       5.710000e+12	    0.00       -755.00
+         kRev:    4.484741e+14	    0.00      57813.26
+
+
+    128. CH + CH2  = H + C2H2 
+         k:       4.000000e+13	    0.00          0.00
+         kRev:    2.204677e+16	    0.00     129042.51
+
+
+    129. CH + CH3  = H + C2H3 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    5.110079e+14	    0.00      53665.33
+
+
+    130. CH + CH4  = H + C2H4 
+         k:       6.000000e+13	    0.00          0.00
+         kRev:    1.822703e+15	    0.00      59658.89
+
+
+    131. CH + CO (+M)  = HCCO (+M) 
+         Fall-off (Troe)
+         k0:      2.690000e+28	   -3.74       1936.00
+         kInf:    5.000000e+13	    0.00          0.00
+         Troe Parameters
+         a    5.76e-01
+         T*** 2.37e+02
+         T*   1.65e+03
+         T**  5.07e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+    132. CH + CO2  = CO + HCO 
+         k:       1.900000e+14	    0.00      15792.00
+         kRev:    1.864756e+13	    0.00      81391.49
+
+
+    133. CH + CH2O  = H + CH2CO 
+         k:       9.460000e+13	    0.00       -515.00
+         kRev:    4.384791e+15	    0.00      74454.53
+
+
+    134. CH + HCCO  = CO + C2H2 
+         k:       5.000000e+13	    0.00          0.00
+         kRev:    2.986009e+15	    0.00     157255.52
+
+
+    135. O2 + CH2  => H + OH + CO 
+         k:       5.000000e+12	    0.00       1500.00
+         kRev:    2.516611e+12	    0.00      60684.47
+
+
+    136. H2 + CH2  = H + CH3 
+         k:       5.000000e+05	    2.00       7230.00
+         kRev:    2.268003e+13	    0.00      16540.32
+
+
+    137. 2CH2  = H2 + C2H2 
+         k:       1.600000e+15	    0.00      11944.00
+         kRev:    5.485488e+17	    0.00     144165.62
+
+
+    138. CH2 + CH3  = H + C2H4 
+         k:       4.000000e+13	    0.00          0.00
+         kRev:    2.010376e+16	    0.00      63906.58
+
+
+    139. CH2 + CH4  = 2CH3 
+         k:       2.460000e+06	    2.00       8270.00
+         kRev:    4.195333e+12	    0.00      16511.74
+
+
+    140. CH2 + CO (+M)  = CH2CO (+M) 
+         Fall-off (Troe)
+         k0:      2.690000e+33	   -5.11       7095.00
+         kInf:    8.100000e+11	    0.50       4510.00
+         Troe Parameters
+         a    5.91e-01
+         T*** 2.75e+02
+         T*   1.23e+03
+         T**  5.18e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+    141. CH2 + HCCO  = CO + C2H3 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    2.386356e+14	    0.00      91545.63
+
+
+    142. CH2(S) + N2  = CH2 + N2 
+         k:       1.500000e+13	    0.00        600.00
+         kRev:    6.825337e+12	    0.00       9466.39
+
+
+    143. CH2(S) + AR  = CH2 + AR 
+         k:       9.000000e+12	    0.00        600.00
+         kRev:    4.095202e+12	    0.00       9466.39
+
+
+    144. O2 + CH2(S)  = H + OH + CO 
+         k:       2.800000e+13	    0.00          0.00
+         kRev:    6.412640e+12	    0.00      68050.86
+
+
+    145. O2 + CH2(S)  = H2O + CO 
+         k:       1.200000e+13	    0.00          0.00
+         kRev:    4.498580e+13	    0.00     187222.44
+
+
+    146. H2 + CH2(S)  = H + CH3 
+         k:       7.000000e+13	    0.00          0.00
+         kRev:    2.206948e+14	    0.00      15354.58
+
+
+    147. H2O + CH2(S) (+M)  = CH3OH (+M) 
+         Fall-off (Troe)
+         k0:      1.880000e+38	   -6.36       5040.00
+         kInf:    4.820000e+17	   -1.16       1145.00
+         Troe Parameters
+         a    6.03e-01
+         T*** 2.08e+02
+         T*   3.92e+03
+         T**  1.02e+04
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+
+
+    148. H2O + CH2(S)  = H2O + CH2 
+         k:       3.000000e+13	    0.00          0.00
+         kRev:    1.365067e+13	    0.00       8866.39
+
+
+    149. CH2(S) + CH3  = H + C2H4 
+         k:       1.200000e+13	    0.00       -570.00
+         kRev:    2.744299e+15	    0.00      72202.97
+
+
+    150. CH2(S) + CH4  = 2CH3 
+         k:       1.600000e+13	    0.00       -570.00
+         kRev:    1.896583e+12	    0.00      13716.01
+
+
+    151. CH2(S) + CO  = CH2 + CO 
+         k:       9.000000e+12	    0.00          0.00
+         kRev:    4.095202e+12	    0.00       8866.39
+
+
+    152. CH2(S) + CO2  = CH2 + CO2 
+         k:       7.000000e+12	    0.00          0.00
+         kRev:    3.185157e+12	    0.00       8866.39
+
+
+    153. CH2(S) + CO2  = CO + CH2O 
+         k:       1.400000e+13	    0.00          0.00
+         kRev:    6.222054e+12	    0.00      61607.86
+
+
+    154. CH2(S) + C2H6  = CH3 + C2H5 
+         k:       4.000000e+13	    0.00       -550.00
+         kRev:    2.095456e+12	    0.00      18541.16
+
+
+    155. O2 + CH3  = O + CH3O 
+         k:       3.560000e+13	    0.00      30480.00
+         kRev:    1.299898e+14	    0.00       2186.66
+
+
+    156. O2 + CH3  = OH + CH2O 
+         k:       2.310000e+12	    0.00      20315.00
+         kRev:    2.109311e+12	    0.00      72178.92
+
+
+    157. H2O2 + CH3  = HO2 + CH4 
+         k:       2.450000e+04	    2.47       5180.00
+         kRev:    7.006423e+13	    0.00      26652.90
+
+
+    158. 2CH3 (+M)  = C2H6 (+M) 
+         Fall-off (Troe)
+         k0:      3.400000e+41	   -7.03       2762.00
+         kInf:    6.770000e+16	   -1.18        654.00
+         Troe Parameters
+         a    6.19e-01
+         T*** 7.32e+01
+         T*   1.18e+03
+         T**  1.00e+04
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+    159. 2CH3  = H + C2H5 
+         k:       6.840000e+12	    0.10      10600.00
+         kRev:    2.059694e+14	    0.00         57.51
+
+
+    160. CH3 + HCO  = CH4 + CO 
+         k:       2.648000e+13	    0.00          0.00
+         kRev:    3.175967e+15	    0.00      89807.07
+
+
+    161. CH3 + CH2O  = CH4 + HCO 
+         k:       3.320000e+03	    2.81       5860.00
+         kRev:    2.081535e+13	    0.00      26930.79
+
+
+    162. CH3 + CH3OH  = CH4 + CH2OH 
+         k:       3.000000e+07	    1.50       9940.00
+         kRev:    4.624804e+12	    0.00      20278.93
+
+
+    163. CH3 + CH3OH  = CH4 + CH3O 
+         k:       1.000000e+07	    1.50       9940.00
+         kRev:    1.979140e+13	    0.00      13332.82
+
+
+    164. CH3 + C2H4  = CH4 + C2H3 
+         k:       2.270000e+05	    2.00       9200.00
+         kRev:    8.332589e+11	    0.00       6028.56
+
+
+    165. CH3 + C2H6  = CH4 + C2H5 
+         k:       6.140000e+06	    1.74      10450.00
+         kRev:    2.309224e+12	    0.00      17710.40
+
+
+    166. H2O + HCO  = H + H2O + CO 
+         k:       1.500000e+18	   -1.00      17000.00
+         kRev:    7.461658e+14	    0.00        384.17
+
+
+    167. HCO +M  = H + CO +M 
+         k:       1.870000e+17	   -1.00      17000.00
+         kRev:    4.984418e+11	    0.00      -1026.89
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   0.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+
+
+    168. O2 + HCO  = HO2 + CO 
+         k:       1.345000e+13	    0.00        400.00
+         kRev:    2.097282e+13	    0.00      33944.21
+
+
+    169. O2 + CH2OH  = HO2 + CH2O 
+         k:       1.800000e+13	    0.00        900.00
+         kRev:    4.458084e+13	    0.00      20869.07
+
+
+    170. O2 + CH3O  = HO2 + CH2O 
+         k:       4.280000e-13	    7.60      -3530.00
+         kRev:    6.571464e+12	    0.00      34109.26
+
+
+    171. O2 + C2H  = CO + HCO 
+         k:       1.000000e+13	    0.00       -755.00
+         kRev:    1.894521e+13	    0.00     151684.66
+
+
+    172. H2 + C2H  = H + C2H2 
+         k:       5.680000e+10	    0.90       1993.00
+         kRev:    1.711867e+15	    0.00      31783.69
+
+
+    173. O2 + C2H3  = HCO + CH2O 
+         k:       4.580000e+16	   -1.39       1015.00
+         kRev:    1.020038e+12	    0.00      87085.92
+
+
+    174. C2H4 (+M)  = H2 + C2H2 (+M) 
+         Fall-off (Troe)
+         k0:      1.580000e+51	   -9.30      97800.00
+         kInf:    8.000000e+12	    0.44      86770.00
+         Troe Parameters
+         a    7.35e-01
+         T*** 1.80e+02
+         T*   1.04e+03
+         T**  5.42e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+    175. O2 + C2H5  = HO2 + C2H4 
+         k:       8.400000e+11	    0.00       3875.00
+         kRev:    1.533587e+12	    0.00      16782.71
+
+
+    176. O2 + HCCO  = OH + 2CO 
+         k:       3.200000e+12	    0.00        854.00
+         kRev:    1.745147e+11	    0.00      88251.48
+
+
+    177. 2HCCO  = 2CO + C2H2 
+         k:       1.000000e+13	    0.00          0.00
+         kRev:    1.136062e+13	    0.00      84704.38
+
+
+    178. O + CH3  => H2 + H + CO 
+         k:       3.370000e+13	    0.00          0.00
+         kRev:    3.914743e+13	    0.00      69367.67
+
+
+    179. O + C2H4  = H + CH2CHO 
+         k:       6.700000e+06	    1.83        220.00
+         kRev:    3.441830e+12	    0.00      16160.97
+
+
+    180. O + C2H5  = H + CH3CHO 
+         k:       1.096000e+14	    0.00          0.00
+         kRev:    2.095721e+15	    0.00      75099.22
+
+
+    181. OH + HO2  = O2 + H2O 
+         k:       5.000000e+15	    0.00      17330.00
+         kRev:    6.680379e+16	    0.00      87752.60
+
+
+    182. OH + CH3  => H2 + CH2O 
+         k:       8.000000e+09	    0.50      -1755.00
+         kRev:    1.318236e+13	    0.00      69438.03
+
+
+    183. H2 + CH (+M)  = CH3 (+M) 
+         Fall-off (Troe)
+         k0:      4.820000e+25	   -2.80        590.00
+         kInf:    1.970000e+12	    0.43       -370.00
+         Troe Parameters
+         a    5.78e-01
+         T*** 1.22e+02
+         T*   2.54e+03
+         T**  9.36e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+    184. O2 + CH2  => 2H + CO2 
+         k:       5.800000e+12	    0.00       1500.00
+         kRev:    6.746252e+14	    0.00      84918.69
+
+
+    185. O2 + CH2  = O + CH2O 
+         k:       2.400000e+12	    0.00       1500.00
+         kRev:    3.387538e+13	    0.00      61804.30
+
+
+    186. 2CH2  => 2H + C2H2 
+         k:       2.000000e+14	    0.00      10989.00
+         kRev:    1.935352e+16	    0.00      39267.36
+
+
+    187. H2O + CH2(S)  => H2 + CH2O 
+         k:       6.820000e+10	    0.25       -935.00
+         kRev:    1.078277e+13	    0.00      70031.53
+
+
+    188. O2 + C2H3  = O + CH2CHO 
+         k:       3.030000e+11	    0.29         11.00
+         kRev:    5.814640e+12	    0.00       6121.87
+
+
+    189. O2 + C2H3  = HO2 + C2H2 
+         k:       1.337000e+06	    1.61       -384.00
+         kRev:    6.624571e+11	    0.00      15582.53
+
+
+    190. O + CH3CHO  = OH + CH2CHO 
+         k:       2.920000e+12	    0.00       1808.00
+         kRev:    1.076590e+11	    0.00       6217.30
+
+
+    191. O + CH3CHO  => OH + CH3 + CO 
+         k:       2.920000e+12	    0.00       1808.00
+         kRev:    5.787677e+09	    0.00       4807.86
+
+
+    192. O2 + CH3CHO  => HO2 + CH3 + CO 
+         k:       3.010000e+13	    0.00      39150.00
+         kRev:    4.602459e+10	    0.00     -11092.23
+
+
+    193. H + CH3CHO  = H2 + CH2CHO 
+         k:       2.050000e+09	    1.16       2405.00
+         kRev:    1.514229e+12	    0.00      10403.32
+
+
+    194. H + CH3CHO  => H2 + CH3 + CO 
+         k:       2.050000e+09	    1.16       2405.00
+         kRev:    8.140396e+10	    0.00       8993.88
+
+
+    195. OH + CH3CHO  => H2O + CH3 + CO 
+         k:       2.343000e+10	    0.73      -1113.00
+         kRev:    1.471876e+11	    0.00      20097.44
+
+
+    196. HO2 + CH3CHO  => H2O2 + CH3 + CO 
+         k:       3.010000e+12	    0.00      11923.00
+         kRev:    3.239354e+10	    0.00        -43.95
+
+
+    197. CH3 + CH3CHO  => CH3 + CH4 + CO 
+         k:       2.720000e+06	    1.77       5920.00
+         kRev:    3.444980e+11	    0.00      14438.21
+
+
+    198. H + CH2CO (+M)  = CH2CHO (+M) 
+         Fall-off (Troe)
+         k0:      1.012000e+42	   -7.63       3854.00
+         kInf:    4.865000e+11	    0.42      -1755.00
+         Troe Parameters
+         a    4.65e-01
+         T*** 2.01e+02
+         T*   1.77e+03
+         T**  5.33e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+    199. O + CH2CHO  => H + CH2 + CO2 
+         k:       1.500000e+14	    0.00          0.00
+         kRev:    1.205562e+14	    0.00      14384.41
+
+
+    200. O2 + CH2CHO  => OH + CO + CH2O 
+         k:       1.810000e+10	    0.00          0.00
+         kRev:    8.885076e+08	    0.00      50454.48
+
+
+    201. O2 + CH2CHO  => OH + 2HCO 
+         k:       2.350000e+10	    0.00          0.00
+         kRev:    1.598971e+07	    0.00     -22246.88
+
+
+    202. H + CH2CHO  = CH3 + HCO 
+         k:       2.200000e+13	    0.00          0.00
+         kRev:    9.292368e+11	    0.00      13795.33
+
+
+    203. H + CH2CHO  = H2 + CH2CO 
+         k:       1.100000e+13	    0.00          0.00
+         kRev:    3.093124e+13	    0.00      69418.64
+
+
+    204. OH + CH2CHO  = H2O + CH2CO 
+         k:       1.200000e+13	    0.00          0.00
+         kRev:    1.558963e+14	    0.00      84646.96
+
+
+    205. OH + CH2CHO  = HCO + CH2OH 
+         k:       3.010000e+13	    0.00          0.00
+         kRev:    5.782473e+12	    0.00       9119.48
+
+
+    206. CH3 + C2H5 (+M)  = C3H8 (+M) 
+         Fall-off (Troe)
+         k0:      2.710000e+74	  -16.82      13065.00
+         kInf:    9.430000e+12	    0.00          0.00
+         Troe Parameters
+         a    1.53e-01
+         T*** 2.91e+02
+         T*   2.74e+03
+         T**  7.75e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+    207. O + C3H8  = OH + C3H7 
+         k:       1.930000e+05	    2.68       3716.00
+         kRev:    1.669087e+12	    0.00       8847.58
+
+
+    208. H + C3H8  = H2 + C3H7 
+         k:       1.320000e+06	    2.54       6756.00
+         kRev:    8.489025e+12	    0.00      13642.22
+
+
+    209. OH + C3H8  = H2O + C3H7 
+         k:       3.160000e+07	    1.80        934.00
+         kRev:    2.822906e+12	    0.00      22004.35
+
+
+    210. H2O2 + C3H7  = HO2 + C3H8 
+         k:       3.780000e+02	    2.72       1500.00
+         kRev:    2.037198e+13	    0.00      18954.96
+
+
+    211. CH3 + C3H8  = CH4 + C3H7 
+         k:       9.030000e-01	    3.65       7154.00
+         kRev:    9.369165e+11	    0.00      16675.08
+
+
+    212. CH3 + C2H4 (+M)  = C3H7 (+M) 
+         Fall-off (Troe)
+         k0:      3.000000e+63	  -14.60      18170.00
+         kInf:    2.550000e+06	    1.60       5700.00
+         Troe Parameters
+         a    1.89e-01
+         T*** 2.77e+02
+         T*   8.75e+03
+         T**  7.89e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+    213. O + C3H7  = CH2O + C2H5 
+         k:       9.640000e+13	    0.00          0.00
+         kRev:    6.796003e+13	    0.00      82221.57
+
+
+    214. H + C3H7 (+M)  = C3H8 (+M) 
+         Fall-off (Troe)
+         k0:      4.420000e+61	  -13.54      11357.00
+         kInf:    3.613000e+13	    0.00          0.00
+         Troe Parameters
+         a    3.15e-01
+         T*** 3.69e+02
+         T*   3.28e+03
+         T**  6.67e+03
+         Third body efficiencies
+         H2                  	enhanced by	   2.000
+         H2O                 	enhanced by	   6.000
+         CH4                 	enhanced by	   2.000
+         CO                  	enhanced by	   1.500
+         CO2                 	enhanced by	   2.000
+         C2H6                	enhanced by	   3.000
+         AR                  	enhanced by	   0.700
+
+
+    215. H + C3H7  = CH3 + C2H5 
+         k:       4.060000e+06	    2.19        890.00
+         kRev:    5.699266e+12	    0.00      17666.50
+
+
+    216. OH + C3H7  = CH2OH + C2H5 
+         k:       2.410000e+13	    0.00          0.00
+         kRev:    5.291999e+12	    0.00       9010.42
+
+
+    217. HO2 + C3H7  = O2 + C3H8 
+         k:       2.550000e+10	    0.26       -943.00
+         kRev:    3.844277e+13	    0.00      51308.98
+
+
+    218. HO2 + C3H7  => OH + CH2O + C2H5 
+         k:       2.410000e+13	    0.00          0.00
+         kRev:    8.672028e+11	    0.00      16801.21
+
+
+    219. CH3 + C3H7  = 2C2H5 
+         k:       1.927000e+13	   -0.32          0.00
+         kRev:    1.037588e+12	    0.00       2551.13
+
+
+ ================================================================================================================================
+    Reaction        A           Beta           E         Reaction                                                                   
+     index     [kmol,m3,s]                 [cal/mol]                                                                                
+ ================================================================================================================================
+ 22             1.2505e+10     0.000        -3512.53     O+C2H2=OH+C2H                                                                   
+ 167            4.9844e+05     0.000        -1026.89     HCO+M=H+CO+M                                                                    
+ 97             2.5593e+10     0.000         -600.09     OH+CH3=H2O+CH2(S)                                                               
+ 38             8.5824e+09     0.000         -576.79     H+O2=O+OH                                                                       
+ 126            1.7363e+11     0.000          -69.11     H2+CH=H+CH2                                                                     
+ 159            2.0597e+11     0.000           57.51     2CH3=H+C2H5                                                                     
+ 166            7.4617e+08     0.000          384.17     H2O+HCO=H+H2O+CO                                                                
+ 32             2.1613e+09     0.000          842.85     O2+CH2O=HO2+HCO                                                                 
+ 155            1.2999e+11     0.000         2186.66     O2+CH3=O+CH3O                                                                   
+ 219            1.0376e+09     0.000         2551.13     CH3+C3H7=2C2H5                                                                  
+ 109            3.9480e+10     0.000         3529.71     OH+C2H2=H2O+C2H                                                                 
+ 29             4.0442e+08     0.000         4461.79     O+CH2CO=OH+HCCO                                                                 
+ 62             5.2151e+09     0.000         5032.59     H+CH2OH=H2O+CH2(S)                                                              
+ 61             5.9545e+09     0.000         5309.04     H+CH2OH=OH+CH3                                                                  
+ 164            8.3326e+08     0.000         6028.56     CH3+C2H4=CH4+C2H3                                                               
+ 188            5.8146e+09     0.000         6121.87     O2+C2H3=O+CH2CHO                                                                
+ 190            1.0766e+08     0.000         6217.30     O+CH3CHO=OH+CH2CHO                                                              
+ 80             4.5112e+09     0.000         6413.98     H+CH2CO=H2+HCCO                                                                 
+ 19             1.1094e+10     0.000         6783.12     O+CH3OH=OH+CH3O                                                                 
+ 11             2.2248e+09     0.000         7695.83     O+CH4=OH+CH3                                                                    
+ 69             3.4649e+10     0.000         8040.88     H+CH3OH=H2+CH3O                                                                 
+ 3              2.7596e+10     0.000         8117.68     H2+O=H+OH                                                                       
+ 75             1.1705e+10     0.000         8747.85     H+C2H4=H2+C2H3                                                                  
+ 207            1.6691e+09     0.000         8847.58     O+C3H8=OH+C3H7                                                                  
+ 148            1.3651e+10     0.000         8866.39     H2O+CH2(S)=H2O+CH2                                                              
+ 152            3.1852e+09     0.000         8866.39     CH2(S)+CO2=CH2+CO2                                                              
+ 151            4.0952e+09     0.000         8866.39     CH2(S)+CO=CH2+CO                                                                
+ 216            5.2920e+09     0.000         9010.42     OH+C3H7=CH2OH+C2H5                                                              
+ 108            7.2223e+11     0.000         9070.41     OH+C2H2=H+HCCOH                                                                 
+ 205            5.7825e+09     0.000         9119.48     OH+CH2CHO=HCO+CH2OH                                                             
+ 142            6.8253e+09     0.000         9466.39     CH2(S)+N2=CH2+N2                                                                
+ 143            4.0952e+09     0.000         9466.39     CH2(S)+AR=CH2+AR                                                                
+ 27             2.3372e+09     0.000        10183.63     O+C2H6=OH+C2H5                                                                  
+ 193            1.5142e+09     0.000        10403.32     H+CH3CHO=H2+CH2CHO                                                              
+ 64             1.1604e+09     0.000        11170.14     H+CH3O=H+CH2OH                                                                  
+ 18             2.5792e+09     0.000        11829.23     O+CH3OH=OH+CH2OH                                                                
+ 51             8.4911e+09     0.000        12045.50     H+CH2(S)=H2+CH                                                                  
+ 53             8.2352e+09     0.000        12057.35     H+CH4=H2+CH3                                                                    
+ 66             1.2994e+09     0.000        12217.49     H+CH3O=OH+CH3                                                                   
+ 67             1.0816e+09     0.000        12241.15     H+CH3O=H2O+CH2(S)                                                               
+ 163            1.9791e+10     0.000        13332.82     CH3+CH3OH=CH4+CH3O                                                              
+ 112            2.2954e+09     0.000        13488.30     OH+C2H4=H2O+C2H3                                                                
+ 208            8.4890e+09     0.000        13642.22     H+C3H8=H2+C3H7                                                                  
+ 150            1.8966e+09     0.000        13716.01     CH2(S)+CH4=2CH3                                                                 
+ 202            9.2924e+08     0.000        13795.33     H+CH2CHO=CH3+HCO                                                                
+ 121            5.5769e+09     0.000        13940.26     HO2+CH2O=H2O2+HCO                                                               
+ 78             5.7073e+09     0.000        13947.60     H+C2H6=H2+C2H5                                                                  
+ 68             1.0924e+10     0.000        14986.99     H+CH3OH=H2+CH2OH                                                                
+ 146            2.2069e+11     0.000        15354.58     H2+CH2(S)=H+CH3                                                                 
+ 189            6.6246e+08     0.000        15582.53     O2+C2H3=HO2+C2H2                                                                
+ 114            3.1263e+09     0.000        15642.29     OH+CH2CO=H2O+HCCO                                                               
+ 179            3.4418e+09     0.000        16160.97     O+C2H4=H+CH2CHO                                                                 
+ 96             1.0592e+10     0.000        16417.83     OH+CH3=H2O+CH2                                                                  
+ 139            4.1953e+09     0.000        16511.74     CH2+CH4=2CH3                                                                    
+ 136            2.2680e+10     0.000        16540.32     H2+CH2=H+CH3                                                                    
+ 211            9.3692e+08     0.000        16675.08     CH3+C3H8=CH4+C3H7                                                               
+ 175            1.5336e+09     0.000        16782.71     O2+C2H5=HO2+C2H4                                                                
+ 15             1.0927e+09     0.000        17624.94     O+CH2O=OH+HCO                                                                   
+ 215            5.6993e+09     0.000        17666.50     H+C3H7=CH3+C2H5                                                                 
+ 165            2.3092e+09     0.000        17710.40     CH3+C2H6=CH4+C2H5                                                               
+ 86             5.5592e+10     0.000        18457.06     2OH=O+H2O                                                                       
+ 154            2.0955e+09     0.000        18541.16     CH2(S)+C2H6=CH3+C2H5                                                            
+ 210            2.0372e+10     0.000        18954.96     H2O2+C3H7=HO2+C3H8                                                              
+ 57             3.2032e+09     0.000        19335.07     H+CH2O(+M)=CH3O(+M)                                                             
+ 79             2.3812e+10     0.000        19346.62     H+HCCO=CH2(S)+CO                                                                
+ 98             4.9274e+09     0.000        19537.44     OH+CH4=H2O+CH3                                                                  
+ 105            1.0955e+11     0.000        19758.10     OH+CH3OH=H2O+CH3O                                                               
+ 162            4.6248e+09     0.000        20278.93     CH3+CH3OH=CH4+CH2OH                                                             
+ 84             1.3970e+11     0.000        20789.02     H2+OH=H+H2O                                                                     
+ 169            4.4581e+10     0.000        20869.07     O2+CH2OH=HO2+CH2O                                                               
+ 58             1.0716e+10     0.000        21460.15     H+CH2O=H2+HCO                                                                   
+ 5              1.1611e+10     0.000        21788.93     O+H2O2=OH+HO2                                                                   
+ 209            2.8229e+09     0.000        22004.35     OH+C3H8=H2O+C3H7                                                                
+ 113            4.5620e+09     0.000        22826.35     OH+C2H6=H2O+C2H5                                                                
+ 49             5.4665e+11     0.000        23673.76     H+CH=H2+C                                                                       
+ 21             6.7845e+10     0.000        24086.61     O+C2H2=H+HCCO                                                                   
+ 212            6.0190e+09     0.000        24171.21     CH3+C2H4(+M)=C3H7(+M)                                                           
+ 93             2.1259e+11     0.000        24229.55     OH+CH2=H2O+CH                                                                   
+ 104            1.9505e+09     0.000        24364.20     OH+CH3OH=H2O+CH2OH                                                              
+ 47             3.2547e+10     0.000        24941.12     H+H2O2=H2+HO2                                                                   
+ 119            1.7892e+11     0.000        24948.74     HO2+CH3=OH+CH3O                                                                 
+ 99             1.6843e+11     0.000        26037.01     OH+CO=H+CO2                                                                     
+ 157            7.0064e+10     0.000        26652.90     H2O2+CH3=HO2+CH4                                                                
+ 161            2.0815e+10     0.000        26930.79     CH3+CH2O=CH4+HCO                                                                
+ 107            8.9705e+09     0.000        28252.49     OH+C2H2=H+CH2CO                                                                 
+ 56             1.3347e+10     0.000        28619.72     H+CH2O(+M)=CH2OH(+M)                                                            
+ 198            6.3177e+10     0.000        29221.69     H+CH2CO(+M)=CH2CHO(+M)                                                          
+ 25             2.7122e+08     0.000        29956.29     O+C2H4=CH3+HCO                                                                  
+ 82             9.1307e+09     0.000        30577.73     H+HCCOH=H+CH2CO                                                                 
+ 172            1.7119e+12     0.000        31783.69     H2+C2H=H+C2H2                                                                   
+ 101            1.0406e+10     0.000        32483.50     OH+CH2O=H2O+HCO                                                                 
+ 88             3.7966e+09     0.000        32574.31     OH+H2O2=H2O+HO2                                                                 
+ 74             2.9145e+10     0.000        33679.12     H+C2H4(+M)=C2H5(+M)                                                             
+ 71             2.9551e+10     0.000        33712.70     H+C2H2(+M)=C2H3(+M)                                                             
+ 168            2.0973e+10     0.000        33944.21     O2+HCO=HO2+CO                                                                   
+ 170            6.5715e+09     0.000        34109.26     O2+CH3O=HO2+CH2O                                                                
+ 81             7.6541e+08     0.000        36543.18     H+CH2CO=CH3+CO                                                                  
+ 115            9.1498e+08     0.000        36645.28     2HO2=O2+H2O2                                                                    
+ 46             6.8091e+09     0.000        37205.70     H+HO2=2OH                                                                       
+ 174            5.0735e+08     0.000        43207.93     C2H4(+M)=H2+C2H2(+M)                                                            
+ 33             1.7428e+10     0.000        46124.40     H+O2+M=HO2+M                                                                    
+ 85             1.0197e+12     0.000        46634.47     2OH(+M)=H2O2(+M)                                                                
+ 36             1.8933e+12     0.000        46999.26     H+O2+N2=HO2+N2                                                                  
+ 34             1.5147e+12     0.000        46999.26     H+2O2=O2+HO2                                                                    
+ 37             1.6102e+12     0.000        47620.13     H+O2+AR=HO2+AR                                                                  
+ 35             3.5452e+13     0.000        47676.57     H+O2+H2O=H2O+HO2                                                                
+ 106            8.8430e+11     0.000        49837.41     OH+C2H=H+HCCO                                                                   
+ 30             1.7721e+09     0.000        50259.02     O+CH2CO=CH2+CO2                                                                 
+ 116            2.9561e+12     0.000        50275.28     2HO2=O2+H2O2                                                                    
+ 217            3.8443e+10     0.000        51308.98     HO2+C3H7=O2+C3H8                                                                
+ 23             3.7790e+09     0.000        52299.62     O+C2H2=CH2+CO                                                                   
+ 4              2.5926e+10     0.000        53242.09     O+HO2=O2+OH                                                                     
+ 129            5.1101e+11     0.000        53665.33     CH+CH3=H+C2H3                                                                   
+ 44             3.3169e+09     0.000        54422.21     H+HO2=O+H2O                                                                     
+ 31             3.6128e+10     0.000        55362.84     O2+CO=O+CO2                                                                     
+ 45             1.2956e+11     0.000        56262.28     H+HO2=H2+O2                                                                     
+ 118            7.6917e+10     0.000        56262.85     HO2+CH3=O2+CH4                                                                  
+ 127            4.4847e+11     0.000        57813.26     H2O+CH=H+CH2O                                                                   
+ 130            1.8227e+12     0.000        59658.89     CH+CH4=H+C2H4                                                                   
+ 110            2.6615e+07     0.000        59662.13     OH+C2H2=CH3+CO                                                                  
+ 89             3.2271e+15     0.000        61557.31     OH+H2O2=H2O+HO2                                                                 
+ 153            6.2221e+09     0.000        61607.86     CH2(S)+CO2=CO+CH2O                                                              
+ 185            3.3875e+10     0.000        61804.30     O2+CH2=O+CH2O                                                                   
+ 138            2.0104e+13     0.000        63906.58     CH2+CH3=H+C2H4                                                                  
+ 144            6.4126e+06     0.000        68050.86     O2+CH2(S)=H+OH+CO                                                               
+ 77             1.0559e+10     0.000        68101.99     H+C2H5=H2+C2H4                                                                  
+ 131            1.1113e+12     0.000        68139.17     CH+CO(+M)=HCCO(+M)                                                              
+ 10             7.3887e+11     0.000        68535.31     O+CH3=H+CH2O                                                                    
+ 73             1.4010e+11     0.000        68889.00     H+C2H3=H2+C2H2                                                                  
+ 203            3.0931e+10     0.000        69418.64     H+CH2CHO=H2+CH2CO                                                               
+ 87             1.9373e+11     0.000        69922.60     OH+HO2=O2+H2O                                                                   
+ 156            2.1093e+09     0.000        72178.92     O2+CH3=OH+CH2O                                                                  
+ 149            2.7443e+12     0.000        72202.97     CH2(S)+CH3=H+C2H4                                                               
+ 48             1.5388e+09     0.000        72318.01     H+H2O2=OH+H2O                                                                   
+ 125            9.5168e+10     0.000        73162.32     O2+CH=O+HCO                                                                     
+ 16             3.2105e+10     0.000        73211.15     O+CH2OH=OH+CH2O                                                                 
+ 133            4.3848e+12     0.000        74454.53     CH+CH2O=H+CH2CO                                                                 
+ 180            2.0957e+12     0.000        75099.22     O+C2H5=H+CH3CHO                                                                 
+ 60             1.4325e+11     0.000        75163.34     H+CH2OH=H2+CH2O                                                                 
+ 123            3.2219e+11     0.000        76848.02     C+CH2=H+C2H                                                                     
+ 92             4.5143e+12     0.000        76975.69     OH+CH2=H+CH2O                                                                   
+ 83             4.7271e+11     0.000        77657.16     H2+CO(+M)=CH2O(+M)                                                              
+ 140            1.8629e+13     0.000        77847.45     CH2+CO(+M)=CH2CO(+M)                                                            
+ 26             2.3808e+10     0.000        79218.91     O+C2H5=CH3+CH2O                                                                 
+ 20             6.6788e+10     0.000        79277.34     O+C2H=CH+CO                                                                     
+ 17             2.5007e+09     0.000        80157.26     O+CH3O=OH+CH2O                                                                  
+ 132            1.8648e+10     0.000        81391.49     CH+CO2=CO+HCO                                                                   
+ 65             1.1158e+10     0.000        82109.45     H+CH3O=H2+CH2O                                                                  
+ 213            6.7960e+10     0.000        82221.57     O+C3H7=CH2O+C2H5                                                                
+ 206            1.0823e+15     0.000        83765.30     CH3+C2H5(+M)=C3H8(+M)                                                           
+ 54             1.4371e+12     0.000        83780.66     H+HCO(+M)=CH2O(+M)                                                              
+ 111            1.0788e+11     0.000        84117.32     OH+C2H3=H2O+C2H2                                                                
+ 120            2.8099e+12     0.000        84404.92     HO2+CO=OH+CO2                                                                   
+ 204            1.5590e+11     0.000        84646.96     OH+CH2CHO=H2O+CH2CO                                                             
+ 177            1.1361e+07     0.000        84704.38     2HCCO=2CO+C2H2                                                                  
+ 94             3.0812e+12     0.000        85842.08     OH+CH2(S)=H+CH2O                                                                
+ 158            1.2299e+15     0.000        86310.96     2CH3(+M)=C2H6(+M)                                                               
+ 13             6.0639e+10     0.000        86786.30     O+HCO=OH+CO                                                                     
+ 173            1.0200e+09     0.000        87085.92     O2+C2H3=HCO+CH2O                                                                
+ 181            6.6804e+13     0.000        87752.60     OH+HO2=O2+H2O                                                                   
+ 95             6.4185e+13     0.000        87779.13     OH+CH3(+M)=CH3OH(+M)                                                            
+ 147            5.5146e+13     0.000        88117.45     H2O+CH2(S)(+M)=CH3OH(+M)                                                        
+ 176            1.7451e+05     0.000        88251.48     O2+HCCO=OH+2CO                                                                  
+ 55             3.3099e+11     0.000        88738.49     H+HCO=H2+CO                                                                     
+ 160            3.1760e+12     0.000        89807.07     CH3+HCO=CH4+CO                                                                  
+ 91             6.8042e+11     0.000        89833.71     OH+CH=H+HCO                                                                     
+ 24             1.1920e+12     0.000        89839.51     O+C2H3=H+CH2CO                                                                  
+ 102            1.6545e+11     0.000        90391.66     OH+CH2OH=H2O+CH2O                                                               
+ 7              5.0591e+11     0.000        91060.62     O+CH2=H+HCO                                                                     
+ 141            2.3864e+11     0.000        91545.63     CH2+HCCO=CO+C2H3                                                                
+ 59             2.8243e+12     0.000        94069.33     H+CH2OH(+M)=CH3OH(+M)                                                           
+ 214            4.6939e+12     0.000        94753.93     H+C3H7(+M)=C3H8(+M)                                                             
+ 76             1.7419e+14     0.000        96544.53     H+C2H5(+M)=C2H6(+M)                                                             
+ 103            1.2888e+10     0.000        97337.77     OH+CH3O=H2O+CH2O                                                                
+ 124            1.2005e+12     0.000        98880.57     C+CH3=H+C2H2                                                                    
+ 2              1.8970e+09     0.000        99168.94     H+O+M=OH+M                                                                      
+ 9              4.3163e+10     0.000        99927.02     O+CH2(S)=H+HCO                                                                  
+ 39             6.5275e+09     0.000       101121.13     2H+M=H2+M                                                                       
+ 42             2.9766e+11     0.000       101121.13     2H+CO2=H2+CO2                                                                   
+ 52             1.1313e+14     0.000       101161.72     H+CH3(+M)=CH4(+M)                                                               
+ 41             1.1682e+13     0.000       102179.43     2H+H2O=H2+H2O                                                                   
+ 40             2.8761e+12     0.000       103096.62     H2+2H=2H2                                                                       
+ 183            2.8408e+12     0.000       103431.37     H2+CH(+M)=CH3(+M)                                                               
+ 100            1.0417e+12     0.000       103966.81     OH+HCO=H2O+CO                                                                   
+ 28             8.7211e+07     0.000       104068.87     O+HCCO=H+2CO                                                                    
+ 63             7.3516e+11     0.000       105900.02     H+CH3O(+M)=CH3OH(+M)                                                            
+ 50             5.2709e+12     0.000       106865.06     H+CH2(+M)=CH3(+M)                                                               
+ 72             9.0576e+13     0.000       108633.94     H+C2H3(+M)=C2H4(+M)                                                             
+ 14             1.4013e+13     0.000       111020.52     O+HCO=H+CO2                                                                     
+ 117            3.6593e+11     0.000       113546.39     HO2+CH2=OH+CH2O                                                                 
+ 43             2.9664e+11     0.000       114938.39     H+OH+M=H2O+M                                                                    
+ 1              9.1369e+09     0.000       115840.33     2O+M=O2+M                                                                       
+ 70             4.3971e+13     0.000       128040.29     H+C2H(+M)=C2H2(+M)                                                              
+ 12             1.2648e+12     0.000       128049.73     O+CO(+M)=CO2(+M)                                                                
+ 128            2.2047e+13     0.000       129042.51     CH+CH2=H+C2H2                                                                   
+ 122            1.1197e+11     0.000       138803.06     O2+C=O+CO                                                                       
+ 137            5.4855e+14     0.000       144165.62     2CH2=H2+C2H2                                                                    
+ 171            1.8945e+10     0.000       151684.66     O2+C2H=CO+HCO                                                                   
+ 90             1.5436e+12     0.000       154898.45     OH+C=H+CO                                                                       
+ 134            2.9860e+12     0.000       157255.52     CH+HCCO=CO+C2H2                                                                 
+ 6              2.6132e+12     0.000       176620.01     O+CH=H+CO                                                                       
+ 145            4.4986e+10     0.000       187222.44     O2+CH2(S)=H2O+CO                                                                
+ 8              1.9464e+11     0.000       188665.51     O+CH2(S)=H2+CO                                                                  
+
+ ================================================================================================================================
+    Reaction        A           Beta           E         Reaction                                                                   
+     index     [kmol,m3,s]                 [cal/mol]                                                                                
+ ================================================================================================================================
+ 22             1.9356e+13    -0.936        -2191.83     O+C2H2=OH+C2H                                                                   
+ 38             8.8677e+10    -0.298         -156.86     H+O2=O+OH                                                                       
+ 109            1.9304e+02     2.439           88.70     OH+C2H2=H2O+C2H                                                                 
+ 126            1.0124e+12    -0.225          247.94     H2+CH=H+CH2                                                                     
+ 97             2.7346e+13    -0.889          653.96     OH+CH3=H2O+CH2(S)                                                               
+ 32             1.6920e+09     0.031          798.83     O2+CH2O=HO2+HCO                                                                 
+ 159            2.8673e+14    -0.922         1359.12     2CH3=H+C2H5                                                                     
+ 166            5.0164e+11    -0.830         1554.90     H2O+HCO=H+H2O+CO                                                                
+ 167            8.5738e+11    -1.830         1554.90     HCO+M=H+CO+M                                                                    
+ 219            4.6249e+08     0.103         2405.83     CH3+C3H7=2C2H5                                                                  
+ 155            2.2702e+12    -0.364         2700.96     O2+CH3=O+CH3O                                                                   
+ 19             7.1834e+00     2.696         2978.57     O+CH3OH=OH+CH3O                                                                 
+ 61             3.4826e+04     1.535         3142.37     H+CH2OH=OH+CH3                                                                  
+ 164            1.5248e+02     1.977         3238.91     CH3+C2H4=CH4+C2H3                                                               
+ 62             2.9397e+05     1.247         3273.33     H+CH2OH=H2O+CH2(S)                                                              
+ 29             9.1522e+06     0.483         3780.56     O+CH2CO=OH+HCCO                                                                 
+ 3              2.1617e+01     2.672         4347.38     H2+O=H+OH                                                                       
+ 207            3.7995e-02     3.123         4441.02     O+C3H8=OH+C3H7                                                                  
+ 75             1.4770e+00     2.905         4649.23     H+C2H4=H2+C2H3                                                                  
+ 69             4.1547e+02     2.324         4761.18     H+CH3OH=H2+CH3O                                                                 
+ 11             9.4553e+02     1.870         5057.70     O+CH4=OH+CH3                                                                    
+ 190            4.0644e+06     0.418         5628.09     O+CH3CHO=OH+CH2CHO                                                              
+ 80             8.1922e+07     0.511         5693.18     H+CH2CO=H2+HCCO                                                                 
+ 188            1.8417e+10    -0.147         6329.19     O2+C2H3=O+CH2CHO                                                                
+ 27             2.2540e+01     2.352         6864.77     O+C2H6=OH+C2H5                                                                  
+ 108            5.6943e+07     1.204         7371.49     OH+C2H2=H+HCCOH                                                                 
+ 193            5.1082e+03     1.606         8137.71     H+CH3CHO=H2+CH2CHO                                                              
+ 216            6.5374e+07     0.560         8220.34     OH+C3H7=CH2OH+C2H5                                                              
+ 18             5.3302e+00     2.548         8233.37     O+CH3OH=OH+CH2OH                                                                
+ 205            4.0730e+08     0.338         8642.42     OH+CH2CHO=HCO+CH2OH                                                             
+ 151            7.4419e+09    -0.076         8973.80     CH2(S)+CO=CH2+CO                                                                
+ 152            5.7881e+09    -0.076         8973.80     CH2(S)+CO2=CH2+CO2                                                              
+ 148            2.4806e+10    -0.076         8973.80     H2O+CH2(S)=H2O+CH2                                                              
+ 64             1.0318e+04     1.482         9078.80     H+CH3O=H+CH2OH                                                                  
+ 53             1.0953e+03     2.018         9210.32     H+CH4=H2+CH3                                                                    
+ 208            4.6520e-01     3.011         9393.63     H+C3H8=H2+C3H7                                                                  
+ 142            1.2403e+10    -0.076         9573.80     CH2(S)+N2=CH2+N2                                                                
+ 143            7.4419e+09    -0.076         9573.80     CH2(S)+AR=CH2+AR                                                                
+ 112            3.0515e+01     2.311        10227.15     OH+C2H4=H2O+C2H3                                                                
+ 66             7.8713e+04     1.238        10471.17     H+CH3O=OH+CH3                                                                   
+ 78             5.1676e+01     2.360        10617.39     H+C2H6=H2+C2H5                                                                  
+ 67             5.8379e+05     0.959        10888.13     H+CH3O=H2O+CH2(S)                                                               
+ 121            3.9397e+03     1.805        11393.51     HO2+CH2O=H2O2+HCO                                                               
+ 211            1.9177e-04     3.723        11421.31     CH3+C3H8=CH4+C3H7                                                               
+ 163            5.9609e+05     1.327        11460.86     CH3+CH3OH=CH4+CH3O                                                              
+ 51             2.6463e+09     0.149        11835.86     H+CH2(S)=H2+CH                                                                  
+ 68             4.1809e+02     2.176        11915.98     H+CH3OH=H2+CH2OH                                                                
+ 202            6.2834e+04     1.224        12068.80     H+CH2CHO=CH3+HCO                                                                
+ 215            2.3245e-03     3.635        12536.71     H+C3H7=CH3+C2H5                                                                 
+ 96             1.9662e+03     1.975        13630.75     OH+CH3=H2O+CH2                                                                  
+ 189            1.7468e+04     1.344        13686.66     O2+C2H3=HO2+C2H2                                                                
+ 139            8.8415e+02     1.959        13747.48     CH2+CH4=2CH3                                                                    
+ 150            4.7550e+09    -0.117        13881.28     CH2(S)+CH4=2CH3                                                                 
+ 179            7.5779e+04     1.367        14232.67     O+C2H4=H+CH2CHO                                                                 
+ 136            1.0829e+05     1.561        14337.16     H2+CH2=H+CH3                                                                    
+ 114            9.3442e+07     0.447        15011.09     OH+CH2CO=H2O+HCCO                                                               
+ 210            6.2431e+00     2.792        15015.91     H2O2+C3H7=HO2+C3H8                                                              
+ 86             4.8598e+02     2.365        15120.53     2OH=O+H2O                                                                       
+ 165            1.6626e+03     1.802        15167.06     CH3+C2H6=CH4+C2H5                                                               
+ 146            1.2536e+13    -0.515        16080.96     H2+CH2(S)=H+CH3                                                                 
+ 175            6.8338e+08     0.103        16637.36     O2+C2H5=HO2+C2H4                                                                
+ 105            4.7389e+03     2.161        16709.10     OH+CH3OH=H2O+CH3O                                                               
+ 98             1.2619e+03     1.934        16808.24     OH+CH4=H2O+CH3                                                                  
+ 15             8.9210e+07     0.319        17174.43     O+CH2O=OH+HCO                                                                   
+ 79             1.7953e+05     1.503        17225.61     H+HCCO=CH2(S)+CO                                                                
+ 5              3.1311e+01     2.514        18240.92     O+H2O2=OH+HO2                                                                   
+ 58             2.3505e+02     2.247        18289.05     H+CH2O=H2+HCO                                                                   
+ 162            4.4459e+05     1.179        18615.66     CH3+CH3OH=CH4+CH2OH                                                             
+ 154            3.2188e+09    -0.055        18618.35     CH2(S)+C2H6=CH3+C2H5                                                            
+ 84             1.6425e+06     1.447        18747.92     H2+OH=H+H2O                                                                     
+ 209            8.4685e+01     2.207        18889.55     OH+C3H8=H2O+C3H7                                                                
+ 113            1.2096e+01     2.517        19275.30     OH+C2H6=H2O+C2H5                                                                
+ 169            1.8298e+09     0.407        20294.89     O2+CH2OH=HO2+CH2O                                                               
+ 93             9.1666e+03     2.161        21179.98     OH+CH2=H2O+CH                                                                   
+ 47             7.0431e+01     2.542        21353.54     H+H2O2=H2+HO2                                                                   
+ 21             3.5375e+04     1.844        21485.25     O+C2H2=H+HCCO                                                                   
+ 104            2.6930e+02     2.013        21523.90     OH+CH3OH=H2O+CH2OH                                                              
+ 107            6.2415e-04     3.861        22804.69     OH+C2H2=H+CH2CO                                                                 
+ 157            8.5933e+01     2.615        22963.22     H2O2+CH3=HO2+CH4                                                                
+ 170            1.0817e-17     7.859        23019.69     O2+CH3O=HO2+CH2O                                                                
+ 161            8.1924e+00     2.760        23036.72     CH3+CH2O=CH4+HCO                                                                
+ 49             9.2232e+10     0.227        23353.77     H+CH=H2+C                                                                       
+ 119            3.2587e+11    -0.076        25056.56     HO2+CH3=OH+CH3O                                                                 
+ 99             1.0633e+11     0.059        25954.29     OH+CO=H+CO2                                                                     
+ 25             4.0379e-01     2.590        26301.46     O+C2H4=CH3+HCO                                                                  
+ 57             1.0404e+30    -6.019        27827.77     H+CH2O(+M)=CH3O(+M)                                                             
+ 82             2.5341e+08     0.457        29933.20     H+HCCOH=H+CH2CO                                                                 
+ 101            1.0681e+05     1.464        30417.96     OH+CH2O=H2O+HCO                                                                 
+ 172            7.5403e+10     0.398        31222.22     H2+C2H=H+C2H2                                                                   
+ 88             8.8523e+07     0.479        31898.45     OH+H2O2=H2O+HO2                                                                 
+ 168            5.1085e+09     0.180        33690.25     O2+HCO=HO2+CO                                                                   
+ 81             5.9523e+03     1.499        34427.74     H+CH2CO=CH3+CO                                                                  
+ 46             3.8000e+07     0.661        36272.73     H+HO2=2OH                                                                       
+ 115            5.4052e+09    -0.226        36964.68     2HO2=O2+H2O2                                                                    
+ 56             2.2213e+30    -5.933        36992.20     H+CH2O(+M)=CH2OH(+M)                                                            
+ 198            1.7924e+33    -6.588        38518.15     H+CH2CO(+M)=CH2CHO(+M)                                                          
+ 212            4.4256e+53   -12.872        42333.84     CH3+C2H4(+M)=C3H7(+M)                                                           
+ 71             1.7812e+32    -6.391        42730.62     H+C2H2(+M)=C2H3(+M)                                                             
+ 74             9.0872e+36    -7.774        44648.74     H+C2H4(+M)=C2H5(+M)                                                             
+ 23             2.6995e-02     3.271        47684.66     O+C2H2=CH2+CO                                                                   
+ 36             2.9529e+16    -1.230        48735.35     H+O2+N2=HO2+N2                                                                  
+ 37             7.9500e+14    -0.790        48735.35     H+O2+AR=HO2+AR                                                                  
+ 34             2.3623e+16    -1.230        48735.35     H+2O2=O2+HO2                                                                    
+ 35             1.2788e+16    -0.750        48735.35     H+O2+H2O=H2O+HO2                                                                
+ 33             3.5255e+16    -1.850        48735.35     H+O2+M=HO2+M                                                                    
+ 30             5.3109e+06     0.740        49214.25     O+CH2CO=CH2+CO2                                                                 
+ 174            3.8875e+23    -4.367        49370.71     C2H4(+M)=H2+C2H2(+M)                                                            
+ 116            1.7463e+13    -0.226        50594.68     2HO2=O2+H2O2                                                                    
+ 106            1.2455e+14    -0.630        50727.09     OH+C2H=H+HCCO                                                                   
+ 217            1.7511e+10     0.100        51167.58     HO2+C3H7=O2+C3H8                                                                
+ 85             1.8339e+23    -3.302        51294.50     2OH(+M)=H2O2(+M)                                                                
+ 110            7.2843e-10     4.860        52804.44     OH+C2H2=CH3+CO                                                                  
+ 4              2.7038e+09     0.288        52835.60     O+HO2=O2+OH                                                                     
+ 44             2.4448e+07     0.626        53539.27     H+HO2=O+H2O                                                                     
+ 129            5.6035e+14    -0.892        54924.03     CH+CH3=H+C2H3                                                                   
+ 45             1.0842e+10     0.316        55816.22     H+HO2=H2+O2                                                                     
+ 118            1.4584e+11    -0.082        56377.89     HO2+CH3=O2+CH4                                                                  
+ 31             1.8687e+13    -0.796        56486.42     O2+CO=O+CO2                                                                     
+ 127            1.7769e+14    -0.762        58888.92     H2O+CH=H+CH2O                                                                   
+ 89             7.5244e+13     0.479        60881.45     OH+H2O2=H2O+HO2                                                                 
+ 130            1.6684e+15    -0.869        60885.12     CH+CH4=H+C2H4                                                                   
+ 153            1.3083e+08     0.492        60913.41     CH2(S)+CO2=CO+CH2O                                                              
+ 185            2.0274e+11    -0.228        62126.03     O2+CH2=O+CH2O                                                                   
+ 138            7.1501e+16    -1.042        65376.86     CH2+CH3=H+C2H4                                                                  
+ 77             3.9379e+08     0.419        67510.58     H+C2H5=H2+C2H4                                                                  
+ 144            1.4961e+06     0.185        67789.16     O2+CH2(S)=H+OH+CO                                                               
+ 10             3.2945e+12    -0.191        68804.11     O+CH3=H+CH2O                                                                    
+ 73             9.4861e+10     0.050        68818.88     H+C2H3=H2+C2H2                                                                  
+ 203            5.4825e+09     0.220        69107.52     H+CH2CHO=H2+CH2CO                                                               
+ 87             2.6685e+10     0.253        69566.13     OH+HO2=O2+H2O                                                                   
+ 48             2.0023e+05     1.140        70709.19     H+H2O2=OH+H2O                                                                   
+ 156            5.0329e+08     0.183        71921.25     O2+CH3=OH+CH2O                                                                  
+ 16             1.3743e+08     0.695        72230.49     O+CH2OH=OH+CH2O                                                                 
+ 125            2.1758e+11    -0.105        73311.01     O2+CH=O+HCO                                                                     
+ 149            1.7737e+16    -1.118        73780.66     CH2(S)+CH3=H+C2H4                                                               
+ 60             4.9204e+08     0.723        74143.11     H+CH2OH=H2+CH2O                                                                 
+ 180            9.7950e+13    -0.490        75790.54     O+C2H5=H+CH3CHO                                                                 
+ 133            1.3724e+17    -1.319        76315.87     CH+CH2O=H+CH2CO                                                                 
+ 131            2.5702e+32    -5.975        76570.82     CH+CO(+M)=HCCO(+M)                                                              
+ 92             5.0488e+14    -0.601        77823.89     OH+CH2=H+CH2O                                                                   
+ 20             2.7544e+07     0.993        77875.93     O+C2H=CH+CO                                                                     
+ 26             3.4792e+07     0.832        78044.99     O+C2H5=CH3+CH2O                                                                 
+ 123            8.6187e+14    -1.006        78267.08     C+CH2=H+C2H                                                                     
+ 17             3.4166e+07     0.547        79385.29     O+CH3O=OH+CH2O                                                                  
+ 132            8.2423e+07     0.691        80416.59     CH+CO2=CO+HCO                                                                   
+ 213            3.5936e+06     1.255        80450.82     O+C3H7=CH2O+C2H5                                                                
+ 65             1.2233e+08     0.575        81297.91     H+CH3O=H2+CH2O                                                                  
+ 177            1.0940e+02     1.472        82627.38     2HCCO=2CO+C2H2                                                                  
+ 111            1.2022e+11    -0.014        84136.79     OH+C2H3=H2O+C2H2                                                                
+ 83             3.7509e+27    -4.665        84240.26     H2+CO(+M)=CH2O(+M)                                                              
+ 204            4.5479e+10     0.157        84425.44     OH+CH2CHO=H2O+CH2CO                                                             
+ 120            1.5158e+14    -0.508        85122.02     HO2+CO=OH+CO2                                                                   
+ 176            3.0696e-01     1.689        85868.76     O2+HCCO=OH+2CO                                                                  
+ 13             1.5404e+09     0.468        86125.85     O+HCO=OH+CO                                                                     
+ 94             6.2621e+14    -0.677        86797.69     OH+CH2(S)=H+CH2O                                                                
+ 181            9.2017e+12     0.253        87396.13     OH+HO2=O2+H2O                                                                   
+ 55             6.7471e+09     0.496        88038.47     H+HCO=H2+CO                                                                     
+ 173            5.1768e+11    -0.794        88206.10     O2+C2H3=HCO+CH2O                                                                
+ 140            2.9254e+38    -7.393        88279.69     CH2+CO(+M)=CH2CO(+M)                                                            
+ 54             3.9179e+25    -3.942        89343.57     H+HCO(+M)=CH2O(+M)                                                              
+ 102            9.3539e+08     0.660        89461.02     OH+CH2OH=H2O+CH2O                                                               
+ 160            1.4667e+12     0.098        89668.15     CH3+HCO=CH4+CO                                                                  
+ 91             2.9070e+13    -0.478        90508.88     OH+CH=H+HCO                                                                     
+ 24             1.5171e+14    -0.618        90710.96     O+C2H3=H+CH2CO                                                                  
+ 141            1.9219e+10     0.321        91092.66     CH2+HCCO=CO+C2H3                                                                
+ 7              4.6195e+12    -0.282        91458.32     O+CH2=H+HCO                                                                     
+ 103            2.3255e+08     0.512        96615.82     OH+CH3O=H2O+CH2O                                                                
+ 158            1.4205e+40    -7.354        96687.95     2CH3(+M)=C2H6(+M)                                                               
+ 95             5.3561e+37    -7.019        97683.64     OH+CH3(+M)=CH3OH(+M)                                                            
+ 206            1.2746e+49    -9.997        97872.19     CH3+C2H5(+M)=C3H8(+M)                                                           
+ 147            1.2712e+41    -8.029        99446.80     H2O+CH2(S)(+M)=CH3OH(+M)                                                        
+ 124            5.2829e+15    -1.069       100389.14     C+CH3=H+C2H2                                                                    
+ 9              7.1620e+11    -0.358       100432.12     O+CH2(S)=H+HCO                                                                  
+ 59             1.7765e+30    -5.223       101438.76     H+CH2OH(+M)=CH3OH(+M)                                                           
+ 2              1.2006e+15    -1.702       101570.95     H+O+M=OH+M                                                                      
+ 28             2.8666e+03     1.315       102212.63     O+HCCO=H+2CO                                                                    
+ 100            3.4949e+10     0.433       103356.39     OH+HCO=H2O+CO                                                                   
+ 41             1.6492e+16    -0.924       103483.57     2H+H2O=H2+H2O                                                                   
+ 40             2.4738e+13    -0.274       103483.57     H2+2H=2H2                                                                       
+ 39             3.3153e+15    -1.674       103483.57     2H+M=H2+M                                                                       
+ 42             1.5118e+17    -1.674       103483.57     2H+CO2=H2+CO2                                                                   
+ 76             5.1173e+40    -7.766       107503.44     H+C2H5(+M)=C2H6(+M)                                                             
+ 52             3.6729e+34    -6.019       109654.34     H+CH3(+M)=CH4(+M)                                                               
+ 183            9.6647e+27    -4.557       109862.20     H2+CH(+M)=CH3(+M)                                                               
+ 214            2.2180e+53   -11.935       111594.92     H+C3H7(+M)=C3H8(+M)                                                             
+ 14             3.4409e+15    -0.701       112010.14     O+HCO=H+CO2                                                                     
+ 50             8.0571e+25    -3.869       112323.93     H+CH2(+M)=CH3(+M)                                                               
+ 117            2.2840e+11     0.060       113461.63     HO2+CH2=OH+CH2O                                                                 
+ 72             2.2547e+29    -4.518       115008.59     H+C2H3(+M)=C2H4(+M)                                                             
+ 63             1.0836e+40    -8.265       117563.01     H+CH3O(+M)=CH3OH(+M)                                                            
+ 1              1.0807e+17    -2.075       118768.81     2O+M=O2+M                                                                       
+ 43             6.3446e+20    -2.738       118801.48     H+OH+M=H2O+M                                                                    
+ 12             5.1688e+17    -1.647       130373.08     O+CO(+M)=CO2(+M)                                                                
+ 128            5.1165e+17    -1.281       130850.07     CH+CH2=H+C2H2                                                                   
+ 70             2.5891e+31    -5.214       135397.84     H+C2H(+M)=C2H2(+M)                                                              
+ 122            3.0927e+10     0.164       138571.71     O2+C=O+CO                                                                       
+ 137            2.1833e+18    -1.056       145656.14     2CH2=H2+C2H2                                                                    
+ 171            1.7862e+07     0.888       150431.95     O2+C2H=CO+HCO                                                                   
+ 90             7.9674e+12    -0.209       155193.57     OH+C=H+CO                                                                       
+ 134            9.4940e+11     0.146       157049.48     CH+HCCO=CO+C2H2                                                                 
+ 6              2.8361e+12    -0.010       176634.73     O+CH=H+CO                                                                       
+ 145            1.3402e+09     0.448       186590.64     O2+CH2(S)=H2O+CO                                                                
+ 8              6.5835e+10     0.138       188470.59     O+CH2(S)=H2+CO                                                                  

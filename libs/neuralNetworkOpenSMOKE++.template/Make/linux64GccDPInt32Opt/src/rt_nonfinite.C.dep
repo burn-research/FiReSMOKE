@@ -1,0 +1,12 @@
+$(OBJECTS_DIR)/src/rt_nonfinite.C.dep: \
+src/rt_nonfinite.C \
+src/rt_nonfinite.h \
+src/rtGetNaN.h \
+src/rtGetInf.h \
+src/rtwtypes.h \
+
+src/rt_nonfinite.h :
+src/rtGetNaN.h :
+src/rtGetInf.h :
+src/rtwtypes.h :
+

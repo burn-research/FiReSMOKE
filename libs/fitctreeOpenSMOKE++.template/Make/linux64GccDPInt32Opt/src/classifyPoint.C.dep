@@ -1,0 +1,22 @@
+$(OBJECTS_DIR)/src/classifyPoint.C.dep: \
+src/classifyPoint.C \
+src/classifyPoint.h \
+src/CompactClassificationModel.h \
+src/CompactClassificationTree.h \
+src/classifyPoint_data.h \
+src/classifyPoint_initialize.h \
+src/rt_nonfinite.h \
+src/rtwtypes.h \
+src/classifyPoint_types.h \
+src/tmwtypes.h \
+
+src/classifyPoint.h :
+src/CompactClassificationModel.h :
+src/CompactClassificationTree.h :
+src/classifyPoint_data.h :
+src/classifyPoint_initialize.h :
+src/rt_nonfinite.h :
+src/rtwtypes.h :
+src/classifyPoint_types.h :
+src/tmwtypes.h :
+

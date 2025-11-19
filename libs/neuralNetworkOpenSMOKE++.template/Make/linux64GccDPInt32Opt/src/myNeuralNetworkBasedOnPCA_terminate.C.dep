@@ -1,0 +1,14 @@
+$(OBJECTS_DIR)/src/myNeuralNetworkBasedOnPCA_terminate.C.dep: \
+src/myNeuralNetworkBasedOnPCA_terminate.C \
+src/rt_nonfinite.h \
+src/myNeuralNetworkBasedOnPCA.h \
+src/myNeuralNetworkBasedOnPCA_terminate.h \
+src/rtwtypes.h \
+src/myNeuralNetworkBasedOnPCA_types.h \
+
+src/rt_nonfinite.h :
+src/myNeuralNetworkBasedOnPCA.h :
+src/myNeuralNetworkBasedOnPCA_terminate.h :
+src/rtwtypes.h :
+src/myNeuralNetworkBasedOnPCA_types.h :
+
