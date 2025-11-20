@@ -8,7 +8,6 @@ export OF_SHARED_LIBS=' -lturbulenceModels -lcompressibleTurbulenceModels -lreac
 #Compulsory path
 export EIGEN_LIBRARY_PATH=/usr/local/include/eigen3
 export BOOST_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
-export RAPIDXML_LIBRARY_PATH=/usr/local/include/rapidxml
 
 #Options: ISAT support
 export ISAT_SUPPORT='-DOPENSMOKE_USE_ISAT=0'
