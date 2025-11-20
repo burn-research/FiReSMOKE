@@ -1,4 +1,0 @@
-chemkin2OpenSMOKE++PreProcessor.C
-
-EXE = $(FOAM_USER_APPBIN)/chemkin2OpenSMOKE++PreProcessor
-

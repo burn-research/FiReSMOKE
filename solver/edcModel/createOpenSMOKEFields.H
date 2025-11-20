@@ -1,4 +1,4 @@
-/*——————————————————————————————————————————————————————————————————————-*\
+/*-----------------------------------------------------------------------*\
 |                              _____ __  __  ____  _  ________            |
 |            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
 |           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -40,21 +40,21 @@
 |   You should have received a copy of the GNU General Public License     |
 |   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 const word combustionOptionsDictionaryName("combustionOptions");
 
 Info<< "Reading CombustionOptions dictionary\n" << endl;
 IOdictionary combustionOptionsDictionary
 (
-        IOobject
-        (
-                combustionOptionsDictionaryName,
-                U.time().constant(),
-                U.db(),
-                IOobject::MUST_READ,
-                IOobject::NO_WRITE
-        )
+	IOobject
+	(
+		combustionOptionsDictionaryName,
+		U.time().constant(),
+		U.db(),
+		IOobject::MUST_READ,
+		IOobject::NO_WRITE
+	)
 );
 
 // Read the kinetic scheme in XML format
@@ -63,29 +63,26 @@ OpenSMOKE::KineticsMap_CHEMKIN* kineticsMapXML;
 OpenSMOKE::TransportPropertiesMap_CHEMKIN* transportMapXML;
 
 {	
-	//word kinetics(thermo.lookup("kineticMechanism"));
+	// word kinetics(thermo.lookup("kineticMechanism"));
   	Foam::string kinetics = combustionOptionsDictionary.lookup("folder"); //OFv10
 	boost::filesystem::path path_kinetics = kinetics;
   	boost::property_tree::ptree ptree; // OFv10
   	boost::property_tree::read_xml( (path_kinetics / "kinetics.xml").c_str(), ptree ); //OFv10
-	//rapidxml::xml_document<> doc;
-	//std::vector<char> xml_string;
-	//OpenSMOKE::OpenInputFileXML(doc, xml_string,path_kinetics / "kinetics.xml");
+
+	// rapidxml::xml_document<> doc;
+	// std::vector<char> xml_string;
+	// OpenSMOKE::OpenInputFileXML(doc, xml_string,path_kinetics / "kinetics.xml");
 
 	double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 	thermodynamicsMapXML = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(ptree); 
 	transportMapXML = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(ptree); 
 	kineticsMapXML = new OpenSMOKE::KineticsMap_CHEMKIN(*thermodynamicsMapXML, ptree); 
-	//thermodynamicsMapXML = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(doc); 
-	//transportMapXML = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(doc); 
-	//kineticsMapXML = new OpenSMOKE::KineticsMap_CHEMKIN(*thermodynamicsMapXML, doc); 					
+	// thermodynamicsMapXML = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(doc); 
+	// transportMapXML = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(doc); 
+	// kineticsMapXML = new OpenSMOKE::KineticsMap_CHEMKIN(*thermodynamicsMapXML, doc); 					
 	double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
 	std::cout << " * Time to read XML file: " << tEnd-tStart << std::endl;
 }
-
-//OFv10
-const word inertSpecie(combustionOptionsDictionary.lookup("inertSpecie"));
-const label inertIndex(composition.species()[inertSpecie]);
 
 // Total number of equations for ODE systems (without DRG)
 const int ne_total = thermodynamicsMapXML->NumberOfSpecies()+3;	// species and temperature + 2 dummy variables
@@ -130,12 +127,12 @@ Switch SPARCswitch(combustionOptionsDictionary.lookup("SPARCswitch"));
 // RAS or LES
 Switch iLES = false;
 {
-	Info<< "Reading momentumTransport dictionary\n" << endl; //OFv10
-	IOdictionary momentumTransportDictionary
+	Info<< "Reading turbulenceProperties dictionary\n" << endl;
+	IOdictionary turbulencePropertiesDictionary
 	(
 		IOobject
 		(
-			"momentumTransport",
+			"turbulenceProperties",
 			U.time().constant(),
 			U.db(),
 			IOobject::MUST_READ,
@@ -143,7 +140,7 @@ Switch iLES = false;
 		)
 	);
 
-	word simulationType(momentumTransportDictionary.lookup("simulationType"));
+	word simulationType(turbulencePropertiesDictionary.lookup("simulationType"));
 	if (simulationType == "RAS")
 	{
 		iLES = false;
@@ -208,7 +205,7 @@ volScalarField tauStar
 	mesh,
 	IOobject::NO_READ,
 	IOobject::NO_WRITE,
-	true
+	false
     ),
     mesh,
     dimensionedScalar("tauStar", dimensionSet(0,0,1,0,0,0,0), 0.0)
@@ -222,7 +219,7 @@ volScalarField epsilonSGS
 	mesh.time().timeName(),
 	mesh,
 	IOobject::NO_READ,
-	IOobject::NO_WRITE,
+	IOobject::AUTO_WRITE,
 	false
     ),
     mesh,
@@ -238,7 +235,7 @@ volScalarField gammaL
 	mesh,
 	IOobject::NO_READ,
 	IOobject::NO_WRITE,
-	true
+	false
     ),
     mesh,
     dimensionedScalar("gammaL", dimensionSet(0,0,0,0,0,0,0), 0.0)
@@ -384,9 +381,9 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 			word reactorTypeString(edcSubDictionary.lookup("reactorType"));
 	
 			if ( reactorTypeString == "PSR")
-			     reactorType = REACTORTYPE_PSR;
+				reactorType = REACTORTYPE_PSR;
 			else if ( reactorTypeString == "PFR")
-				  reactorType = REACTORTYPE_PFR;
+				reactorType = REACTORTYPE_PFR;
 			else
 			{
 				Info << "Wrong reactor type: PSR || PFR" << endl;
@@ -404,9 +401,9 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 		{
 			word solverTypeString(edcSubDictionary.lookup("solverType"));
 			if ( solverTypeString == "ODE")
-			     solverType = SOLVERTYPE_ODE;
+				solverType = SOLVERTYPE_ODE;
 			else if ( solverTypeString == "NLS")
-				  solverType = SOLVERTYPE_NLS;
+				solverType = SOLVERTYPE_NLS;
 			else
 			{
 				Info << "Wrong solver type: ODE || NLS" << endl;
@@ -606,7 +603,7 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 			}
 		}
 	}
-// mPaSR Constants
+	// mPaSR Constants
 	else if (combustionModel == "mPaSR")
 	{
 		combustion_model_tag = "mPaSR";
@@ -751,9 +748,9 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 	// Type
 	word homogeneousODESolverString(odeParametersFineStructuresDictionary.lookup("odeSolver"));
 	if (	homogeneousODESolverString != "OpenSMOKE" 	&& homogeneousODESolverString != "DVODE"  && 
-			homogeneousODESolverString != "DLSODE" 		&& homogeneousODESolverString != "DLSODA" && 
-			homogeneousODESolverString != "CVODE" 		&& homogeneousODESolverString != "DASPK"  &&
-			homogeneousODESolverString != "MEBDF" 		&& homogeneousODESolverString != "RADAU5"  
+		homogeneousODESolverString != "DLSODE" 		&& homogeneousODESolverString != "DLSODA" && 
+		homogeneousODESolverString != "CVODE" 		&& homogeneousODESolverString != "DASPK"  &&
+		homogeneousODESolverString != "MEBDF" 		&& homogeneousODESolverString != "RADAU5"  
 	   )
 	{
 		Info << "Wrong homogeneous ODE Solver: OpenSMOKE || DVODE || DLSODE || DLSODA || CVODE || DASPK || MEBDF || RADAU5" << endl;
@@ -886,7 +883,7 @@ volScalarField tauMix
 		"combustion::tauMix",
 		mesh.time().timeName(),
 		mesh,
-		IOobject::READ_IF_PRESENT,
+		IOobject::NO_READ,
 		IOobject::AUTO_WRITE,
 		true
 	),
@@ -939,7 +936,7 @@ volScalarField ReT
 		mesh,
 		IOobject::NO_READ,
 		IOobject::NO_WRITE,
-		true
+		false
 	),
 	mesh,
 	dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.), 
@@ -972,7 +969,7 @@ volScalarField Cmix
                 mesh.time().timeName(),
                 mesh,
                 IOobject::NO_READ,
-                IOobject::AUTO_WRITE,
+                IOobject::NO_WRITE,
                 false
         ),
         mesh,
@@ -1034,22 +1031,6 @@ volScalarField Chi
 
 );
 
-volScalarField PV
-(
-    IOobject
-    (
-        "PV",                         // Dosya adı
-        mesh.time().timeName(),       // Zaman adı
-        mesh,                         // Mesh
-        IOobject::READ_IF_PRESENT,    // Okuma yapılmasın
-        IOobject::AUTO_WRITE,         // Yazma otomatik yapılsın
-        true                         // Başlangıçta yazma yapılmasın
-    ),
-    mesh,                           // Mesh
-    dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.), // Başlangıç değeri
-    zeroGradientFvPatchScalarField::typeName // Tür ismi (bu seçenek isteğe bağlıdır)
-);
-
 {
 	// Check the order of species
 	if (thermodynamicsMapXML->NumberOfSpecies() != Y.size())
@@ -1088,11 +1069,11 @@ volScalarField PV
 		// check if field exists and can be read
 		if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == "QLFR" || combustionModel == "mPaSR")
 		{
-			//#if DEVVERSION == 1
-			//if (header.typeHeaderOk<volScalarField>(true))
-			//#else
+			#if DEVVERSION == 1
+			if (header.typeHeaderOk<volScalarField>(true))
+			#else
 			if (header.headerOk())
-			//#endif
+			#endif
 			{
 				std::cout << "from file..." << std::endl;
 				YStar_.set
@@ -1215,11 +1196,11 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 		);
 
 		// check if field exists and can be read
-		// #if DEVVERSION == 1 // ofv10
-		//if (header.typeHeaderOk<volScalarField>(true))
-		//#else
+		#if DEVVERSION == 1
+		if (header.typeHeaderOk<volScalarField>(true))
+		#else
 		if (header.headerOk())
-		//#endif
+		#endif
 		{
 			std::cout << "from file..." << std::endl;
 			TStar_.set
@@ -1232,8 +1213,8 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 						combustion_model_tag + "::TStar",
 						mesh.time().timeName(),
 						mesh,
-						IOobject::NO_READ,
-						IOobject::NO_WRITE
+						IOobject::MUST_READ,
+						IOobject::AUTO_WRITE
 					),
 					mesh
 				)
@@ -1284,7 +1265,7 @@ forAll(Y,i)
 			IOobject
 			(
 				"tauc" + std::__cxx11::to_string(i),
-				mesh.time().name(),
+				mesh.time().timeName(),
 				mesh,
 				IOobject::NO_READ,
 				IOobject::AUTO_WRITE
@@ -1302,7 +1283,7 @@ forAll(Y,i)
 			IOobject
 			(
 				"kappa" + std::__cxx11::to_string(i),
-				mesh.time().name(),
+				mesh.time().timeName(),
 				mesh,
 				IOobject::NO_READ,
 				IOobject::AUTO_WRITE
@@ -1317,7 +1298,7 @@ forAll(Y,i)
 // ---------------------------------------------------------------//
 
 // Combustion model activation map
-volScalarField activation_map
+volScalarField activation_map// binary field, 0 laminar rates only; 1  mPaSR computed
 (
         IOobject
         (
@@ -1356,11 +1337,11 @@ volScalarField dQ
         	runTime.timeName(),
         	mesh,
         	IOobject::NO_READ,
-        	IOobject::AUTO_WRITE
+        	IOobject::NO_WRITE
 	),
 	mesh,
 	dimensionedScalar("dQ", dimEnergy/dimTime, 0.0), 
-    	zeroGradientFvPatchScalarField::typeName
+	zeroGradientFvPatchScalarField::typeName
 );
 
 dimensionedScalar ksmall_("ksmall", dimensionSet(0,2,-2,0,0,0,0), SMALL );
@@ -1406,13 +1387,13 @@ volScalarField one_over_tauStar
 		if ( e > maxSumMassFractionsError)
 			FatalError << "Fatal error: the sum of mass fractions in cell " << celli << " is equal to " << sum << " (error " << sum-1. << endl; 
 			
-		//#if OPENFOAM_VERSION >= 40
+		#if OPENFOAM_VERSION >= 40
 		for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
 			Y[i].ref()[celli]/=sum;
-		//#else
-		//for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
-		//	Y[i].internalField()[celli]/=sum;
-		//#endif
+		#else
+		for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
+			Y[i].internalField()[celli]/=sum;
+		#endif
 
 		sumTotal += sum;
 		if (e>maxError) maxError = e;
@@ -1444,13 +1425,13 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 		if ( e > maxSumMassFractionsError)
 			FatalError << "Fatal error: the sum of mass fractions in cell " << celli << " is equal to " << sum << " (error " << sum-1. << endl; 
 			
-		//#if OPENFOAM_VERSION >= 40
+		#if OPENFOAM_VERSION >= 40
 		for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
 			YStar_[i].ref()[celli]/=sum;
-		//#else
-		//for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
-		//	YStar_[i].internalField()[celli]/=sum;
-		//#endif
+		#else
+		for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
+			YStar_[i].internalField()[celli]/=sum;
+		#endif
 
 		sumTotal += sum;
 		if (e>maxError) maxError = e;

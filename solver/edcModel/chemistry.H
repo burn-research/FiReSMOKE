@@ -1,4 +1,4 @@
-/*——————————————————————————————————————————————————————————————————————-*\
+/*-----------------------------------------------------------------------*\
 |                              _____ __  __  ____  _  ________            |
 |            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
 |           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -40,11 +40,11 @@
 |   You should have received a copy of the GNU General Public License     |
 |   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 if (homogeneousReactions == true)
 {
-	Info << " ************************************************************** " << endl;
+    Info << " ************************************************************** " << endl;
     Info << " * Using " << combustionModel << " model (if T > " << minTemperature4Chemistry << " [K])" << endl;
 	const double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 
@@ -59,7 +59,7 @@ if (homogeneousReactions == true)
 			{
 				#include "extensions/sparc/EDC_SPARC.H"
 			}
-			else if (SPARCswitch == false)
+			else
 			{
 				#include "EDC.H"
 			}
@@ -71,10 +71,10 @@ if (homogeneousReactions == true)
 	{
 		#if SPARC==1
 			if (SPARCswitch == true)
-			{	
+			{
 				#include "extensions/sparc/PaSR_SPARC.H"
 			}
-			else if (SPARCswitch == false)
+			else
 			{
 				#include "PaSR.H"
 			}
@@ -89,9 +89,8 @@ if (homogeneousReactions == true)
 			{
 				#include "extensions/sparc/QLFR_SPARC.H"
 			}
-			else if (SPARCswitch == false)
+			else
 			{
-			
 				#include "QLFR.H"
 			}
 		#else
@@ -121,9 +120,9 @@ if (homogeneousReactions == true)
 				#include "mPaSR.H"
 		#endif
 	}
-
     const double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
     CPUtime_comb_model_part = CPUtime_comb_model_part + (tEnd - tStart);
     Info << " * Time for combustion model [s] = " << tEnd - tStart << endl;
     Info << " ************************************************************** " << endl;
 }
+

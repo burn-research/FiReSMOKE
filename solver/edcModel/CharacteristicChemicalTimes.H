@@ -1,4 +1,4 @@
-/*——————————————————————————————————————————————————————————————————————-*\
+/*-----------------------------------------------------------------------*\
 |                              _____ __  __  ____  _  ________            |
 |            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
 |           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -40,7 +40,7 @@
 |   You should have received a copy of the GNU General Public License     |
 |   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 #ifndef CharacteristicChemicalTimes_H
 #define CharacteristicChemicalTimes_H
@@ -66,13 +66,13 @@ class CharacteristicChemicalTimes
 
 	double FromFormationRates(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
 	double FromReactionRates(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
-	double FromEigenValueAnalysis(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
 	void Equations(const OpenSMOKE::OpenSMOKEVectorDouble& c, OpenSMOKE::OpenSMOKEVectorDouble& dc_over_dt);
 
 	public:
 
-	void NumericalJacobian(const OpenSMOKE::OpenSMOKEVectorDouble& y, Eigen::MatrixXd& J);
+	double FromEigenValueAnalysis(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
 
+	void NumericalJacobian(const OpenSMOKE::OpenSMOKEVectorDouble& y, Eigen::MatrixXd& J);
 	void SearchConservativeModes(const std::vector<double>& lambda_real, const std::vector<double>& lambda_mod, std::vector<double>& lambda_real_cleaned);
 
 	Eigen::MatrixXd mPaSR_computeNumericalJacobian(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y);
@@ -118,6 +118,20 @@ class CharacteristicChemicalTimes
 	double tauChem_temperature_threshold_;
 
 	CharacteristicChemicalTimesType type_;
+
+	// OpenSMOKE::OpenSMOKEVectorDouble y_plus_;					// vec_y holding a perturbation
+	// OpenSMOKE::OpenSMOKEVectorDouble y_dot_reference_;		// rates of reference
+	// OpenSMOKE::OpenSMOKEVectorDouble y_dot_plus_;				// rates from y_plus
+
+	// OpenSMOKE::OpenSMOKEVectorDouble omega_;					// mass fractions modified indices
+	// OpenSMOKE::OpenSMOKEVectorDouble omega_plus_;				// mass fractions modified indices holding a perturbation
+	// //OpenSMOKE::OpenSMOKEVectorDouble x_; 						// mole fractions
+	// OpenSMOKE::OpenSMOKEVectorDouble x_plus_; 				// mole fractions holding a perturbation
+	// //OpenSMOKE::OpenSMOKEVectorDouble c_; 						// molar concentrations
+	// OpenSMOKE::OpenSMOKEVectorDouble c_plus_; 				// molar concentrations holding a perturbation
+	// OpenSMOKE::OpenSMOKEVectorDouble dc_over_dt_;				// molar rates [kmol.m-3.s-1]
+	// OpenSMOKE::OpenSMOKEVectorDouble dc_over_dt_plus_;	
+
 };
 
 #include "CharacteristicChemicalTimes.C"

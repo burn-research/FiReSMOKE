@@ -1,16 +1,16 @@
 $(OBJECTS_DIR)/src/CompactClassificationModel.C.dep: \
 src/CompactClassificationModel.C \
-src/CompactClassificationModel.h \
-src/classifyPoint.h \
-src/rt_nonfinite.h \
-src/rtwtypes.h \
-src/classifyPoint_types.h \
-src/tmwtypes.h \
+lnInclude/CompactClassificationModel.h \
+lnInclude/classifyPoint.h \
+lnInclude/rt_nonfinite.h \
+lnInclude/rtwtypes.h \
+lnInclude/classifyPoint_types.h \
+lnInclude/tmwtypes.h \
 
-src/CompactClassificationModel.h :
-src/classifyPoint.h :
-src/rt_nonfinite.h :
-src/rtwtypes.h :
-src/classifyPoint_types.h :
-src/tmwtypes.h :
+lnInclude/CompactClassificationModel.h :
+lnInclude/classifyPoint.h :
+lnInclude/rt_nonfinite.h :
+lnInclude/rtwtypes.h :
+lnInclude/classifyPoint_types.h :
+lnInclude/tmwtypes.h :
 

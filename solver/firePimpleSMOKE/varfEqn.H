@@ -1,4 +1,4 @@
-/*——————————————————————————————————————————————————————————————————————-*\
+/*-----------------------------------------------------------------------*\
 |                              _____ __  __  ____  _  ________            |
 |            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
 |           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -40,7 +40,7 @@
 |   You should have received a copy of the GNU General Public License     |
 |   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 {
 	fvScalarMatrix varfEqn
@@ -48,8 +48,8 @@
 		fvm::ddt(rho, varf)
 		+ fvm::div(phi, varf)
 		==
-		fvm::laplacian(thermo.alphahe() + rho*turbulence->nut()/Sct, varf)
-		+ Cg*(rho*turbulence->nut()/Sct)*magSqr(fvc::grad(f))
+		fvm::laplacian(thermo.alpha() + turbulence->mut()/Sct, varf)
+		+ Cg*(turbulence->mut()/Sct)*magSqr(fvc::grad(f))
 		- rho*Chi
 	);
 

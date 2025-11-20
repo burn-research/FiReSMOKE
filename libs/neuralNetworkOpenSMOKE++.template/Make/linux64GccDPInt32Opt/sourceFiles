@@ -1,0 +1,7 @@
+SOURCE = \
+src/myNeuralNetworkBasedOnPCA.C \
+src/myNeuralNetworkBasedOnPCA_initialize.C \
+src/myNeuralNetworkBasedOnPCA_terminate.C \
+src/rtGetInf.C \
+src/rtGetNaN.C \
+src/rt_nonfinite.C 

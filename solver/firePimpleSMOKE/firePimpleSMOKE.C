@@ -64,18 +64,30 @@
 
 // OpenFOAM
 #include "fvCFD.H"
-#include "fluidReactionThermo.H"	
-#include "combustionModel.H"
-#include "compressibleMomentumTransportModels.H"
-#include "fluidReactionThermophysicalTransportModel.H"
+#if OPENFOAM_VERSION >= 40
+#include "turbulentFluidThermoModel.H"
+#else
+#include "turbulenceModel.H"
+#include "compressible/LES/LESModel/LESModel.H"
+#endif
+#if OPENFOAM_VERSION >=60
+#include "psiReactionThermo.H"
+#include "CombustionModel.H"
+#else
+#include "psiCombustionModel.H"
+#endif
 #include "multivariateScheme.H"
 #include "pimpleControl.H"
-#include "pressureReference.H"
-#include "CorrectPhi.H"
-#include "fvModels.H"
-#include "fvConstraints.H"
+#if OPENFOAM_VERSION >= 40
+#if DEVVERSION==1
+#include "pressureControl.H"
+#endif
+#include "fvOptions.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
+#else
+#include "fvIOoptionList.H"
+#endif
 #include "radiationModel.H"
 
 // Utilities
@@ -89,8 +101,6 @@
 #include "ODE_PSR_Interface.H"
 #include "ODE_PFR.H"
 #include "ODE_PFR_Interface.H"
-#include "BatchReactorHomogeneousConstantPressure.H"
-#include "BatchReactorHomogeneousConstantPressure_ODE_Interface.H"
 
 // NLS Systems
 #include "NLS_PSR.H"
@@ -120,6 +130,7 @@
 	#include "extensions/sparc/SPARC_predictor_NEURAL.H"
 #endif
 
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char *argv[])
@@ -128,15 +139,16 @@ int main(int argc, char *argv[])
 
 	#include "postProcess.H"
 
-	#include "setRootCaseLists.H"
+	#include "setRootCase.H"
 	#include "createTime.H"
 	#include "createMesh.H"
 	#include "readGravitationalAcceleration.H"
-	#include "createDyMControls.H"
+	#include "createControl.H"
+	#include "createTimeControls.H"
 	#include "initContinuityErrs.H"
 	#include "createFields.H"
 	#include "createOpenSMOKEFields.H"
-	#include "createRhoUfIfPresent.H"
+	#include "createFvOptions.H"
 	#include "createRadiationModel.H"
 
 	turbulence->validate();
@@ -150,152 +162,76 @@ int main(int argc, char *argv[])
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
-
+    
     double CPUtime_comb_model = 0.;
     double CPUtime_comb_model_part = 0.;
 
     while (runTime.run())
     {
-        #include "readDyMControls.H"
-
-	// Store divrhoU from the previous mesh so that it can be mapped
-        // and used in correctPhi to ensure the corrected phi has the
-        // same divergence
-        autoPtr<volScalarField> divrhoU;
-        if (correctPhi)
-        {
-            divrhoU = new volScalarField
-            (
-                "divrhoU",
-                fvc::div(fvc::absolute(phi, rho, U))
-            );
-        }
-
-        if (LTS)
-        {
-            #include "setRDeltaT.H"
-        }
-        else
-        {
-            #include "compressibleCourantNo.H"
-            #include "setDeltaT.H"
-        }
-
-        fvModels.preUpdateMesh();
-
-        // Store momentum to set rhoUf for introduced faces.
-        autoPtr<volVectorField> rhoU;
-        if (rhoUf.valid())
-        {
-            rhoU = new volVectorField("rhoU", rho*U);
-        }
-
-        // Update the mesh for topology change, mesh to mesh mapping
-        mesh.update();
+        #include "readTimeControls.H"
+        #include "compressibleCourantNo.H"
+        #include "setDeltaT.H"
 
         runTime++;
 		runTimeStep++;
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-	// --- Pressure-velocity PIMPLE corrector loop
-	while (pimple.loop())
+	if (momentumEquations == true)
 	{
-		if (!pimple.flow())
+		#include "rhoEqn.H"
+
+		while (pimple.loop())
 		{
-			if (pimple.models())
-			{
-				fvModels.correct();
-			}
-
-			if (pimple.thermophysics())
-			{
-				#include "properties.H"
-				const double t0 = runTime.value() - runTime.deltaT().value();
-				const double tf = runTime.value();
-                		#include "YEqn.H"
-                		#include "EEqn.H"
-						#include "fEqn.H"
-						#include "varfEqn.H"
-			}
-		}
-		else
-		{
-			if (pimple.firstPimpleIter() || moveMeshOuterCorrectors)
-                	{
-                    		// Move the mesh
-                    		mesh.move();
-
-                   		if (mesh.changing())
-                    		{
-                        		MRF.update();
-
-                        		if (correctPhi)
-                        		{
-                            		#include "correctPhi.H"
-                       			}
-
-                        		if (checkMeshCourantNo)
-                        		{
-                            		#include "meshCourantNo.H"
-                        		}
-                    		}
-                	}
-
-                	if (pimple.firstPimpleIter() && !pimple.simpleRho())
-                	{
-                    		#include "rhoEqn.H"
-                	}
-
-                	if (pimple.models())
-                	{
-                    		fvModels.correct();
-                	}
-
-                	#include "UEqn.H"
-
-                	if (pimple.thermophysics())
-			{
-				#include "properties.H"
-				const double t0 = runTime.value() - runTime.deltaT().value();
-				const double tf = runTime.value();
-				#include "YEqn.H"
-                #include "EEqn.H"
-			}
-
-		 	if (dynamicCmixEquations == true)
-		 	{	
+		    #include "UEqn.H"
+		    #include "properties.H"
+		    if (dynamicCmixEquations == true)
+		    {	
 				#include "fEqn.H"
 		    	#include "varfEqn.H"
 		    	#include "ChiEqn.H"
-		 	}
+		    }
+		    #include "YEqn.H"
+		    #include "EEqn.H"
 
-			// --- Pressure corrector loop
-			while (pimple.correct())
-			{
-				#include "pEqn.H"
-			}
-		
-			if (pimple.turbCorr())
-			{
-				turbulence->correct();
-			}
+		    // --- Pressure corrector loop
+		    while (pimple.correct())
+		    {
+		        if (pimple.consistent())
+		        {
+		            #include "pcEqn.H"
+		        }
+		        else
+		        {
+		            #include "pEqn.H"
+		        }
+		    }
+
+		    if (pimple.turbCorr())
+		    {
+		        turbulence->correct();
+		    }
 		}
+	}
+	else
+	{
+		    #include "properties.H"
+		    #include "YEqn.H"
+		    #include "EEqn.H"
+		    turbulence->correct();
 	}
 
 	if (SPARCswitch == true)
 	{
-    		#include "extensions/sparc/SPARC_local_post_processing.H"
+    	#include "extensions/sparc/SPARC_local_post_processing.H"
 	}
 	
-	rho = thermo.rho();
-
 	runTime.write();
 
 	Pav << runTime.timeName() << "\t" << p.weightedAverage(mesh.V()).value() << endl;
 
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << " ClockTime = " << runTime.elapsedClockTime() << " s"
-		<< "TotalTime combustion model = " << CPUtime_comb_model << " s,  "
+        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s,  "
+            << "ClockTime = " << runTime.elapsedClockTime() << " s,  "
+	    << "TotalTime combustion model = " << CPUtime_comb_model << " s,  "
 	    << "TotalTime combustion model part = " << CPUtime_comb_model_part << " s"
             << nl << endl;
     }

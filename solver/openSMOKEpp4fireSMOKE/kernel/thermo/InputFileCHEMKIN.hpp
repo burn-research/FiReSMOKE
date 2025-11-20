@@ -190,7 +190,9 @@ namespace OpenSMOKE
 						auto pos = line.find_first_not_of (' ');
 						if (pos != line.npos) {				
 							std::vector<std::string> stringvector;
-							boost::split(stringvector,line.substr(pos),boost::is_any_of(" "));
+							std::string tmp = line.substr(pos);
+							boost::split(stringvector, tmp, boost::is_any_of(" "));
+							// boost::split(stringvector,line.substr(pos),boost::is_any_of(" "));
 							firstspecies_names_.push_back(stringvector.front());
 							TakeFirstSpecies = false;
 						}

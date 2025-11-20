@@ -45,6 +45,7 @@
 #ifndef ClassifierVQ2_HPP
 #define ClassifierVQ2_HPP
 
+#include <armadillo>
 #include <fstream>
 #include <vector>
 #include <string>
@@ -54,17 +55,16 @@
 #include <iostream>
 #include <math.h>
 #include <numeric>
-#include <armadillo>
 
-arma::Mat<double> CenterScale(const arma::Mat<double>& X, const int scaling);
+arma::Mat <double> CenterScale(const arma::Mat<double>& X, const int scaling);
 
-arma::field<arma::Mat<double>> GetMuSigma(const arma::Mat<double>& matrix, const int scaling);
+arma::field <arma::Mat<double>> GetMuSigma(const arma::Mat<double>& matrix, const int scaling);
 
 arma::field <arma::Mat<double>> GetCluster(const arma::Mat<double>& matrix, const arma::Mat<int>& idx);
 
-arma::Mat<double> GetCentroids(const arma::field<arma::Mat<double>>& clusters);
+arma::Mat <double> GetCentroids(const arma::field<arma::Mat<double>>& clusters);
 
-arma::field<arma::Mat<double>> GetModes(const arma::field<arma::Mat<double>>& clusters, const int eig);
+arma::field <arma::Mat<double>> GetModes(const arma::field<arma::Mat<double>>& clusters, const int eig);
 
 template<typename T>
 arma::Mat<T> GetMatrix(const std::string file_name);

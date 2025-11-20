@@ -1,12 +1,12 @@
 $(OBJECTS_DIR)/src/rtGetInf.C.dep: \
 src/rtGetInf.C \
-src/rtGetInf.h \
-src/rtwtypes.h \
-src/rt_nonfinite.h \
-src/tmwtypes.h \
+lnInclude/rtGetInf.h \
+lnInclude/rtwtypes.h \
+lnInclude/rt_nonfinite.h \
+lnInclude/tmwtypes.h \
 
-src/rtGetInf.h :
-src/rtwtypes.h :
-src/rt_nonfinite.h :
-src/tmwtypes.h :
+lnInclude/rtGetInf.h :
+lnInclude/rtwtypes.h :
+lnInclude/rt_nonfinite.h :
+lnInclude/tmwtypes.h :
 

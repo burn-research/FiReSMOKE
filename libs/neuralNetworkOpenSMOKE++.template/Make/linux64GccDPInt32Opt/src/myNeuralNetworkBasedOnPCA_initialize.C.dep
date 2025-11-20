@@ -1,14 +1,14 @@
 $(OBJECTS_DIR)/src/myNeuralNetworkBasedOnPCA_initialize.C.dep: \
 src/myNeuralNetworkBasedOnPCA_initialize.C \
-src/rt_nonfinite.h \
-src/myNeuralNetworkBasedOnPCA.h \
-src/myNeuralNetworkBasedOnPCA_initialize.h \
-src/rtwtypes.h \
-src/myNeuralNetworkBasedOnPCA_types.h \
+lnInclude/rt_nonfinite.h \
+lnInclude/myNeuralNetworkBasedOnPCA.h \
+lnInclude/myNeuralNetworkBasedOnPCA_initialize.h \
+lnInclude/rtwtypes.h \
+lnInclude/myNeuralNetworkBasedOnPCA_types.h \
 
-src/rt_nonfinite.h :
-src/myNeuralNetworkBasedOnPCA.h :
-src/myNeuralNetworkBasedOnPCA_initialize.h :
-src/rtwtypes.h :
-src/myNeuralNetworkBasedOnPCA_types.h :
+lnInclude/rt_nonfinite.h :
+lnInclude/myNeuralNetworkBasedOnPCA.h :
+lnInclude/myNeuralNetworkBasedOnPCA_initialize.h :
+lnInclude/rtwtypes.h :
+lnInclude/myNeuralNetworkBasedOnPCA_types.h :
 

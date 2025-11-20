@@ -1,4 +1,4 @@
-/*——————————————————————————————————————————————————————————————————————-*\
+/*-----------------------------------------------------------------------*\
 |                              _____ __  __  ____  _  ________            |
 |            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
 |           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -40,23 +40,47 @@
 |   You should have received a copy of the GNU General Public License     |
 |   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
-#include "createRDeltaT.H"
+#if OPENFOAM_VERSION >= 40
 
-Info<< nl << "Reading thermophysicalProperties" << endl;
+	#include "createRDeltaT.H"
 
-autoPtr<fluidReactionThermo> pThermo	// OFv10
-(
-	fluidReactionThermo::New(mesh)
-);
-fluidReactionThermo& thermo = pThermo();
+	Info<< nl << "Reading thermophysicalProperties" << endl;
+
+	#if OPENFOAM_VERSION >=60
+	autoPtr<psiReactionThermo> pThermo
+	(
+		psiReactionThermo::New(mesh)
+	);
+	psiReactionThermo& thermo = pThermo();
+	#else
+	autoPtr<combustionModels::psiCombustionModel> reaction
+	(
+	    combustionModels::psiCombustionModel::New(mesh)
+	);
+	psiReactionThermo& thermo = reaction->thermo();
+	#endif
+
+#else
+
+	Info<< nl << "Reading thermophysicalProperties" << endl;
+
+	autoPtr<combustionModels::psiCombustionModel> reaction
+	(
+	    combustionModels::psiCombustionModel::New(mesh)
+	);
+
+	psiReactionThermo& thermo = reaction->thermo();
+
+#endif
+
 thermo.validate(args.executable(), "h", "e");
 
-basicSpecieMixture& composition = thermo.composition();
+basicMultiComponentMixture& composition = thermo.composition();
 PtrList<volScalarField>& Y = composition.Y();
 
-//const word inertSpecie(thermo.lookup(inertSpecie));	// OFv10
+const word inertSpecie(thermo.lookup("inertSpecie"));
 
 volScalarField rho
 (
@@ -85,40 +109,48 @@ volVectorField U
 
 volScalarField& p = thermo.p();
 const volScalarField& psi = thermo.psi();
-      volScalarField& T = thermo.T();
-//const label inertIndex(composition.species()[inertSpecie]);	// OFv10
+volScalarField& T = thermo.T();
+const label inertIndex(composition.species()[inertSpecie]);
 
 #include "compressibleCreatePhi.H"
 
-pressureReference pressureReference(p, pimple.dict(), false);	// OFv10
-mesh.schemes().setFluxRequired(p.name());
+#if OPENFOAM_VERSION >= 40
 
-dimensionedScalar rhoMax
-(
-    dimensionedScalar::lookupOrDefault
-    (
-	"rhoMax",
-	pimple.dict(),
-	dimDensity,
-	GREAT
-    )
-);
+	dimensionedScalar rhoMax
+	(
+	    dimensionedScalar::lookupOrDefault
+	    (
+		"rhoMax",
+		pimple.dict(),
+		dimDensity,
+		GREAT
+	    )
+	);
 
-dimensionedScalar rhoMin
-(
-    dimensionedScalar::lookupOrDefault
-    (
-	"rhoMin",
-	pimple.dict(),
-	dimDensity,
-	0
-    )
-);
+	dimensionedScalar rhoMin
+	(
+	    dimensionedScalar::lookupOrDefault
+	    (
+		"rhoMin",
+		pimple.dict(),
+		dimDensity,
+		0
+	    )
+	);
+
+	mesh.setFluxRequired(p.name());
+
+#else
+
+	dimensionedScalar rhoMax(pimple.dict().lookup("rhoMax"));
+	dimensionedScalar rhoMin(pimple.dict().lookup("rhoMin"));
+
+#endif
 
 Info << "Creating turbulence model.\n" << nl;
-autoPtr<compressible::momentumTransportModel> turbulence	// OFv10
+autoPtr<compressible::turbulenceModel> turbulence
 (
-    compressible::momentumTransportModel::New
+    compressible::turbulenceModel::New
     (
         rho,
         U,
@@ -127,19 +159,16 @@ autoPtr<compressible::momentumTransportModel> turbulence	// OFv10
     )
 );
 
-Info<< "Creating thermophysical transport model\n" << endl;
-autoPtr<fluidReactionThermophysicalTransportModel>		// OFv10
-thermophysicalTransport
+#if OPENFOAM_VERSION >=60
+Info<< "Creating reaction model\n" << endl;
+autoPtr<CombustionModel<psiReactionThermo>> reaction
 (
-    fluidReactionThermophysicalTransportModel::New		// OFv10
-    (
-        turbulence(),
-        thermo
-    )
+    CombustionModel<psiReactionThermo>::New(thermo, turbulence())
 );
-
-Info<< "Creating reaction model\n" << endl;	// OFv10
-autoPtr<combustionModel> reaction(combustionModel::New(thermo, turbulence()));
+#else
+// Set the turbulence into the reaction model
+reaction->setTurbulence(turbulence());
+#endif
 
 Info<< "Creating field dpdt\n" << endl;
 volScalarField dpdt
@@ -157,7 +186,6 @@ volScalarField dpdt
 Info<< "Creating field kinetic energy K\n" << endl;
 volScalarField K("K", 0.5*magSqr(U));
 
-dimensionedScalar initialMass = fvc::domainIntegrate(rho);	// OFv10
 
 multivariateSurfaceInterpolationScheme<scalar>::fieldTable fields;
 
@@ -167,9 +195,9 @@ forAll(Y, i)
 }
 fields.add(thermo.he());
 
+#if OPENFOAM_VERSION >= 40
 #include "createMRF.H"
-#include "createFvModels.H"	// OFv10
-#include "createFvConstraints.H"	// OFv10
+#endif
 
 fileName path = args.rootPath()+"/"+args.globalCaseName();
 OFstream Pav(path+"/p.Vessel");

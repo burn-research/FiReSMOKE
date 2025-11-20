@@ -1,16 +1,16 @@
 $(OBJECTS_DIR)/src/classifyPoint_terminate.C.dep: \
 src/classifyPoint_terminate.C \
-src/rt_nonfinite.h \
-src/classifyPoint.h \
-src/classifyPoint_terminate.h \
-src/rtwtypes.h \
-src/classifyPoint_types.h \
-src/tmwtypes.h \
+lnInclude/rt_nonfinite.h \
+lnInclude/classifyPoint.h \
+lnInclude/classifyPoint_terminate.h \
+lnInclude/rtwtypes.h \
+lnInclude/classifyPoint_types.h \
+lnInclude/tmwtypes.h \
 
-src/rt_nonfinite.h :
-src/classifyPoint.h :
-src/classifyPoint_terminate.h :
-src/rtwtypes.h :
-src/classifyPoint_types.h :
-src/tmwtypes.h :
+lnInclude/rt_nonfinite.h :
+lnInclude/classifyPoint.h :
+lnInclude/classifyPoint_terminate.h :
+lnInclude/rtwtypes.h :
+lnInclude/classifyPoint_types.h :
+lnInclude/tmwtypes.h :
 

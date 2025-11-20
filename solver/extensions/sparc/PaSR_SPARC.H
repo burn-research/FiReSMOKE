@@ -50,8 +50,11 @@
 		const double threshold_tau_c = 0.10;
 
 		bool debug = false;
-		Info << "Fine structures integration (SPARC)..." << endl;
+
+		Info << "Fine structures properties..." << endl;
 		#include "propertiesFineStructures.H"
+
+		Info << "Fine structures integration (SPARC)..." << endl;
 
 		const int unsigned nsTot = Y.size();
 		const int unsigned neTot = ne_total;
@@ -80,11 +83,8 @@
 		const double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 		forAll(TCells, celli)
 		{	
-			const scalar T_cell     = TCells[celli];
-
-			if (T_cell > minTemperature4Chemistry)
+			if (TCells[celli] > minTemperature4Chemistry)
 			{
-				activation_map[celli] = 1.;
 				const unsigned int iCluster = clusterIndexCells[celli];
 				const unsigned int NClocal  = vector_thermodynamicsMapXML[iCluster]->NumberOfSpecies();
 				const unsigned int NRlocal  = vector_kineticsMapXML[iCluster]->NumberOfReactions(); 
@@ -212,9 +212,7 @@
 			}
 			else
 			{
-				activation_map[celli] = 0.;
-				for(unsigned int i=0;i<nsTot;i++)
-					R_[i].ref()[celli] *= 0.;//[kg.m-3.s-1]
+				// Do nothing
 			}
 
 

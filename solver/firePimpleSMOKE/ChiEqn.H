@@ -1,4 +1,4 @@
-/*——————————————————————————————————————————————————————————————————————-*\
+/*-----------------------------------------------------------------------*\
 |                              _____ __  __  ____  _  ________            |
 |            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
 |           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -40,19 +40,16 @@
 |   You should have received a copy of the GNU General Public License     |
 |   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*------------------------------------------------------------------------*/
-
+\*-----------------------------------------------------------------------*/
 
 {
 	if (ChiEquation == true)
 	{
-	// Solving equaition of Scalar Dissipation Rate 
-	
-	
+	// Solving equation of Scalar Dissipation Rate 
 	volScalarField D1 = Cd1*rho*sqr(Chi)/(varf+SMALL);
 	volScalarField D2 = Cd2*rho*turbulence->epsilon()/(turbulence->k()+ksmall_)*Chi;
-	volScalarField P1 = 2.00*Cp1*turbulence->epsilon()/(turbulence->k()+ksmall_)*rho*turbulence->nut()/Sct*magSqr(fvc::grad(f));
-	volScalarField P2 = Cp2*rho*turbulence->nut()*Chi/(turbulence->k()+ksmall_)*(fvc::grad(U) && dev(twoSymm(fvc::grad(U))));
+	volScalarField P1 = 2.00*Cp1*turbulence->epsilon()/(turbulence->k()+ksmall_)*turbulence->mut()/Sct*magSqr(fvc::grad(f));
+	volScalarField P2 = Cp2*turbulence->mut()*Chi/(turbulence->k()+ksmall_)*(fvc::grad(U) && dev(twoSymm(fvc::grad(U))));
 
 	volScalarField S_chi = P1 + P2 - D1 - D2;	
 
@@ -60,15 +57,14 @@
 	(
 		fvm::ddt(rho, Chi)
 		+ fvm::div(phi, Chi)
-		- fvm::laplacian(thermo.alphahe()+rho*turbulence->nut()/Sct, Chi)
+		- fvm::laplacian(thermo.alpha()+turbulence->mut()/Sct, Chi)
 		==
 		S_chi
 	);
 
-
 	ChiEqn.relax();
 	ChiEqn.solve();
-    	Chi.max(0.00000001);
+	Chi.max(0.00000001);
 	Chi.min(maxChi);
 
     	Info << "Scalar dissipation rate transport equation solved" << endl;

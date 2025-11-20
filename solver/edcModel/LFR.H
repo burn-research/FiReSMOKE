@@ -52,10 +52,9 @@
     int nelem   = thermodynamicsMapXML->elements().size();// nb of elements
 
     const std::vector<std::string> species_names = thermodynamicsMapXML->NamesOfSpecies();
-	const scalarField &pCells = thermo.p().internalField();
-	const scalarField &TCells = thermo.T().internalField();
-    const scalarField &rhoCells = rho.internalField();
-
+    const scalarField& TCells = thermo.T().internalField();
+    const scalarField& pCells = thermo.p().internalField();
+    const scalarField& rhoCells = rho.internalField();
 
     // Laminar
     Eigen::VectorXd R_base(ns);

@@ -1,10 +1,10 @@
 $(OBJECTS_DIR)/src/rtGetNaN.C.dep: \
 src/rtGetNaN.C \
-src/rtGetNaN.h \
-src/rtwtypes.h \
-src/rt_nonfinite.h \
+lnInclude/rtGetNaN.h \
+lnInclude/rtwtypes.h \
+lnInclude/rt_nonfinite.h \
 
-src/rtGetNaN.h :
-src/rtwtypes.h :
-src/rt_nonfinite.h :
+lnInclude/rtGetNaN.h :
+lnInclude/rtwtypes.h :
+lnInclude/rt_nonfinite.h :
 

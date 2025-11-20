@@ -44,8 +44,6 @@
 
 {	
 	// Set initial conditions
-	//Info << "yStar0: " << yStar0.size() << endl;
-	//Info << "iCluster: " << iCluster << endl;
 	vector_odeSolverPFR[iCluster].SetInitialConditions(t0, yStar0);
 
 	// Additional ODE solver options

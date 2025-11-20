@@ -76,15 +76,20 @@ if (iFitCTree == true)
 
 	// Open the XML file
 	boost::property_tree::ptree ptree; // OFv10
-  	boost::property_tree::read_xml( (path_xml_input_file).c_str(), ptree ); //OFv10
+  	boost::property_tree::read_xml( (path_xml_input_file).c_str(), ptree );
+	// rapidxml::xml_document<> doc;
 	std::vector<char> xml_string;
+	// OpenSMOKE::OpenInputFileXML(doc, xml_string, path_xml_input_file);
+	// rapidxml::xml_node<>* opensmoke_node = doc.first_node("opensmoke");
 	boost::property_tree::ptree opensmoke_node = ptree.get_child("opensmoke");
 
 	// Read number of clusters
 	{
+		// rapidxml::xml_node<>* nclusters_node = opensmoke_node->first_node("classes");
 		boost::property_tree::ptree nclusters_node = opensmoke_node.get_child("classes");
 		try
 		{
+			// nclusters = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(nclusters_node->value())));
 			nclusters = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(nclusters_node.data())));
 			std::cout << " * Number of clusters: " << nclusters << std::endl;
 		}
@@ -100,10 +105,12 @@ if (iFitCTree == true)
 	// Read mean values of filtered variables
 	{
 		std::cout << " * Reading mean values (mu)..." << std::endl;
+		// rapidxml::xml_node<>* mu_node = opensmoke_node->first_node("mu");
 		boost::property_tree::ptree mu_node = opensmoke_node.get_child("mu");
 		try
 		{
 			std::stringstream fInput;
+			// fInput << mu_node->value();
 			fInput << mu_node.data();
 
 			for (unsigned int j = 0; j < thermodynamicsMapXML->NumberOfSpecies()+1; j++)
@@ -118,10 +125,12 @@ if (iFitCTree == true)
 	// Read std deviations of filtered variables
 	{
 		std::cout << " * Reading std deviation values (sigma)..." << std::endl;
+		// rapidxml::xml_node<>* sigma_node = opensmoke_node->first_node("sigma");
 		boost::property_tree::ptree sigma_node = opensmoke_node.get_child("sigma");
 		try
 		{
 			std::stringstream fInput;
+			// fInput << sigma_node->value();
 			fInput << sigma_node.data();
 
 			for (unsigned int j = 0; j <  thermodynamicsMapXML->NumberOfSpecies() + 1; j++)
@@ -135,9 +144,11 @@ if (iFitCTree == true)
 
 	// Read PC if any
 	{
+		// rapidxml::xml_node<>* npcs_node = opensmoke_node->first_node("npcs");
 		boost::property_tree::ptree npcs_node = opensmoke_node.get_child("npcs");
 		try
 		{
+			// fitctree_npcs = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(npcs_node->value())));
 			fitctree_npcs = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(npcs_node.data())));
 			std::cout << " * Number of PCs (total): " << fitctree_npcs << std::endl;
 		}
@@ -148,9 +159,11 @@ if (iFitCTree == true)
 
 		if (fitctree_npcs != 0)
 		{
+			// rapidxml::xml_node<>* npcs_retained_node = opensmoke_node->first_node("npcs-retained");
 			boost::property_tree::ptree npcs_retained_node = opensmoke_node.get_child("npcs-retained");
 			try
 			{
+				// fitctree_npcs_retained = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(npcs_retained_node->value())));
 				fitctree_npcs_retained = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(npcs_retained_node.data())));
 				std::cout << " * Number of PCs (retained): " << fitctree_npcs_retained << std::endl;
 			}
@@ -162,10 +175,12 @@ if (iFitCTree == true)
 			fitctree_pca_coeff.resize(fitctree_npcs, fitctree_npcs_retained);
 			fitctree_pca_coeff.setZero();
 
+			// rapidxml::xml_node<>* pca_coeff_node = opensmoke_node->first_node("pca_coeff");
 			boost::property_tree::ptree pca_coeff_node = opensmoke_node.get_child("pca_coeff");
 			try
 			{
 				std::stringstream fInput;
+				// fInput << pca_coeff_node->value();
 				fInput << pca_coeff_node.data();
 
 				for (unsigned int j = 0; j < fitctree_npcs; j++)
@@ -193,13 +208,16 @@ if (iFitCTree == true)
 		const std::string folder_name = "kinetics." + label.str();
 
 		boost::property_tree::read_xml( (path_kinetics_folder / folder_name / "kinetics.xml").c_str(), ptree ); //OFv10
+		// rapidxml::xml_document<> doc;
 		std::vector<char> xml_string;
+		// OpenSMOKE::OpenInputFileXML(doc, xml_string, path_kinetics_folder / folder_name / "kinetics.xml");
 
 		double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 		vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(ptree); 
 		vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(ptree); 
 		vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], ptree); 
-
+		// vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(doc);
+		// vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], doc);
 		double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
 		std::cout << "Time to read XML file: " << tEnd - tStart << std::endl;
 
@@ -300,13 +318,17 @@ if (iVQ2 == true)
 		boost::filesystem::path path_kinetics = kinetics;
   		boost::property_tree::ptree ptree; // OFv10
   		boost::property_tree::read_xml( (path_kinetics_folder / folder_name / "kinetics.xml").c_str(), ptree ); //OFv10
+		// rapidxml::xml_document<> doc;
 		std::vector<char> xml_string;
+		// OpenSMOKE::OpenInputFileXML(doc, xml_string, path_kinetics_folder / folder_name / "kinetics.xml");
 
 		double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 		vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(ptree); 
 		vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(ptree); 
 		vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], ptree);
-
+		// vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(doc);
+		// vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(doc);
+		// vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], doc);
 		double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
 		std::cout << "Time to read XML file: " << tEnd - tStart << std::endl;
 
@@ -378,14 +400,19 @@ if (iSOM == true)
 	// Open the XML file
 	boost::property_tree::ptree ptree; // OFv10
   	boost::property_tree::read_xml( (path_xml_input_file).c_str(), ptree ); //OFv10
+	// rapidxml::xml_document<> doc;
 	std::vector<char> xml_string;
+	// OpenSMOKE::OpenInputFileXML(doc, xml_string, path_xml_input_file);
 	boost::property_tree::ptree opensmoke_node = ptree.get_child("opensmoke");
+	// rapidxml::xml_node<>* opensmoke_node = doc.first_node("opensmoke");
 
 	// Read number of clusters
 	{
+		// rapidxml::xml_node<>* nclusters_node = opensmoke_node->first_node("classes");
 		boost::property_tree::ptree nclusters_node = opensmoke_node.get_child("classes");
 		try
 		{
+			// nclusters = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(nclusters_node->value())));
 			nclusters = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(nclusters_node.data())));
 			std::cout << " * Number of clusters: " << nclusters << std::endl;
 		}
@@ -397,10 +424,11 @@ if (iSOM == true)
 
 	// Read number of principal components
 	{
+		// rapidxml::xml_node<>* npca_node = opensmoke_node->first_node("principal-components");
 		boost::property_tree::ptree npca_node = opensmoke_node.get_child("principal-components");
 		try
 		{
-			//npca = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(npca_node->value())));
+			// npca = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(npca_node->value())));
 			npca = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(npca_node.data())));
 			std::cout << " * Number of principal components: " << npca << std::endl;
 		}
@@ -412,9 +440,11 @@ if (iSOM == true)
 
 	// Read number retained species 
 	{
+		// rapidxml::xml_node<>* nretspecies_node = opensmoke_node->first_node("number-retained-species");
 		boost::property_tree::ptree nretspecies_node = opensmoke_node.get_child("number-retained-species");
 		try
 		{
+			// nf = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(nretspecies_node->value())));
 			nf = boost::lexical_cast<unsigned int>(boost::trim_copy(std::string(nretspecies_node.data())));
 			std::cout << " * Number of retained species: " << nf << std::endl;
 		}
@@ -427,12 +457,14 @@ if (iSOM == true)
 	// Read list retained species 
 	if (nf != thermodynamicsMapXML->NumberOfSpecies())
 	{
+		// rapidxml::xml_node<>* listretspecies_node = opensmoke_node->first_node("list-retained-species");
 		boost::property_tree::ptree listretspecies_node = opensmoke_node.get_child("list-retained-species");
 		try
 		{
 			listretspecies.resize(nf);
 
 			std::stringstream fInput;
+			// fInput << listretspecies_node->value();
 			fInput << listretspecies_node.data();
 
 			for (unsigned int j = 0; j < nf; j++)
@@ -454,10 +486,12 @@ if (iSOM == true)
 
 	// Read mean values of filtered variables
 	{
+		// rapidxml::xml_node<>* mu_node = opensmoke_node->first_node("mu");
 		boost::property_tree::ptree mu_node = opensmoke_node.get_child("mu");
 		try
 		{
 			std::stringstream fInput;
+			// fInput << mu_node->value();
 			fInput << mu_node.data();
 
 			for (unsigned int j = 0; j < nf+1; j++)
@@ -471,10 +505,12 @@ if (iSOM == true)
 
 	// Read std deviations of filtered variables
 	{
+		// rapidxml::xml_node<>* sigma_node = opensmoke_node->first_node("sigma");
 		boost::property_tree::ptree sigma_node = opensmoke_node.get_child("sigma");
 		try
 		{
 			std::stringstream fInput;
+			// fInput << sigma_node->value();
 			fInput << sigma_node.data();
 
 			for (unsigned int j = 0; j < nf + 1; j++)
@@ -488,10 +524,12 @@ if (iSOM == true)
 
 	// Read PCA weights
 	{
+		// rapidxml::xml_node<>* w_node = opensmoke_node->first_node("weights");
 		boost::property_tree::ptree w_node = opensmoke_node.get_child("weights");
 		try
 		{
 			std::stringstream fInput;
+			// fInput << w_node->value();
 			fInput << w_node.data();
 
 			for (unsigned int j = 0; j < nf + 1; j++)
@@ -515,13 +553,17 @@ if (iSOM == true)
 		const std::string folder_name = "kinetics." + label.str();
 
 		boost::property_tree::read_xml( (path_kinetics_folder / folder_name / "kinetics.xml").c_str(), ptree ); //OFv10
+		// rapidxml::xml_document<> doc;
 		std::vector<char> xml_string;
+		// OpenSMOKE::OpenInputFileXML(doc, xml_string, path_kinetics_folder / folder_name / "kinetics.xml");
 
 		double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 		vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(ptree); 
 		vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(ptree); 
 		vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], ptree); 
-
+		// vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(doc);
+		// vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(doc);
+		// vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], doc);
 		double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
 		std::cout << "Time to read XML file: " << tEnd - tStart << std::endl;
 
@@ -607,15 +649,20 @@ if (iSOFTMAX == true)
 
 		boost::property_tree::ptree ptree; // OFv10
 		boost::property_tree::read_xml( (path_kinetics_folder / folder_name / "kinetics.xml").c_str(), ptree ); //OFv10
+		// rapidxml::xml_document<> doc;
 		std::vector<char> xml_string;
+		// OpenSMOKE::OpenInputFileXML(doc, xml_string, path_kinetics_folder / folder_name / "kinetics.xml");
 
 		double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 		vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(ptree); 
 		vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(ptree); 
 		vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], ptree); 
-
+		// vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(doc);
+		// vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(doc);
+		// vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], doc);
 		double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
 		std::cout << "Time to read XML file: " << tEnd - tStart << std::endl;
+
 		// Mapping
 		{
 			unsigned int NC = thermodynamicsMapXML->NumberOfSpecies();
@@ -698,15 +745,19 @@ if (iNEURAL == true)
 
 				boost::property_tree::ptree ptree; // OFv10
                 boost::property_tree::read_xml( (path_kinetics_folder / folder_name / "kinetics.xml").c_str(), ptree ); //OFv10
-				std::vector<char> xml_string;
+                // rapidxml::xml_document<> doc;
+                std::vector<char> xml_string;
+                // OpenSMOKE::OpenInputFileXML(doc, xml_string, path_kinetics_folder / folder_name / "kinetics.xml");
 
-				double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
+                double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 				vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(ptree); 
 				vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(ptree); 
 				vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], ptree); 
-
-				double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
-				std::cout << "Time to read XML file: " << tEnd - tStart << std::endl;
+                // vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(doc);
+                // vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(doc);
+                // vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], doc);
+                double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
+                std::cout << "Time to read XML file: " << tEnd - tStart << std::endl;
 
                 // Mapping
                 {
@@ -795,19 +846,22 @@ if (iPREDICTIONS == true)
         {
                 std::stringstream label; label << j;
                 const std::string folder_name = "kinetics." + label.str();
-				
+
 				boost::property_tree::ptree ptree; // OFv10
                 boost::property_tree::read_xml( (path_kinetics_folder / folder_name / "kinetics.xml").c_str(), ptree ); //OFv10
-				//rapidxml::xml_document<> doc;
-				std::vector<char> xml_string;
+                // rapidxml::xml_document<> doc;
+                std::vector<char> xml_string;
+                // OpenSMOKE::OpenInputFileXML(doc, xml_string, path_kinetics_folder / folder_name / "kinetics.xml");
 
-				double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
+                double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 				vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(ptree); 
 				vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(ptree); 
 				vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], ptree); 
-
-				double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
-				std::cout << "Time to read XML file: " << tEnd - tStart << std::endl;
+                // vector_thermodynamicsMapXML[j] = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(doc);
+                // vector_transportMapXML[j] = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(doc);
+                // vector_kineticsMapXML[j] = new OpenSMOKE::KineticsMap_CHEMKIN(*vector_thermodynamicsMapXML[j], doc);
+                double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
+                std::cout << "Time to read XML file: " << tEnd - tStart << std::endl;
 
                 // Mapping
                 {

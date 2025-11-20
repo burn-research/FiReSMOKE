@@ -1,4 +1,4 @@
-/*——————————————————————————————————————————————————————————————————————-*\
+/*-----------------------------------------------------------------------*\
 |                              _____ __  __  ____  _  ________            |
 |            ___              / ____|  \/  |/ __ \| |/ /  ____|           |
 |           /  _| _  ___  ___| (___ | \  / | |  | | ' /| |__              |
@@ -15,7 +15,7 @@
 |   P.zza Leonardo da Vinci 32, 20133 Milano (Italy)                      |
 |                                                                         |
 |   Contacts: Ruggero Amaduzzi, Arthur Péquin, Alessandro Parente         |
-|	email: alessandro.parente@ulb.be			                          |
+|   email: alessandro.parente@ulb.be                                      |
 |   Aero-Thermo-Mechanical Department                                     |
 |   Université Libre de Bruxelles                                         |
 |   Avenue F. D. Roosevelt 50, 1050 Bruxelles (Belgium)                   |
@@ -40,7 +40,7 @@
 |   You should have received a copy of the GNU General Public License     |
 |   along with fireSMOKE. If not, see <http://www.gnu.org/licenses/>.     |
 |                                                                         |
-\*------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 tmp<fv::convectionScheme<scalar> > mvConvection
 (
@@ -49,7 +49,7 @@ tmp<fv::convectionScheme<scalar> > mvConvection
         mesh,
         fields,
         phi,
-        mesh.schemes().div("div(phi,Yi)")
+        mesh.divScheme("div(phi,Yi)")
     )
 );
 
@@ -60,6 +60,8 @@ tmp<fv::convectionScheme<scalar> > mvConvection
 
 	label inertIndex = -1;
 	volScalarField Yt(0.0*Y[0]);
+
+	// scalar cpuTimeSolve = 0.;
 
 	const double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 
@@ -76,19 +78,29 @@ tmp<fv::convectionScheme<scalar> > mvConvection
 				(
 					fvm::ddt(rho, Yi)
 					+ mvConvection->fvmDiv(phi, Yi)
-					- fvm::laplacian(rho*Dmixi + rho*turbulence->nut()/Sct, Yi)
+					- fvm::laplacian(rho*Dmixi + turbulence->mut()/Sct, Yi)
 					==
 					R_[i]
-					+ fvModels.source(rho, Yi)
+					+ fvOptions(rho, Yi)
 				);
 
 				YiEqn.relax();
 
-				fvConstraints.constrain(YiEqn);
-                                
+				fvOptions.constrain(YiEqn);
+				
+				// const double tStartSolve = OpenSMOKE::OpenSMOKEGetCpuTime();
+				#if OPENFOAM_VERSION >=60
 				YiEqn.solve("Yi");
-                                
-				fvConstraints.constrain(Yi);
+				#else
+				YiEqn.solve(mesh.solver("Yi"));
+				#endif
+				
+				// const double tEndSolve = OpenSMOKE::OpenSMOKEGetCpuTime();
+
+				// cpuTimeSolve += tEndSolve - tStartSolve;
+				// Info << " * CPU time for species solve : " << tEndSolve - tStartSolve << endl;
+
+				fvOptions.correct(Yi);
 
 				Yi.max(0.0);
 				Yt += Yi;
@@ -112,19 +124,29 @@ tmp<fv::convectionScheme<scalar> > mvConvection
 				(
 					fvm::ddt(rho, Yi)
 					+ mvConvection->fvmDiv(phi, Yi)
-					- fvm::laplacian(rho*turbulence->nuEff()/Sct, Yi)
+					- fvm::laplacian(turbulence->muEff()/Sct, Yi)
 					==
 					R_[i]
-					+ fvModels.source(rho, Yi)
+					+ fvOptions(rho, Yi)
 				);
 
 				YiEqn.relax();
 
-				fvConstraints.constrain(YiEqn);
-                                
-				YiEqn.solve("Yi");
+				fvOptions.constrain(YiEqn);
 
-				fvConstraints.constrain(Yi);
+				// const double tStartSolve = OpenSMOKE::OpenSMOKEGetCpuTime();
+				#if OPENFOAM_VERSION >=60
+				YiEqn.solve("Yi");
+				#else
+				YiEqn.solve(mesh.solver("Yi"));
+				#endif
+				
+				// const double tEndSolve = OpenSMOKE::OpenSMOKEGetCpuTime();
+
+				// cpuTimeSolve += tEndSolve - tStartSolve;
+				// Info << " * CPU time for species solve : " << tEndSolve - tStartSolve << endl;
+
+				fvOptions.correct(Yi);
 
 				Yi.max(0.0);
 				Yt += Yi;
@@ -142,6 +164,7 @@ tmp<fv::convectionScheme<scalar> > mvConvection
     const double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
 
     Info << "CPU time for species transport (overall): " << tEnd - tStart << " s " << "(" << (tEnd - tStart)/double(mesh.C().size())*1e3 << " ms per cell)" << endl;
+    // Info << "CPU time for species transport (solve):   " << cpuTimeSolve << " s " << "(" << (cpuTimeSolve)/double(mesh.C().size())*1e3 << " ms per cell)" << endl;
 }
 
 
