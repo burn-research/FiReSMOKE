@@ -63,52 +63,20 @@
 #include "math/native-nls-solvers/parameters/NonLinearSolver_Parameters.h"
 
 // OpenFOAM
-#include "fvMesh.H" //v12
-#include "volFields.H" //v12
-#include "surfaceFields.H" //v12
-#include "fvc.H" //v12
-#include "fvm.H" //v12
+#include "fvCFD.H"
+#include "fluidReactionThermo.H"	
+#include "combustionModel.H"
 #include "compressibleMomentumTransportModels.H"
+#include "fluidReactionThermophysicalTransportModel.H"
 #include "multivariateScheme.H"
 #include "pimpleControl.H"
 #include "pressureReference.H"
+#include "CorrectPhi.H"
 #include "fvModels.H"
 #include "fvConstraints.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
 #include "radiationModel.H"
-#include "constrainHbyA.H" //v12
-#include "adjustPhi.H" //v12
-#include "argList.H" //v12
-#include "fluidMulticomponentThermo.H" //v12
-#include "dimensionedTypes.H" //v12
-#include "OFstream.H" //v12
-#include "timeSelector.H" //v12
-#include "functionObjectList.H" //v12
-#include "combustionModel.H" //v12
-#include "uniformDimensionedFields.H" //v12
-#include "constrainPressure.H" //v12
-#include "OFstream.H" //v12
-#include "timeSelector.H" //v12
-#include "fluidThermo.H" //v12
-#include "rhoThermo.H" //v12
-#include "zeroGradientFvPatchFields.H" //v12
-#include "fvcFlux.H"
-#include "fvcDdt.H"
-#include "fvcGrad.H"
-#include "fvcSnGrad.H"
-#include "fvcReconstruct.H"
-#include "fvcVolumeIntegrate.H"
-#include "fvmDiv.H"
-#include "fvmLaplacian.H"
-#include "hydrostaticInitialisation.H"
-#include "IOMRFZoneList.H"
-#include "localEulerDdtScheme.H"
-#include "addToRunTimeSelectionTable.H"
-#include "linear.H"
-#include "fvcDiv.H"
-#include "fvcMeshPhi.H"
-#include "fluidMulticomponentThermophysicalTransportModel.H"
 
 // Utilities
 #include "Utilities.H"
@@ -154,15 +122,13 @@
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-using namespace Foam; //v12
-
 int main(int argc, char *argv[])
 {
     unsigned int runTimeStep = 0;
 
-    argList::addNote("Solver for firePimpleSMOKE"); //v12
-    argList args(argc, argv); //v12
+	#include "postProcess.H"
 
+	#include "setRootCaseLists.H"
 	#include "createTime.H"
 	#include "createMesh.H"
 	#include "readGravitationalAcceleration.H"
@@ -170,14 +136,18 @@ int main(int argc, char *argv[])
 	#include "initContinuityErrs.H"
 	#include "createFields.H"
 	#include "createOpenSMOKEFields.H"
+	#include "createRhoUfIfPresent.H"
 	#include "createRadiationModel.H"
 
-	momentumTransport->validate(); //v12
+	turbulence->validate();
 
-	#include "compressibleCourantNo.H"
-	#include "setInitialDeltaT.H"
+	if (!LTS)
+	{
+		#include "compressibleCourantNo.H"
+		#include "setInitialDeltaT.H"
+	}
 
-	#include "volFields.H"
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
 
@@ -187,6 +157,10 @@ int main(int argc, char *argv[])
     while (runTime.run())
     {
         #include "readDyMControls.H"
+
+	// Store divrhoU from the previous mesh so that it can be mapped
+        // and used in correctPhi to ensure the corrected phi has the
+        // same divergence
         autoPtr<volScalarField> divrhoU;
         if (correctPhi)
         {
@@ -196,49 +170,32 @@ int main(int argc, char *argv[])
                 fvc::div(fvc::absolute(phi, rho, U))
             );
         }
-		#include "compressibleCourantNo.H"
-		#include "setDeltaT.H"
+
+        if (LTS)
+        {
+            #include "setRDeltaT.H"
+        }
+        else
+        {
+            #include "compressibleCourantNo.H"
+            #include "setDeltaT.H"
+        }
 
         fvModels.preUpdateMesh();
-		Foam::IOMRFZoneList MRF(mesh);
-		autoPtr<surfaceVectorField> rhoUf
-		(
-			new surfaceVectorField
-			(
-				IOobject
-				(
-					"rhoUf",
-					runTime.name(),
-					mesh,
-					IOobject::READ_IF_PRESENT,
-					IOobject::AUTO_WRITE
-				),
-				fvc::interpolate(rho * U)
-			)
-		);
 
-		if ((mesh.dynamic() || MRF.size()))
-		{
-			Info<< "Constructing face momentum rhoUf" << endl;
-
-			// Ensure the U BCs are up-to-date before constructing Uf
-			U.correctBoundaryConditions();
-
-			rhoUf() = fvc::interpolate(rho*U);
-		}
-
-		if (!mesh.schemes().steady())
-		{
-			rho = thermo.rho();
-			fvc::correctRhoUf(rhoUf, rho, U, phi, MRF);
-		}
+        // Store momentum to set rhoUf for introduced faces.
+        autoPtr<volVectorField> rhoU;
+        if (rhoUf.valid())
+        {
+            rhoU = new volVectorField("rhoU", rho*U);
+        }
 
         // Update the mesh for topology change, mesh to mesh mapping
         mesh.update();
 
         runTime++;
 		runTimeStep++;
-        Info<< "Time = " << runTime.name() << nl << endl; //v12
+        Info<< "Time = " << runTime.timeName() << nl << endl;
 
 	// --- Pressure-velocity PIMPLE corrector loop
 	while (pimple.loop())
@@ -263,7 +220,7 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			if (pimple.firstPimpleIter())
+			if (pimple.firstPimpleIter() || moveMeshOuterCorrectors)
                 	{
                     		// Move the mesh
                     		mesh.move();
@@ -276,6 +233,11 @@ int main(int argc, char *argv[])
                         		{
                             		#include "correctPhi.H"
                        			}
+
+                        		if (checkMeshCourantNo)
+                        		{
+                            		#include "meshCourantNo.H"
+                        		}
                     		}
                 	}
 
@@ -313,9 +275,9 @@ int main(int argc, char *argv[])
 				#include "pEqn.H"
 			}
 		
-			if (pimple.correctTransport()) //v12
+			if (pimple.turbCorr())
 			{
-				momentumTransport->correct(); //v12
+				turbulence->correct();
 			}
 		}
 	}
@@ -329,7 +291,7 @@ int main(int argc, char *argv[])
 
 	runTime.write();
 
-	Pav << runTime.name() << "\t" << p.weightedAverage(mesh.V()).value() << endl; //v12
+	Pav << runTime.timeName() << "\t" << p.weightedAverage(mesh.V()).value() << endl;
 
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << " ClockTime = " << runTime.elapsedClockTime() << " s"

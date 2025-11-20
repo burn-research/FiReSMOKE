@@ -63,36 +63,29 @@ OpenSMOKE::KineticsMap_CHEMKIN* kineticsMapXML;
 OpenSMOKE::TransportPropertiesMap_CHEMKIN* transportMapXML;
 
 {	
+	//word kinetics(thermo.lookup("kineticMechanism"));
   	Foam::string kinetics = combustionOptionsDictionary.lookup("folder"); //OFv10
 	boost::filesystem::path path_kinetics = kinetics;
   	boost::property_tree::ptree ptree; // OFv10
   	boost::property_tree::read_xml( (path_kinetics / "kinetics.xml").c_str(), ptree ); //OFv10
+	//rapidxml::xml_document<> doc;
+	//std::vector<char> xml_string;
+	//OpenSMOKE::OpenInputFileXML(doc, xml_string,path_kinetics / "kinetics.xml");
+
 	double tStart = OpenSMOKE::OpenSMOKEGetCpuTime();
 	thermodynamicsMapXML = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(ptree); 
 	transportMapXML = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(ptree); 
 	kineticsMapXML = new OpenSMOKE::KineticsMap_CHEMKIN(*thermodynamicsMapXML, ptree); 
-			
+	//thermodynamicsMapXML = new OpenSMOKE::ThermodynamicsMap_CHEMKIN(doc); 
+	//transportMapXML = new OpenSMOKE::TransportPropertiesMap_CHEMKIN(doc); 
+	//kineticsMapXML = new OpenSMOKE::KineticsMap_CHEMKIN(*thermodynamicsMapXML, doc); 					
 	double tEnd = OpenSMOKE::OpenSMOKEGetCpuTime();
 	std::cout << " * Time to read XML file: " << tEnd-tStart << std::endl;
 }
 
 //OFv10
 const word inertSpecie(combustionOptionsDictionary.lookup("inertSpecie"));
-
-label inertIndex = -1; //v12
-forAll(thermo.Y(), i) //v12
-{
-    if (thermo.Y()[i].name() == inertSpecie)
-    {
-        inertIndex = i;
-        break;
-    }
-}
-
-if (inertIndex == -1)
-{
-    FatalErrorInFunction << "Inert specie " << inertSpecie << " not found in thermo.Y()" << abort(FatalError);
-}
+const label inertIndex(composition.species()[inertSpecie]);
 
 // Total number of equations for ODE systems (without DRG)
 const int ne_total = thermodynamicsMapXML->NumberOfSpecies()+3;	// species and temperature + 2 dummy variables
@@ -175,7 +168,7 @@ Switch iLES = false;
 #if STEADYSTATE == 0
 if (iLES == false)
 {
-	if ( momentumTransport->db().objectRegistry::foundObject<volScalarField>("epsilon") ) //v12
+	if ( turbulence->db().objectRegistry::foundObject<volScalarField>("epsilon") )
 	{
 		Info << "Found epsilon from turbulence model!" << endl;
 	}
@@ -211,7 +204,7 @@ volScalarField tauStar
     IOobject
     (
 	"edc::tauStar",
-	mesh.time().name(), //v12
+	mesh.time().timeName(),
 	mesh,
 	IOobject::NO_READ,
 	IOobject::NO_WRITE,
@@ -226,7 +219,7 @@ volScalarField epsilonSGS
     IOobject
     (
 	"epsilonSGS",
-	mesh.time().name(), //v12
+	mesh.time().timeName(),
 	mesh,
 	IOobject::NO_READ,
 	IOobject::NO_WRITE,
@@ -241,7 +234,7 @@ volScalarField gammaL
     IOobject
     (
 	"edc::gammaL",
-	mesh.time().name(), //v12
+	mesh.time().timeName(),
 	mesh,
 	IOobject::NO_READ,
 	IOobject::NO_WRITE,
@@ -256,7 +249,7 @@ volScalarField massDiffusionInEnergyEquation
     IOobject
     (
 	"massDiffusionInEnergyEquation",
-	mesh.time().name(), //v12
+	mesh.time().timeName(),
 	mesh,
 	IOobject::NO_READ,
 	IOobject::NO_WRITE,
@@ -434,6 +427,10 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 			Cgamma_coefficient = readScalar(edcSubDictionary.lookup("CgammaCoeff"));	// default: sqrt(3/2)
 			CRe_coefficient    = readScalar(edcSubDictionary.lookup("CReCoeff"));		// default: 0.09
 
+			// The following coeffients are currently implemented in the official OF version
+			//  * Ctau_coefficient   = 0.01
+			//  * Cgamma_coefficient = 0.5
+			//  * CRe_coefficient    = 1.0
 		}
 
 		// Characteristic chemical type options (only in case of v2016)
@@ -609,7 +606,7 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 			}
 		}
 	}
-	// mPaSR Constants
+// mPaSR Constants
 	else if (combustionModel == "mPaSR")
 	{
 		combustion_model_tag = "mPaSR";
@@ -692,7 +689,6 @@ enum { DT_LES, MIN_DTLES_TAUMIX, TAUMIX} tauStarType;
 	{
 		FatalError << "Combustion model available: ED || EDFR || EDC || PaSR || QLFR || PaSR_LFR || LFR || mPaSR" << endl;
 	}
-
 
 	if (combustionModel == "ED" || combustionModel == "EDFR")
 	{
@@ -859,7 +855,7 @@ volScalarField lambda
     IOobject
     (
         "gas::lambda",
-        runTime.name(), //v12
+        runTime.timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
@@ -888,7 +884,7 @@ volScalarField tauMix
 	IOobject
 	(
 		"combustion::tauMix",
-		mesh.time().name(), //v12
+		mesh.time().timeName(),
 		mesh,
 		IOobject::READ_IF_PRESENT,
 		IOobject::AUTO_WRITE,
@@ -905,7 +901,7 @@ volScalarField tauChem
 	IOobject
 	(
 		"combustion::tauChem",
-		mesh.time().name(), //v12
+		mesh.time().timeName(),
 		mesh,
 		IOobject::READ_IF_PRESENT,
 		IOobject::AUTO_WRITE,
@@ -922,7 +918,7 @@ volScalarField Da
 	IOobject
 	(
 		"combustion::Da",
-		mesh.time().name(), //v12
+		mesh.time().timeName(),
 		mesh,
 		IOobject::NO_READ,
 		IOobject::AUTO_WRITE,
@@ -939,7 +935,7 @@ volScalarField ReT
 	IOobject
 	(
 		"combustion::ReT",
-		mesh.time().name(), //v12
+		mesh.time().timeName(),
 		mesh,
 		IOobject::NO_READ,
 		IOobject::NO_WRITE,
@@ -956,7 +952,7 @@ volScalarField kappa
 	IOobject
 	(
 		"combustion::kappa",
-		mesh.time().name(), //v12
+		mesh.time().timeName(),
 		mesh,
 		IOobject::NO_READ,
 		IOobject::AUTO_WRITE,
@@ -973,7 +969,7 @@ volScalarField Cmix
         IOobject
         (
                 "turbulent::Cmix",
-                mesh.time().name(), //v12
+                mesh.time().timeName(),
                 mesh,
                 IOobject::NO_READ,
                 IOobject::AUTO_WRITE,
@@ -990,7 +986,7 @@ volScalarField f
         IOobject
         (
                 "f",
-                runTime.name(), //v12
+                runTime.timeName(),
                 mesh,
                 IOobject::READ_IF_PRESENT,
                 IOobject::AUTO_WRITE,
@@ -1008,7 +1004,7 @@ volScalarField varf
         IOobject
         (
                 "varf",
-                runTime.name(), //v12
+                runTime.timeName(),
                 mesh,
                 IOobject::READ_IF_PRESENT,
                 IOobject::AUTO_WRITE,
@@ -1026,7 +1022,7 @@ volScalarField Chi
         IOobject
         (
                 "Chi",
-                runTime.name(), //v12
+                runTime.timeName(),
                 mesh,
                 IOobject::READ_IF_PRESENT,
                 IOobject::AUTO_WRITE,
@@ -1042,16 +1038,16 @@ volScalarField PV
 (
     IOobject
     (
-        "PV",
-        mesh.time().name(), //v12
-        mesh,
-        IOobject::READ_IF_PRESENT,
-        IOobject::AUTO_WRITE,
-        true
+        "PV",                         // Dosya adı
+        mesh.time().timeName(),       // Zaman adı
+        mesh,                         // Mesh
+        IOobject::READ_IF_PRESENT,    // Okuma yapılmasın
+        IOobject::AUTO_WRITE,         // Yazma otomatik yapılsın
+        true                         // Başlangıçta yazma yapılmasın
     ),
-    mesh,
-    dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.),
-    zeroGradientFvPatchScalarField::typeName
+    mesh,                           // Mesh
+    dimensionedScalar("zero", dimensionSet(0, 0, 0, 0, 0), 0.), // Başlangıç değeri
+    zeroGradientFvPatchScalarField::typeName // Tür ismi (bu seçenek isteğe bağlıdır)
 );
 
 {
@@ -1084,7 +1080,7 @@ volScalarField PV
 		IOobject header
 		(
 			combustion_model_tag + "::YStar_" + Y[i].name(),
-			mesh.time().name(), //v12
+			mesh.time().timeName(),
 			mesh,
 			IOobject::NO_READ
 		);
@@ -1107,7 +1103,7 @@ volScalarField PV
 						IOobject
 						(
 							combustion_model_tag + "::YStar_"+ Y[i].name(),
-							mesh.time().name(), //v12
+							mesh.time().timeName(),
 							mesh,
 							IOobject::NO_READ,
 							IOobject::NO_WRITE
@@ -1128,7 +1124,7 @@ volScalarField PV
 						IOobject
 						(
 							combustion_model_tag + "::YStar_"+ Y[i].name(),
-							mesh.time().name(), //v12
+							mesh.time().timeName(),
 							mesh,
 							IOobject::NO_READ,
 							IOobject::NO_WRITE
@@ -1151,7 +1147,7 @@ volScalarField PV
 				IOobject
 				(
 					combustion_model_tag + "::R_"+ Y[i].name(),
-					mesh.time().name(), //v12
+					mesh.time().timeName(),
 					mesh,
 					IOobject::NO_READ,
 					IOobject::AUTO_WRITE
@@ -1171,7 +1167,7 @@ volScalarField PV
 					IOobject
 					(
 						"gas::Dmix_"+ Y[i].name(),
-						mesh.time().name(), //v12
+						mesh.time().timeName(),
 						mesh,
 						IOobject::NO_READ,
 						IOobject::NO_WRITE
@@ -1192,7 +1188,7 @@ volScalarField PV
 					IOobject
 					(
 						"thermo::He_"+ Y[i].name(),
-						mesh.time().name(), //v12
+						mesh.time().timeName(),
 						mesh,
 						IOobject::NO_READ,
 						IOobject::NO_WRITE
@@ -1213,7 +1209,7 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 		IOobject header
 		(
 			combustion_model_tag + "::TStar",
-			mesh.time().name(), //v12
+			mesh.time().timeName(),
 			mesh,
 			IOobject::NO_READ
 		);
@@ -1234,7 +1230,7 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 					IOobject
 					(
 						combustion_model_tag + "::TStar",
-						mesh.time().name(), //v12
+						mesh.time().timeName(),
 						mesh,
 						IOobject::NO_READ,
 						IOobject::NO_WRITE
@@ -1254,7 +1250,7 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 					IOobject
 					(
 						combustion_model_tag + "::TStar",
-						mesh.time().name(), //v12
+						mesh.time().timeName(),
 						mesh,
 						IOobject::NO_READ,
 						IOobject::NO_WRITE
@@ -1321,12 +1317,12 @@ forAll(Y,i)
 // ---------------------------------------------------------------//
 
 // Combustion model activation map
-volScalarField activation_map// binary field, 0 laminar rates only; 1  mPaSR computed
+volScalarField activation_map
 (
         IOobject
         (
                 "activation_map",
-                runTime.name(), //v12
+                runTime.timeName(),
                 mesh,
                 IOobject::NO_READ,
                 IOobject::AUTO_WRITE
@@ -1342,7 +1338,7 @@ volScalarField Qdot
     IOobject
     (
 	"Qdot",
-	runTime.name(), //v12
+	runTime.timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
@@ -1357,7 +1353,7 @@ volScalarField dQ
 	IOobject
 	(
        		"dQ",
-        	runTime.name(), //v12
+        	runTime.timeName(),
         	mesh,
         	IOobject::NO_READ,
         	IOobject::AUTO_WRITE
@@ -1380,7 +1376,7 @@ volScalarField one_over_tauStar
     IOobject
     (
         "one_over_tauStar",
-        runTime.name(), //v12
+        runTime.timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
@@ -1410,8 +1406,13 @@ volScalarField one_over_tauStar
 		if ( e > maxSumMassFractionsError)
 			FatalError << "Fatal error: the sum of mass fractions in cell " << celli << " is equal to " << sum << " (error " << sum-1. << endl; 
 			
+		//#if OPENFOAM_VERSION >= 40
 		for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
-			Y[i].internalFieldRef()[celli]/=sum; //v12
+			Y[i].ref()[celli]/=sum;
+		//#else
+		//for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
+		//	Y[i].internalField()[celli]/=sum;
+		//#endif
 
 		sumTotal += sum;
 		if (e>maxError) maxError = e;
@@ -1445,7 +1446,7 @@ if (combustionModel == "EDC" || combustionModel == "PaSR" || combustionModel == 
 			
 		//#if OPENFOAM_VERSION >= 40
 		for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
-			YStar_[i].internalFieldRef()[celli]/=sum; //v12
+			YStar_[i].ref()[celli]/=sum;
 		//#else
 		//for (unsigned int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
 		//	YStar_[i].internalField()[celli]/=sum;

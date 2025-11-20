@@ -57,10 +57,10 @@ if (iSOM == true)
 
 #if OPENFOAM_VERSION >= 40
 		const scalarField &TCells = T.internalField();
-		scalarField &clusterIndexCells = clusterIndex.internalFieldRef(); //v12
-		scalarField &clusterWeightCells = clusterWeight.internalFieldRef(); //v12
-		scalarField &clusterSpeciesCells = clusterSpecies.internalFieldRef(); //v12
-		scalarField &clusterReactionsCells = clusterReactions.internalFieldRef(); //v12
+		scalarField &clusterIndexCells = clusterIndex.ref();
+		scalarField &clusterWeightCells = clusterWeight.ref();
+		scalarField &clusterSpeciesCells = clusterSpecies.ref();
+		scalarField &clusterReactionsCells = clusterReactions.ref();
 #else
 		const scalarField &TCells = T.internalField();
 		scalarField &clusterIndexCells = clusterIndex.internalField();
@@ -130,10 +130,10 @@ if (iVQ2 == true || iSOFTMAX == true)
 	{
 #if OPENFOAM_VERSION >= 40
 		const scalarField &TCells = T.internalField();
-		scalarField &clusterIndexCells = clusterIndex.internalFieldRef(); //v12
-		scalarField &clusterWeightCells = clusterWeight.internalFieldRef(); //v12
-		scalarField &clusterSpeciesCells = clusterSpecies.internalFieldRef(); //v12
-		scalarField &clusterReactionsCells = clusterReactions.internalFieldRef(); //v12
+		scalarField &clusterIndexCells = clusterIndex.ref();
+		scalarField &clusterWeightCells = clusterWeight.ref();
+		scalarField &clusterSpeciesCells = clusterSpecies.ref();
+		scalarField &clusterReactionsCells = clusterReactions.ref();
 #else
 		const scalarField &TCells = T.internalField();
 		scalarField &clusterIndexCells = clusterIndex.internalField();
@@ -202,10 +202,10 @@ if (iFitCTree == true)
 
 #if OPENFOAM_VERSION >= 40
 		const scalarField &TCells = T.internalField();
-		scalarField &clusterIndexCells = clusterIndex.internalFieldRef(); //v12
-		scalarField &clusterWeightCells = clusterWeight.internalFieldRef(); //v12
-		scalarField &clusterSpeciesCells = clusterSpecies.internalFieldRef(); //v12
-		scalarField &clusterReactionsCells = clusterReactions.internalFieldRef(); //v12
+		scalarField &clusterIndexCells = clusterIndex.ref();
+		scalarField &clusterWeightCells = clusterWeight.ref();
+		scalarField &clusterSpeciesCells = clusterSpecies.ref();
+		scalarField &clusterReactionsCells = clusterReactions.ref();
 #else
 		const scalarField &TCells = T.internalField();
 		scalarField &clusterIndexCells = clusterIndex.internalField();
@@ -279,10 +279,10 @@ if (iNEURAL == true)
 	{
 #if OPENFOAM_VERSION >= 40
 		const scalarField &TCells = T.internalField();
-		scalarField &clusterIndexCells = clusterIndex.internalFieldRef(); //v12
-		scalarField &clusterWeightCells = clusterWeight.internalFieldRef(); //v12
-		scalarField &clusterSpeciesCells = clusterSpecies.internalFieldRef(); //v12
-		scalarField &clusterReactionsCells = clusterReactions.internalFieldRef(); //v12
+		scalarField &clusterIndexCells = clusterIndex.ref();
+		scalarField &clusterWeightCells = clusterWeight.ref();
+		scalarField &clusterSpeciesCells = clusterSpecies.ref();
+		scalarField &clusterReactionsCells = clusterReactions.ref();
 #else
 		const scalarField &TCells = T.internalField();
 		scalarField &clusterIndexCells = clusterIndex.internalField();
@@ -347,11 +347,11 @@ if (iPREDICTIONS == true)
 	{
 #if OPENFOAM_VERSION >= 40
 		const scalarField &TCells = T.internalField();
-		scalarField &clusterIndexCells = clusterIndex.internalFieldRef(); //v12
-		scalarField &clusterWeightCells = clusterWeight.internalFieldRef(); //v12
-		scalarField &clusterSpeciesCells = clusterSpecies.internalFieldRef(); //v12
-		scalarField &clusterReactionsCells = clusterReactions.internalFieldRef(); //v12
-		scalarField &predictedTargetCells = predictedTarget.internalFieldRef(); //v12
+		scalarField &clusterIndexCells = clusterIndex.ref();
+		scalarField &clusterWeightCells = clusterWeight.ref();
+		scalarField &clusterSpeciesCells = clusterSpecies.ref();
+		scalarField &clusterReactionsCells = clusterReactions.ref();
+		scalarField &predictedTargetCells = predictedTarget.ref();
 #else
 		const scalarField &TCells = T.internalField();
 		scalarField &clusterIndexCells = clusterIndex.internalField();

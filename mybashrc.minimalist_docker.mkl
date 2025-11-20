@@ -2,14 +2,15 @@
 export OPENFOAM_VERSION='-DOPENFOAM_VERSION=1000'
 export DEVVERSION='-DDEVVERSION=1'
 
-# Shared libraries
+#Shared libraries
 export OF_SHARED_LIBS=' -lturbulenceModels -lcompressibleTurbulenceModels -lreactionThermophysicalModels -lspecie -lcompressibleTransportModels -lfluidThermophysicalModels '
 
-# Compulsory paths
+#Compulsory path
 export EIGEN_LIBRARY_PATH=/usr/local/include/eigen3
 export BOOST_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
+export RAPIDXML_LIBRARY_PATH=/usr/local/include/rapidxml
 
-# Options: ISAT support
+#Options: ISAT support
 export ISAT_SUPPORT='-DOPENSMOKE_USE_ISAT=0'
 export ISAT_INCLUDE=
 export ISAT_LIBS=
@@ -21,19 +22,19 @@ export SPARC_LIBS=/usr/lib/libarmadillo.so
 
 # MKL support
 export MKL_SUPPORT='-DOPENSMOKE_USE_MKL=1'
-export MKL_PATH=/opt/intel/oneapi/mkl/2024.2
+export MKL_PATH=/usr/include
 
-# C++ compiler flags
-export CXXFLAGS="$CXXFLAGS -I${MKL_PATH}/include -I${MKL_PATH}/include/oneapi/mkl"
+# C++ derleyicisine 
+export CXXFLAGS="$CXXFLAGS -I${MKL_PATH} -I${MKL_PATH}/mkl"
 
-# MKL libraries
+# MKL
 export MKL_LIBS="-Wl,--start-group \
-    ${MKL_PATH}/lib/intel64/libmkl_intel_lp64.a \
-    ${MKL_PATH}/lib/intel64/libmkl_sequential.a \
-    ${MKL_PATH}/lib/intel64/libmkl_core.a \
+    /usr/lib/x86_64-linux-gnu/libmkl_intel_lp64.a \
+    /usr/lib/x86_64-linux-gnu/libmkl_sequential.a \
+    /usr/lib/x86_64-linux-gnu/libmkl_core.a \
     -Wl,--end-group -lpthread -lm"
 
-# Optional external ODE solvers
+#Optional external ODE solvers
 export EXTERNAL_ODE_SOLVERS=
 export MEBDF_LIBS=
 export RADAU_LIBS=

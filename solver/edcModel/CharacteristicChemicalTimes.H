@@ -62,23 +62,25 @@ class CharacteristicChemicalTimes
 	void SetLapackMode(const bool flag);
 	double CalculateCharacteristicChemicalTime(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
 
-	Eigen::MatrixXd mPaSR_computeNumericalJacobian(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y);
-	Eigen::MatrixXd mPaSR_computeNumericalJacobian_const(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y);
-	
-	void NumericalJacobian(const OpenSMOKE::OpenSMOKEVectorDouble& y, Eigen::MatrixXd& J);
-	void SearchConservativeModes(const std::vector<double>& lambda_real, const std::vector<double>& lambda_mod, std::vector<double>& lambda_real_cleaned);
-
-	#if SPARC==1
-		Eigen::MatrixXd SPARC_computeNumericalJacobian(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y, OpenSMOKE::ThermodynamicsMap_CHEMKIN& thermoMap, OpenSMOKE::KineticsMap_CHEMKIN& kineticsMap);
-	#endif
-
 	private:
 
 	double FromFormationRates(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
 	double FromReactionRates(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
 	double FromEigenValueAnalysis(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& omega);
-
 	void Equations(const OpenSMOKE::OpenSMOKEVectorDouble& c, OpenSMOKE::OpenSMOKEVectorDouble& dc_over_dt);
+
+	public:
+
+	void NumericalJacobian(const OpenSMOKE::OpenSMOKEVectorDouble& y, Eigen::MatrixXd& J);
+
+	void SearchConservativeModes(const std::vector<double>& lambda_real, const std::vector<double>& lambda_mod, std::vector<double>& lambda_real_cleaned);
+
+	Eigen::MatrixXd mPaSR_computeNumericalJacobian(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y);
+	Eigen::MatrixXd mPaSR_computeNumericalJacobian_const(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y);
+
+	#if SPARC==1
+		Eigen::MatrixXd SPARC_computeNumericalJacobian(const double T, const double P, const OpenSMOKE::OpenSMOKEVectorDouble& y, OpenSMOKE::ThermodynamicsMap_CHEMKIN& thermoMap, OpenSMOKE::KineticsMap_CHEMKIN& kineticsMap);
+	#endif
 
 	private:
 

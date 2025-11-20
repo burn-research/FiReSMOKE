@@ -25,7 +25,7 @@ License
 
 {
     volScalarField& rDeltaT = trDeltaT.ref();
-    
+
     const dictionary& pimpleDict = pimple.dict();
 
     Info<< "Time scales min/max:" << endl;
@@ -38,7 +38,7 @@ License
         // Maximum flow Courant number
         const scalar maxCo(pimpleDict.lookup<scalar>("maxCo"));
 
-        rDeltaT.internalFieldRef() = //v12
+        rDeltaT.ref() =
         (
             fvc::surfaceSum(mag(phi))()()
            /((2*maxCo)*mesh.V()*rho())
@@ -74,10 +74,10 @@ License
         );
 
         Info<< "    Temperature = "
-            << 1/(gMax(rDeltaTT.primitiveField()) + vSmall) << ", " //v12
-            << 1/(gMin(rDeltaTT.primitiveField()) + vSmall) << endl; //v12
+            << 1/(gMax(rDeltaTT.field()) + vSmall) << ", "
+            << 1/(gMin(rDeltaTT.field()) + vSmall) << endl;
 
-        rDeltaT.internalFieldRef() = max(rDeltaT(), rDeltaTT); //v12
+        rDeltaT.ref() = max(rDeltaT(), rDeltaTT);
     }
 
     // Reaction rate time scale
@@ -94,7 +94,7 @@ License
             IOobject
             (
                 "rDeltaTY",
-                runTime.name(), //v12
+                runTime.timeName(),
                 mesh
             ),
             mesh,
@@ -103,33 +103,9 @@ License
 
         bool foundY = false;
 
-        // forAll(Y, i)
-        // {
-        //     // if (composition.solve(i))
-        //     if (thermo.species(i)) //v12
-        //     {
-        //         volScalarField& Yi = Y[i];
-
-        //         if (Yref.found(Yi.name()))
-        //         {
-        //             foundY = true;
-        //             scalar Yrefi = Yref.lookup<scalar>(Yi.name());
-        //             //v12
-        //             rDeltaTY.primitiveFieldRef() = max
-        //             (
-        //                 mag(reaction->R(Yi)().source() / ((Yrefi * alphaY) * (rho * mesh.V()))), //v12
-        //                 rDeltaTY
-        //             );
-        //         }
-        //     }
-        // }
-        const speciesTable& species = thermo.species();
-
         forAll(Y, i)
         {
-            const word& name = Y[i].name();
-
-            if (species.found(name))
+            if (composition.solve(i))
             {
                 volScalarField& Yi = Y[i];
 
@@ -138,9 +114,13 @@ License
                     foundY = true;
                     scalar Yrefi = Yref.lookup<scalar>(Yi.name());
 
-                    rDeltaTY.primitiveFieldRef() = max
+                    rDeltaTY.field() = max
                     (
-                        mag(reaction->R(Yi)().source() / ((Yrefi * alphaY) * (rho * mesh.V()))),
+                        mag
+                        (
+                            reaction->R(Yi)().source()
+                           /((Yrefi*alphaY)*(rho*mesh.V()))
+                        ),
                         rDeltaTY
                     );
                 }
@@ -150,10 +130,10 @@ License
         if (foundY)
         {
             Info<< "    Composition = "
-                << 1/(gMax(rDeltaTY.primitiveField()) + vSmall) << ", " //v12
-                << 1/(gMin(rDeltaTY.primitiveField()) + vSmall) << endl; //v12
+                << 1/(gMax(rDeltaTY.field()) + vSmall) << ", "
+                << 1/(gMin(rDeltaTY.field()) + vSmall) << endl;
 
-            rDeltaT.internalFieldRef() = max(rDeltaT(), rDeltaTY); //v12
+            rDeltaT.ref() = max(rDeltaT(), rDeltaTY);
         }
         else
         {

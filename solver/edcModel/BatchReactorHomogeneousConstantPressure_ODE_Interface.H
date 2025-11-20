@@ -44,6 +44,11 @@
 #include "math/OpenSMOKEVector.h"
 #include "math/external-ode-solvers/OpenSMOKE_OdeSystemObject.h"
 
+//#if OPENSMOKE_USE_SUNDIALS == 1
+//#include "math/external-ode-solvers/OpenSMOKE_CVODE_Sundials_Interface.h"
+//#include "math/external-ode-solvers/OpenSMOKE_CVODE_Sundials.h"
+//#endif
+
 #include "BatchReactorHomogeneousConstantPressure.H"
 #include "ODESystemVirtualClassWithOpenSMOKEVectors.H"
 

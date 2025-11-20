@@ -72,10 +72,10 @@
 
         // // Heat release
         OpenSMOKE::OpenSMOKEVectorDouble h_species(ns);
-        scalarField& QdotCells = Qdot.internalFieldRef(); //v12
-        scalarField& dQCells = dQ.internalFieldRef(); //v12
+        scalarField& QdotCells = Qdot.ref();
+        scalarField& dQCells = dQ.ref();
 
-        const scalarField& clusterIndexCells = clusterIndex.internalFieldRef(); //v12
+        const scalarField& clusterIndexCells = clusterIndex.ref();
 
         Info << "Check initializataion"  << endl;
 
@@ -197,9 +197,9 @@
                     for(unsigned int i=0;i<nsCluster;i++)
                     {
                         const unsigned int j = classifier_indices[iCluster](i);
-                        YStar_[j].internalFieldRef()[celli] = yStarf(i); //v12
+                        YStar_[j].ref()[celli] = yStarf(i);
                     }
-                    TStar_[0].internalFieldRef()[celli] = yStarf(ne-3); //v12
+                    TStar_[0].ref()[celli] = yStarf(ne-3);
 
                     for(unsigned int i=0;i<nsCluster;i++)
                     {
@@ -384,8 +384,8 @@
                             if (m > (nsCluster-ne-1))
                                 kappa[m] = 0.;
                         }
-                        modal_tauc_[m].internalFieldRef()[celli] = tauc[m]; //v12
-                        modal_kappa_[m].internalFieldRef()[celli] = kappa[m]; //v12
+                        modal_tauc_[m].ref()[celli] = tauc[m];
+                        modal_kappa_[m].ref()[celli] = kappa[m];
                     }
                     //Info << "Check fractions end"  << endl;
                     //--------------- mPaSR rates ------------------//
@@ -396,7 +396,7 @@
                     for(unsigned int i=0;i<nsCluster;i++)
                     {
                         const unsigned int j = classifier_indices[iCluster](i);
-                        R_[j].internalFieldRef()[celli] = R_mPaSR[i];//[kg.m-3.s-1] //v12
+                        R_[j].ref()[celli] = R_mPaSR[i];//[kg.m-3.s-1]
                     }
                     //Info << "Check mpasr rates end"  << endl;
                     //Info << "Check R_mPaSR size " << R_mPaSR.size() << endl;
@@ -409,7 +409,7 @@
                     for(unsigned int i=0;i<nsCluster;i++)
                     {
                         const unsigned int j = classifier_indices[iCluster](i);
-                        R_[j].internalFieldRef()[celli] = R_mPaSR[i];//[kg.m-3.s-1] //v12
+                        R_[j].ref()[celli] = R_mPaSR[i];//[kg.m-3.s-1]
                     }
                 }
             }
@@ -419,12 +419,12 @@
                 // for(unsigned int i=0;i<nsCluster;i++)
                 // {
                 //     const unsigned int j = classifier_indices[iCluster](i);
-                //     R_[j].internalFieldRef()[celli] *= 0.;//[kg.m-3.s-1] //v12
+                //     R_[j].ref()[celli] *= 0.;//[kg.m-3.s-1]
                 // }
                 for(unsigned int i=0;i<ns;i++)
                 {
                     //const unsigned int j = classifier_indices[iCluster](i);
-                    R_[i].internalFieldRef()[celli] *= 0.;//[kg.m-3.s-1] //v12
+                    R_[i].ref()[celli] *= 0.;//[kg.m-3.s-1]
                 }
             }
             //Info << "Check R size " << R_.size()  << endl;  

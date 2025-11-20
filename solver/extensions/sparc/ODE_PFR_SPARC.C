@@ -85,7 +85,7 @@ int ODE_PFR_SPARC::Equations(const double t, const OpenSMOKE::OpenSMOKEVectorDou
 	// Recover mass fractions
 	if (checkMassFractions_ == true)
 	{	for(unsigned int i=1;i<=number_of_gas_species_;++i)
-			omegaStar_[i] = std::max(y[i], 0.); //v12
+			omegaStar_[i] = max(y[i], 0.);
 	}
 	else
 	{

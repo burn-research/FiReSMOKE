@@ -48,23 +48,23 @@ if( 	(spark == true) && (runTime.value() >= ignitionTime)&&(runTime.value() <= (
 {
 	Info << "Forcing the spark..." << endl;
 
-	scalarField& TCells = thermo.T().internalFieldRef(); //v12
+	scalarField& TCells = thermo.T().ref();
 	for(int i = 0; i<ignCellsList.size(); i++)
 	{
 			TCells[ignCellsList[i]] = ignitionTemperature;
 
 		if (combustionModel == "EDC")
 		{
-			TStar_[0].internalFieldRef()[ignCellsList[i]] = ignitionTemperature; //v12
+			TStar_[0].ref()[ignCellsList[i]] = ignitionTemperature;
 		}
 		else
 		{
 			for(unsigned int j=0;j<Y.size();j++)
-				Y[j].internalFieldRef()[ignCellsList[i]] += ignitionAdditionalMassFraction; //v12
+				Y[j].ref()[ignCellsList[i]] += ignitionAdditionalMassFraction;
 			
 			const double sum = 1.+Y.size()*ignitionAdditionalMassFraction;
 			for(unsigned int j=0;j<Y.size();j++)
-				Y[j].internalFieldRef()[ignCellsList[i]] /= sum; //v12
+				Y[j].ref()[ignCellsList[i]] /= sum;
 		}
 	}
 }

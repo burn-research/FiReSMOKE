@@ -43,22 +43,20 @@
 \*------------------------------------------------------------------------*/
 
 {
-    fvScalarMatrix varfEqn
-    (
-        fvm::ddt(rho, varf)
-      + fvm::div(phi, varf)
-      ==
-        fvm::laplacian(
-            thermo.kappa()/thermo.Cpv() + rho * momentumTransport->nut()/Sct,
-            varf
-        )
-      + Cg * (rho * momentumTransport->nut()/Sct) * magSqr(fvc::grad(f))
-      - rho * Chi
-    );
-    varfEqn.relax();
-    varfEqn.solve();
-    varf.max(0.0);
+	fvScalarMatrix varfEqn
+	(
+		fvm::ddt(rho, varf)
+		+ fvm::div(phi, varf)
+		==
+		fvm::laplacian(thermo.alphahe() + rho*turbulence->nut()/Sct, varf)
+		+ Cg*(rho*turbulence->nut()/Sct)*magSqr(fvc::grad(f))
+		- rho*Chi
+	);
+
+	varfEqn.relax();
+	varfEqn.solve();
+    	varf.max(0.0);
 
     Info << "Variance of mixture fraction transport equation solved" << endl;
-    Info << "min/max(varf) = " << min(varf).value() << ", " << max(varf).value() << endl;
+    Info<< "min/max(varf) = " << min(varf).value() << ", " << max(varf).value() << endl;
 }

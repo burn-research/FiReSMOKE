@@ -1,9 +1,9 @@
-#OpenFOAM VERSION (70, 100)
+#OpenFOAM VERSION (22, 23, 24, 30, 40, 50, 60)
 #OpenFOAM-dev is equivalent to 1000
-export OPENFOAM_VERSION='-DOPENFOAM_VERSION=100'
+export OPENFOAM_VERSION='-DOPENFOAM_VERSION=1000'
 
-#If OpenFOAM dev version is used, this must be equal to 1
-export DEVVERSION='-DDEVVERSION=0'
+#If OpenFOAM dev version is used, this must be equal to 1 (leave it equal to 1 for version 7)
+export DEVVERSION='-DDEVVERSION=1'
 
 #Shared libraries (please select according to the OpenFOAM version)
 #OpenFOAM <=30
@@ -14,17 +14,27 @@ export OF_SHARED_LIBS=' -lturbulenceModels -lcompressibleTurbulenceModels -lreac
 #Compulsory path
 export EIGEN_LIBRARY_PATH=/software/libs/eigen/compile_dir/eigen-3.4.0
 export BOOST_LIBRARY_PATH=/software/libs/boost/boost-1.83.0
-#export RAPIDXML_LIBRARY_PATH=/home/apequin/compiledir/Libraries/rapidxml-1.13 #/software/libs/rapidxml/1.13
+export RAPIDXML_LIBRARY_PATH=/home/apequin/compiledir/Libraries/rapidxml-1.13 #/software/libs/rapidxml/1.13
 
 #Options: ISAT support
 export ISAT_SUPPORT='-DOPENSMOKE_USE_ISAT=0'
 export ISAT_INCLUDE=
 export ISAT_LIBS=
+#export ISAT_INCLUDE=/compiledir/ramaduzzi/Libraries/ISATLib/src
+#export ISAT_LIBS=/compiledir/ramaduzzi/Libraries/ISATLib/lib/libISATLib_gcc_64bit.a
+#export ISAT_INCLUDE=$HOME/Development/ExternalNumericalLibraries/ISATLib/ISATLib-1.1/src
+#export ISAT_LIBS= 
+#export ISAT_LIBS=-lISATLib4OpenFOAM
 
 #Options: SPARC support
 export SPARC_SUPPORT='-DSPARC=1'
 export SPARC_INCLUDE=/software/libs/armadillo/armadillo-9.800.6/
 export SPARC_LIBS=/software/libs/armadillo/armadillo-9.800.6/lib64/libarmadillo.so
+
+#export SPARC_INCLUDE=/home/ruggero/compiledir/armadillo-12.8.3
+#export SPARC_LIBS=/home/ruggero/compiledir/armadillo-9.900.x/lib64/libarmadillo.so
+#export SPARC_INCLUDE=
+#export SPARC_LIBS=
 
 #Options
 export MKL_SUPPORT='-DOPENSMOKE_USE_MKL=0'
@@ -32,7 +42,9 @@ export EXTERNAL_ODE_SOLVERS=
 
 #Only if the OPENSMOKE_USE_MKL is turned on
 export MKL_PATH=/software/intel/oneapi/mkl/2023.2.0
-export MKL_LIBS='-Wl,--start-group $(MKL_PATH)/lib/intel64/libmkl_intel_lp64.a $(MKL_PATH)/lib/intel64/libmkl_core.a $(MKL_PATH)/lib/intel64/libmkl_sequential.a -Wl,--end-group -lpthread -lm'
+#export MKL_LIBS='-Wl,--start-group $(MKL_PATH)/lib/intel64/libmkl_intel_lp64.a $(MKL_PATH)/lib/intel64/libmkl_core.a $(MKL_PATH)/lib/intel64/libmkl_sequential.a -Wl,--end-group -lpthread -lm'
+export MKL_LIBS="-Wl,--start-group ${MKL_PATH}/lib/intel64/libmkl_intel_lp64.a ${MKL_PATH}/lib/intel64/libmkl_core.a ${MKL_PATH}/lib/intel64/libmkl_sequential.a -Wl,--end-group -lpthread -lm -ldl"
+
 
 #Optional external ODE solvers
 export MEBDF_LIBS=

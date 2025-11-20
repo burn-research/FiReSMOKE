@@ -59,7 +59,9 @@ public:
 	//void SetReactor( const double P0 );
 	void SetReactor( const double P0 )
 	{
+		Info << " Flag0.1.1: " << endl;
 		P0_ 		= P0;
+		Info << " Flag0.1.2: " << endl;
 	}
 
 	//- Set reactor mass fractions

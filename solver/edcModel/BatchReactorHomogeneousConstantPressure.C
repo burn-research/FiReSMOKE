@@ -59,6 +59,11 @@
 #include "maps/KineticsMap_CHEMKIN.h"
 
 
+//unsigned int BatchReactorHomogeneousConstantPressure::NumberOfEquations() const
+//{
+//	return NC_+1;
+//}
+
 BatchReactorHomogeneousConstantPressure::BatchReactorHomogeneousConstantPressure
 (	OpenSMOKE::ThermodynamicsMap_CHEMKIN& thermodynamicsMapXML, OpenSMOKE::KineticsMap_CHEMKIN& kineticsMapXML ):
 	thermodynamicsMapXML_(thermodynamicsMapXML), 

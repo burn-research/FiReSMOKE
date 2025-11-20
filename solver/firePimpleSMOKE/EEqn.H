@@ -77,9 +77,15 @@ if (energyEquation == true)
 		+ (
 		    he.name() == "e"
 		    ? mvConvection->fvcDiv(fvc::absolute(phi, rho, U), p/rho) // OFv10
+		  //? fvc::div
+		  //  (
+			//fvc::absolute(phi/fvc::interpolate(rho), U),
+			//p,
+			//"div(phiv,p)"
+		    //)
 		  : -dpdt
 		)
-		- fvm::laplacian(rho*momentumTransport->nut()/Prt, he)	// v12
+		- fvm::laplacian(rho*turbulence->nut()/Prt, he)	// OFv10
                 + massDiffusionInEnergyEquation
 		==
 		Qdot

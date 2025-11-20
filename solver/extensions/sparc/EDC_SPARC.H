@@ -48,7 +48,7 @@
 		counterToUpdateChemistry = 0;
 
 		bool debug = false;
-
+		Info << "Fine structures integration (SPARC)..." << endl;
 		#include "propertiesFineStructures.H"
 
 		const int unsigned nsTot = Y.size();
@@ -59,10 +59,10 @@
 		const scalarField& pCells = thermo.p().internalField();
 		const scalarField& TCells = thermo.T().internalField();
 		
-		scalarField& QdotCells = Qdot.internalFieldRef(); //v12
-		scalarField& dQCells = dQ.internalFieldRef(); //v12
-		scalarField& cpuReactionsCells = cpu_reaction_times.internalFieldRef(); //v12
-		const scalarField& clusterIndexCells = clusterIndex.internalFieldRef(); //v12
+		scalarField& QdotCells = Qdot.ref();
+		scalarField& dQCells = dQ.ref();
+		scalarField& cpuReactionsCells = cpu_reaction_times.ref();
+		const scalarField& clusterIndexCells = clusterIndex.ref();
 	
 		// Statistics for PSR/NLS
 		double nls_norm2_cumulative_ = 0.;
@@ -149,14 +149,14 @@
 					for(unsigned int i=0;i<ns;i++)
 					{
 						const unsigned int j = classifier_indices[iCluster](i);
-						YStar_[j].internalFieldRef()[celli] = yStarf(i); //v12
+						YStar_[j].ref()[celli] = yStarf(i);
 					}
-					TStar_[0].internalFieldRef()[celli] = yStarf(ne-3); //v12
+					TStar_[0].ref()[celli] = yStarf(ne-3);
 				
 					for(unsigned int i=0;i<ns;i++)
 					{
 						const unsigned int j = classifier_indices[iCluster](i);
-						R_[j].internalFieldRef()[celli] = edc_coefficient[celli]*(YStar_[j].internalField()[celli]-Y[j].internalField()[celli]); //v12
+						R_[j].ref()[celli] = edc_coefficient[celli]*(YStar_[j].internalField()[celli]-Y[j].internalField()[celli]);
 					}
 				}
 
@@ -179,7 +179,7 @@
 					for(unsigned int i=0;i<ns;i++)
 					{
 						const unsigned int j = classifier_indices[iCluster](i);
-						HeSpecies_[j].internalFieldRef()[celli] = -h_species[j+1]/thermodynamicsMapXML->MW(j); //v12
+						HeSpecies_[j].ref()[celli] = -h_species[j+1]/thermodynamicsMapXML->MW(j);
 					}
 					#else
 					for(unsigned int i=0;i<ns;i++)
@@ -205,7 +205,7 @@
 			{
 				activation_map[celli] = 0.;
 				for(unsigned int i=0;i<nsTot;i++)
-					R_[i].internalFieldRef()[celli] *= 0.;//[kg.m-3.s-1] //v12
+					R_[i].ref()[celli] *= 0.;//[kg.m-3.s-1]
 			}
 
 

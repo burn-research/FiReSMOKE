@@ -42,53 +42,45 @@
 |                                                                         |
 \*------------------------------------------------------------------------*/
 
-if (ChiEquation == true)
+
 {
-    // Solving equation of Scalar Dissipation Rate 
+	if (ChiEquation == true)
+	{
+	// Solving equaition of Scalar Dissipation Rate 
+	
+	
+	volScalarField D1 = Cd1*rho*sqr(Chi)/(varf+SMALL);
+	volScalarField D2 = Cd2*rho*turbulence->epsilon()/(turbulence->k()+ksmall_)*Chi;
+	volScalarField P1 = 2.00*Cp1*turbulence->epsilon()/(turbulence->k()+ksmall_)*rho*turbulence->nut()/Sct*magSqr(fvc::grad(f));
+	volScalarField P2 = Cp2*rho*turbulence->nut()*Chi/(turbulence->k()+ksmall_)*(fvc::grad(U) && dev(twoSymm(fvc::grad(U))));
 
-    volScalarField D1 = Cd1 * rho * sqr(Chi) / (varf + SMALL);
+	volScalarField S_chi = P1 + P2 - D1 - D2;	
 
-    volScalarField D2 =
-        Cd2 * rho * momentumTransport->epsilon() /
-        (momentumTransport->k() + ksmall_) * Chi;
+	fvScalarMatrix ChiEqn
+	(
+		fvm::ddt(rho, Chi)
+		+ fvm::div(phi, Chi)
+		- fvm::laplacian(thermo.alphahe()+rho*turbulence->nut()/Sct, Chi)
+		==
+		S_chi
+	);
 
-    volScalarField P1 =
-        2.0 * Cp1 * momentumTransport->epsilon() /
-        (momentumTransport->k() + ksmall_) *
-        rho * momentumTransport->nut() / Sct *
-        magSqr(fvc::grad(f));
 
-    volScalarField P2 =
-        Cp2 * rho * momentumTransport->nut() * Chi /
-        (momentumTransport->k() + ksmall_) *
-        (fvc::grad(U) && dev(twoSymm(fvc::grad(U))));
+	ChiEqn.relax();
+	ChiEqn.solve();
+    	Chi.max(0.00000001);
+	Chi.min(maxChi);
 
-    volScalarField S_chi = P1 + P2 - D1 - D2;
-    volScalarField& he = thermo.he();
-    fvScalarMatrix ChiEqn
-    (
-        fvm::ddt(rho, Chi)
-        + fvm::div(phi, Chi)
-        - fvm::laplacian(thermo.kappa()/thermo.Cpv() + rho * momentumTransport->nut()/Sct, Chi)
-        ==
-        S_chi
-    );
-
-    ChiEqn.relax();
-    ChiEqn.solve();
-        Chi.max(1e-8);
-    Chi.min(maxChi);
-
-    Info << "Scalar dissipation rate transport equation solved" << endl;
-    Info << "min/max(Chi) = " << min(Chi).value() << ", " << max(Chi).value() << endl;
+    	Info << "Scalar dissipation rate transport equation solved" << endl;
+    	Info<< "min/max(Chi) = " << min(Chi).value() << ", " << max(Chi).value() << endl;
+	}
+	else
+	{
+		Info << "Algebraic equation for Chi" << endl;
+		scalarField& ChiCells = Chi.ref();
+		//ChiCells = Cx/rho*(thermo.alpha()+turbulence->mut()/Sct)*magSqr(fvc::grad(f));
+		ChiCells = Cx*turbulence->epsilon()/(turbulence->k()+ksmall_)*varf;
+		Info<< "min/max(Chi) = " << min(Chi).value() << ", " << max(Chi).value() << endl;
+	}
 }
-else
-{
-    Info << "Algebraic equation for Chi" << endl;
 
-    scalarField& ChiCells = Chi.internalFieldRef();
-    ChiCells = Cx * momentumTransport->epsilon() /
-               (momentumTransport->k() + ksmall_) * varf;
-
-    Info << "min/max(Chi) = " << min(Chi).value() << ", " << max(Chi).value() << endl;
-}

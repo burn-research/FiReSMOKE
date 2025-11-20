@@ -92,7 +92,7 @@ int ODE_PFR::Equations(const double t, const OpenSMOKE::OpenSMOKEVectorDouble& y
 		// Recover mass fractions
 		if (checkMassFractions_ == true)
 		{	for(unsigned int i=1;i<=number_of_gas_species_;++i)
-				omegaStar_[i] = std::min(1., std::max(y[i], 0.)); //v12
+				omegaStar_[i] = min(1., max(y[i], 0.)); 
 		}
 		else
 		{
@@ -154,7 +154,7 @@ int ODE_PFR::Equations(const double t, const OpenSMOKE::OpenSMOKEVectorDouble& y
 			for (unsigned int i=0;i<drg_->number_important_species();++i)	
 			{
 				const unsigned int j = drg_->indices_important_species()[i]+1;
-				omegaStar_[j] = std::max(y[i+1], 0.); //v12
+				omegaStar_[j] = max(y[i+1], 0.);
 			}	
 		}
 		else

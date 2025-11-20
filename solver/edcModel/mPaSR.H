@@ -105,8 +105,8 @@
 
     // Heat release
     OpenSMOKE::OpenSMOKEVectorDouble h_species(ns);
-    scalarField& QdotCells = Qdot.internalFieldRef();
-    scalarField& dQCells = dQ.internalFieldRef();
+    scalarField& QdotCells = Qdot.ref();
+    scalarField& dQCells = dQ.ref();
 
     //--------------------- Looping over cells ------------------------//
     forAll(TCells, celli)
@@ -239,8 +239,8 @@
                 }
 
                 for(unsigned int i=0;i<ns;i++)
-                    YStar_[i].internalFieldRef()[celli] = yStarf(i);
-                TStar_[0].internalFieldRef()[celli] = yStarf(ne-3);
+                    YStar_[i].ref()[celli] = yStarf(i);
+                TStar_[0].ref()[celli] = yStarf(ne-3);
 
                 for(unsigned int i=0;i<ns;i++)
                     R_ODE[i] = rho_cell*(YStar_[i].internalField()[celli]-Y[i].internalField()[celli])/tf;//[kg.m-3.s-1]
@@ -362,8 +362,8 @@
                         if (m > (ns-nelem-1))
                             kappa[m] = 0.;
                     }
-                    modal_tauc_[m].internalFieldRef()[celli] = tauc[m];
-                    modal_kappa_[m].internalFieldRef()[celli] = kappa[m];
+                    modal_tauc_[m].ref()[celli] = tauc[m];
+                    modal_kappa_[m].ref()[celli] = kappa[m];
                 }
 
                 //--------------- mPaSR rates ------------------//
@@ -372,21 +372,21 @@
                 R_mPaSR     = kappaVR * f_vector;       // mPaSR rates
 
                 for(unsigned int i=0;i<ns;i++)
-                    R_[i].internalFieldRef()[celli] = R_mPaSR[i];//[kg.m-3.s-1]
+                    R_[i].ref()[celli] = R_mPaSR[i];//[kg.m-3.s-1]
             }
             else
             {
                 R_mPaSR = R_base;// laminar
 
                 for(unsigned int i=0;i<ns;i++)
-                    R_[i].internalFieldRef()[celli] = R_mPaSR[i];//[kg.m-3.s-1]
+                    R_[i].ref()[celli] = R_mPaSR[i];//[kg.m-3.s-1]
             }
 		}
 		else
 		{
             activation_map[celli] = 0.;
 			for(unsigned int i=0;i<ns;i++)
-				R_[i].internalFieldRef()[celli] *= 0.;//[kg.m-3.s-1]
+				R_[i].ref()[celli] *= 0.;//[kg.m-3.s-1]
 		}
 
         //--------------- Heat release ------------------//

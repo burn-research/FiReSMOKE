@@ -76,7 +76,7 @@ tmp<fv::convectionScheme<scalar> > mvConvection
 				(
 					fvm::ddt(rho, Yi)
 					+ mvConvection->fvmDiv(phi, Yi)
-					- fvm::laplacian(rho*Dmixi + rho*momentumTransport->nut()/Sct, Yi) //v12
+					- fvm::laplacian(rho*Dmixi + rho*turbulence->nut()/Sct, Yi)
 					==
 					R_[i]
 					+ fvModels.source(rho, Yi)
@@ -112,7 +112,7 @@ tmp<fv::convectionScheme<scalar> > mvConvection
 				(
 					fvm::ddt(rho, Yi)
 					+ mvConvection->fvmDiv(phi, Yi)
-					- fvm::laplacian(rho*momentumTransport->nuEff()/Sct, Yi) //v12
+					- fvm::laplacian(rho*turbulence->nuEff()/Sct, Yi)
 					==
 					R_[i]
 					+ fvModels.source(rho, Yi)

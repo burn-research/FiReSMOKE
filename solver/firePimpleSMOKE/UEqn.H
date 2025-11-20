@@ -42,13 +42,13 @@
 |                                                                         |
 \*------------------------------------------------------------------------*/
 
-// MRF.correctBoundaryVelocity(U);
+MRF.correctBoundaryVelocity(U);
 
 tmp<fvVectorMatrix> tUEqn
 (
 	fvm::ddt(rho, U) + fvm::div(phi, U)
 	+ MRF.DDt(rho, U)
-	+ momentumTransport->divDevTau(U) // v12
+	+ turbulence->divDevTau(U) // OFv10 RhoReff -> Tau
 	==
 	rho*g +
 	fvModels.source(rho, U)	// OFv10 Options -> Models.source

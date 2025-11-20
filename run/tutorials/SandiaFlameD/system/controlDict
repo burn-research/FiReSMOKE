@@ -51,4 +51,72 @@ graphFormat     raw;
 
 runTimeModifiable true;
 
+
+functions
+{
+	fieldAverage1
+        {
+            type                    fieldAverage;
+            functionObjectLibs ( "libfieldFunctionObjects.so" );
+            enabled               true;
+            writeControl          writeTime;
+            //timeStart             2;
+            //timeEnd               5;
+            restartOnOutput         no;
+	    restartOnRestart        yes;
+
+            fields
+            (
+                U
+                {
+                    mean           on;
+                    prime2Mean  on;
+                    base           time;
+                }
+
+                T
+                {
+                    mean           on;
+                    prime2Mean  on;
+                    base           time;
+                }
+
+                CH4
+                {
+                    mean           on;
+                    prime2Mean  on;
+                    base           time;
+                }
+
+                H2
+                {
+                    mean           on;
+                    prime2Mean  on;
+                    base           time;
+                }
+
+                CO2
+                {
+                    mean           on;
+                    prime2Mean  on;
+                    base           time;
+                }
+
+                H2O
+                {
+                    mean           on;
+                    prime2Mean  on;
+                    base           time;
+                }
+
+                CO
+                {
+                    mean           on;
+                    prime2Mean  on;
+		    base           time;
+                }
+	  );
+        }
+}
+
 // ************************************************************************* //

@@ -99,12 +99,12 @@ int NLS_PSR::Equations(const double t, const OpenSMOKE::OpenSMOKEVectorDouble& y
 			{	
 				for(unsigned int i=1;i<index_max_species_;++i)
 				{
-					omegaStar_[i] = std::max(y[count++], 0.); //v12
+					omegaStar_[i] = max(y[count++], 0.);
 					sum += omegaStar_[i];
 				}
 				for(unsigned int i=index_max_species_+1;i<=number_of_gas_species_;++i)
 				{
-					omegaStar_[i] = std::max(y[count++], 0.); //v12
+					omegaStar_[i] = max(y[count++], 0.);
 					sum += omegaStar_[i];
 				}
 			}
@@ -122,7 +122,7 @@ int NLS_PSR::Equations(const double t, const OpenSMOKE::OpenSMOKEVectorDouble& y
 				}
 			}
 
-			omegaStar_[index_max_species_] = std::max(1.-sum,0.); //v12
+			omegaStar_[index_max_species_] = max(1.-sum,0.);
 		}
 
 		// Composition of fine structure
@@ -178,13 +178,13 @@ int NLS_PSR::Equations(const double t, const OpenSMOKE::OpenSMOKEVectorDouble& y
 				for (unsigned int i=0;i<index_max_species_;++i)	
 				{
 					const unsigned int j = drg_->indices_important_species()[i]+1;
-					omegaStar_[j] = std::max(y[count++], 0.); //v12
+					omegaStar_[j] = max(y[count++], 0.);
 					sum += omegaStar_[j];
 				}
 				for (unsigned int i=index_max_species_+1;i<drg_->number_important_species();++i)	
 				{
 					const unsigned int j = drg_->indices_important_species()[i]+1;
-					omegaStar_[j] = std::max(y[count++], 0.); //v12
+					omegaStar_[j] = max(y[count++], 0.);
 					sum += omegaStar_[j];
 				}
 			}
@@ -204,7 +204,7 @@ int NLS_PSR::Equations(const double t, const OpenSMOKE::OpenSMOKEVectorDouble& y
 					sum += omegaStar_[j];
 				}
 			}
-			omegaStar_[drg_->indices_important_species()[index_max_species_]+1] = std::max(1.-sum,0.); //v12
+			omegaStar_[drg_->indices_important_species()[index_max_species_]+1] = max(1.-sum,0.);
 		}
 
 		// Composition of fine structure
@@ -280,7 +280,7 @@ void NLS_PSR::ReconstructData(const Eigen::VectorXd& y, double& TStar, double& o
 			sum += omegaStar_[i];
 		}
 
-		omegaStar_[index_max_species_] = std::max(1.-sum,0.); //v12
+		omegaStar_[index_max_species_] = max(1.-sum,0.);
 		omegaReconstructed = omegaStar_[index_max_species_];
 	}
 	else
@@ -298,13 +298,13 @@ void NLS_PSR::ReconstructData(const Eigen::VectorXd& y, double& TStar, double& o
 			for (unsigned int i=0;i<index_max_species_;++i)	
 			{
 				const unsigned int j = drg_->indices_important_species()[i]+1;
-				omegaStar_[j] = std::max(y(count++), 0.); //v12
+				omegaStar_[j] = max(y(count++), 0.);
 				sum += omegaStar_[j];
 			}
 			for (unsigned int i=index_max_species_+1;i<drg_->number_important_species();++i)	
 			{
 				const unsigned int j = drg_->indices_important_species()[i]+1;
-				omegaStar_[j] = std::max(y(count++), 0.); //v12
+				omegaStar_[j] = max(y(count++), 0.);
 				sum += omegaStar_[j];
 			}
 		}
@@ -325,7 +325,7 @@ void NLS_PSR::ReconstructData(const Eigen::VectorXd& y, double& TStar, double& o
 			}
 		}
 
-		omegaStar_[drg_->indices_important_species()[index_max_species_]+1] = std::max(1.-sum,0.); //v12
+		omegaStar_[drg_->indices_important_species()[index_max_species_]+1] = max(1.-sum,0.);
 		omegaReconstructed = omegaStar_[drg_->indices_important_species()[index_max_species_]+1];
 	}
 

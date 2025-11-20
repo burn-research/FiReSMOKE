@@ -61,8 +61,8 @@
 	const scalarField &rhoCells = rho.internalField();
 	const scalarField &TCells = thermo.T().internalField();
 
-	scalarField &QdotCells = Qdot.internalFieldRef(); //v12
-	scalarField &dQCells = dQ.internalFieldRef(); //v12
+	scalarField &QdotCells = Qdot.ref();
+	scalarField &dQCells = dQ.ref();
 
 	forAll(TCells, celli)
 	{
@@ -76,7 +76,7 @@
 
 			// Vector containing mass fractions and mole formation rates
 			for (unsigned int i = 0; i < ns; i++)
-				omega(i) = Y[i].internalFieldRef()[celli]; //v12
+				omega(i) = Y[i].ref()[celli];
 			R.setZero();
 
 			// Set spark
@@ -151,13 +151,13 @@
 
 			// Formation rates [kg/m3/s]
 			for (unsigned int j = 0; j < ns; j++)
-				R_[j].internalFieldRef()[celli] = R[j] * thermodynamicsMapXML->MW(j); //v12
+				R_[j].ref()[celli] = R[j] * thermodynamicsMapXML->MW(j);
 		}
 		else
 		{
 			activation_map[celli] = 0.;
 			for (unsigned int i = 0; i < ns; i++)
-				R_[i].internalFieldRef()[celli] *= 0.; //[kg.m-3.s-1] //v12
+				R_[i].ref()[celli] *= 0.; //[kg.m-3.s-1]
 		}
 
 		// Calculating the heat release

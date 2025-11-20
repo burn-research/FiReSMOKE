@@ -84,13 +84,13 @@
 		const scalarField &TCells = thermo.T().internalField();
 		const scalarField &kappaCells = kappa.internalField();
 
-		scalarField &QdotCells = Qdot.internalFieldRef(); //v12
-		scalarField &dQCells = dQ.internalFieldRef(); //v12
+		scalarField &QdotCells = Qdot.ref();
+		scalarField &dQCells = dQ.ref();
 
 		// DRG Fields
-		scalarField &drgSpeciesCells = drg_important_species.internalFieldRef(); //v12
-		scalarField &drgReactionsCells = drg_important_reactions.internalFieldRef(); //v12
-		scalarField &cpuReactionsCells = cpu_reaction_times.internalFieldRef(); //v12
+		scalarField &drgSpeciesCells = drg_important_species.ref();
+		scalarField &drgReactionsCells = drg_important_reactions.ref();
+		scalarField &cpuReactionsCells = cpu_reaction_times.ref();
 
 // ISAT Statistics
 #if FIRESMOKE_USE_ISAT == 1
@@ -341,30 +341,30 @@
 				if (drg_analysis == false)
 				{
 					for (unsigned int i = 0; i < ns; i++)
-						YStar_[i].internalFieldRef()[celli] = yStarf(i); //v12
-					TStar_[0].internalFieldRef()[celli] = yStarf(ne - 3); //v12
+						YStar_[i].ref()[celli] = yStarf(i);
+					TStar_[0].ref()[celli] = yStarf(ne - 3);
 
 					for (unsigned int i = 0; i < ns; i++)
-						R_[i].internalFieldRef()[celli] = rho[celli] * kappa[celli] * (YStar_[i].internalField()[celli] - Y[i].internalField()[celli]) / tf; //v12
+						R_[i].ref()[celli] = rho[celli] * kappa[celli] * (YStar_[i].internalField()[celli] - Y[i].internalField()[celli]) / tf;
 				}
 				else
 				{
 					for (unsigned int i = 0; i < ne_drg - 1; i++)
 					{
 						const unsigned int j = drg->indices_important_species()[i];
-						YStar_[j].internalFieldRef()[celli] = yStarf(i); //v12
+						YStar_[j].ref()[celli] = yStarf(i);
 					}
-					TStar_[0].internalFieldRef()[celli] = yStarf(ne_drg - 1); //v12
+					TStar_[0].ref()[celli] = yStarf(ne_drg - 1);
 
 					// Reset to 0 every formation rate
 					for (unsigned int i = 0; i < ns; i++)
-						R_[i].internalFieldRef()[celli] = 0.; //v12
+						R_[i].ref()[celli] = 0.;
 
 					// Update only formation rates for relevant species
 					for (unsigned int i = 0; i < ne_drg - 1; i++)
 					{
 						const unsigned int j = drg->indices_important_species()[i];
-						R_[j].internalFieldRef()[celli] = rho[celli] * kappa[celli] * (YStar_[j].internalField()[celli] - Y[j].internalField()[celli]) / tf; //v12
+						R_[j].ref()[celli] = rho[celli] * kappa[celli] * (YStar_[j].internalField()[celli] - Y[j].internalField()[celli]) / tf;
 					}
 				}
 			}
@@ -372,7 +372,7 @@
 			{
 				activation_map[celli] = 0.;
 				for (unsigned int i = 0; i < ns; i++)
-					R_[i].internalFieldRef()[celli] *= 0.; //[kg.m-3.s-1] //v12
+					R_[i].ref()[celli] *= 0.; //[kg.m-3.s-1]
 			}
 
 			thermodynamicsMapXML->SetTemperature(TCells[celli]);
@@ -388,7 +388,7 @@
 			if (laminarDiffusion == true)
 			{
 				for (unsigned int i = 0; i < ns; i++)
-					HeSpecies_[i].internalFieldRef()[celli] = -h_species[i + 1] / thermodynamicsMapXML->MW(i); //v12
+					HeSpecies_[i].ref()[celli] = -h_species[i + 1] / thermodynamicsMapXML->MW(i);
 			}
 
 			if (debug == true)

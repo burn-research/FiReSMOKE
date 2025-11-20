@@ -180,7 +180,7 @@ double CharacteristicChemicalTimes::FromFormationRates(const double T, const dou
 
 	// The characteristic chemical time is always constrained between 0<tau<tau_threshold
 	if (tau == 0.)	tau = tauChem_threshold_;
-	tau = std::min(tau, tauChem_threshold_); //v12
+	tau = min(tau, tauChem_threshold_);
 
 	return tau;
 }
@@ -213,7 +213,7 @@ double CharacteristicChemicalTimes::FromReactionRates(const double T, const doub
 	double tau = tauChem_threshold_;	
 	if (sum > 0.)	
 		tau = nr_*cTot/sum;
-	tau = std::min(tau, tauChem_threshold_); //v12
+	tau = min(tau, tauChem_threshold_);
 
 	return tau;
 }
@@ -269,7 +269,7 @@ double CharacteristicChemicalTimes::FromEigenValueAnalysis(const double T, const
 	double tau = tauChem_threshold_;
 	if (minimum_lambda > 0.)
 		tau = 1./minimum_lambda;
-	tau = std::min(tau, tauChem_threshold_); //v12
+	tau = min(tau, tauChem_threshold_);
 
 	return tau;
 }
@@ -559,7 +559,7 @@ Eigen::MatrixXd CharacteristicChemicalTimes::mPaSR_computeNumericalJacobian_cons
 	// --------------------------- J_T --------------------------- //
 	// Compute d_y_dot/dT [s-1.K-1] with the perturbation of temperature: dT
 
-	double dT = std::max(ZERO_DER*abs(T_),1.e-3);// from PyCSP
+	double dT = max(ZERO_DER*abs(T_),1.e-3);// from PyCSP
 
 	T_ = T + dT;
 	P_ = P;

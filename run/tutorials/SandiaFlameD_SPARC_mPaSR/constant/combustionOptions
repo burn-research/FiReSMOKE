@@ -80,6 +80,8 @@ EDC
         ChemicalTimesType                       "formationRates";       // type of analysis: formationRates (default) | reactionRates | eigenvalues
 }
 
+
+
 PaSR
 {
         reactorType                             "PFR";			// Reactor type: PFR (default)
@@ -174,7 +176,7 @@ VQ2
 {
         vq2             on;
         debug           off;
-	folder  "/home/openfoam/FiReSMOKE-v12-sparc/run/tutorials/SandiaFlameD_SPARC_mPaSR/data_for_sparc";
+	folder  "/home/openfoam/FiReSMOKE-v10-mPaSR-sparc/run/tutorials/SandiaFlameD_SPARC_mPaSR/data_for_sparc";
 	debug   false;
         eigens  36;
         scaling AUTO;

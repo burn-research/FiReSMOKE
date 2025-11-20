@@ -67,8 +67,8 @@
 
     // Heat release
     OpenSMOKE::OpenSMOKEVectorDouble h_species(ns);
-    scalarField& QdotCells = Qdot.internalFieldRef(); //v12
-    scalarField& dQCells = dQ.internalFieldRef(); //v12
+    scalarField& QdotCells = Qdot.ref();
+    scalarField& dQCells = dQ.ref();
 
     //--------------------- Looping over cells ------------------------//
     forAll(TCells, celli)
@@ -101,13 +101,13 @@
 				R_laminar[i] = dc_over_dt_laminar[i+1]*thermodynamicsMapXML->MW(i);//[kg.m-3.s-1]
 
             for(unsigned int i=0;i<ns;i++)
-                R_[i].internalFieldRef()[celli] = R_laminar[i];//[kg.m-3.s-1] //v12
+                R_[i].ref()[celli] = R_laminar[i];//[kg.m-3.s-1]
 		}
 		else
 		{
             activation_map[celli] = 0.;
 			for(unsigned int i=0;i<ns;i++)
-				R_[i].internalFieldRef()[celli] *= 0.;//[kg.m-3.s-1] //v12
+				R_[i].ref()[celli] *= 0.;//[kg.m-3.s-1]
 		}
 
         //--------------- Heat release ------------------//
@@ -126,7 +126,7 @@
 		if (laminarDiffusion == true)
 		{		
 			for(unsigned int i=0;i<ns;i++)
-				HeSpecies_[i].internalFieldRef()[celli] = -h_species[i+1]/thermodynamicsMapXML->MW(i); //v12
+				HeSpecies_[i].ref()[celli] = -h_species[i+1]/thermodynamicsMapXML->MW(i);
 		}
 	}
 

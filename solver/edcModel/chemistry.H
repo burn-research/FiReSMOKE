@@ -91,6 +91,7 @@ if (homogeneousReactions == true)
 			}
 			else if (SPARCswitch == false)
 			{
+			
 				#include "QLFR.H"
 			}
 		#else

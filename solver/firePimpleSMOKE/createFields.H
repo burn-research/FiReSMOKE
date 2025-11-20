@@ -42,25 +42,28 @@
 |                                                                         |
 \*------------------------------------------------------------------------*/
 
-// #include "createRDeltaT.H"
+#include "createRDeltaT.H"
 
 Info<< nl << "Reading thermophysicalProperties" << endl;
 
-autoPtr<fluidMulticomponentThermo> thermoPtr //v12
+autoPtr<fluidReactionThermo> pThermo	// OFv10
 (
-    fluidMulticomponentThermo::New(mesh)
+	fluidReactionThermo::New(mesh)
 );
-fluidMulticomponentThermo& thermo = thermoPtr(); //v12
+fluidReactionThermo& thermo = pThermo();
 thermo.validate(args.executable(), "h", "e");
 
-PtrList<volScalarField>& Y = const_cast<PtrList<volScalarField>&>(thermo.Y()); //v12
+basicSpecieMixture& composition = thermo.composition();
+PtrList<volScalarField>& Y = composition.Y();
+
+//const word inertSpecie(thermo.lookup(inertSpecie));	// OFv10
 
 volScalarField rho
 (
     IOobject
     (
         "rho",
-        runTime.name(), //v12
+        runTime.timeName(),
         mesh
     ),
     thermo.rho()
@@ -72,7 +75,7 @@ volVectorField U
     IOobject
     (
         "U",
-        runTime.name(), //v12
+        runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
         IOobject::AUTO_WRITE
@@ -83,6 +86,7 @@ volVectorField U
 volScalarField& p = thermo.p();
 const volScalarField& psi = thermo.psi();
       volScalarField& T = thermo.T();
+//const label inertIndex(composition.species()[inertSpecie]);	// OFv10
 
 #include "compressibleCreatePhi.H"
 
@@ -112,29 +116,30 @@ dimensionedScalar rhoMin
 );
 
 Info << "Creating turbulence model.\n" << nl;
-
-autoPtr<compressible::momentumTransportModel> momentumTransport //v12
+autoPtr<compressible::momentumTransportModel> turbulence	// OFv10
 (
-    compressible::momentumTransportModel::New(rho, U, phi, thermo)
-);
-
-Info<< "Creating thermophysical transport model\n" << endl;
-autoPtr<fluidMulticomponentThermophysicalTransportModel> thermophysicalTransportPtr
-(
-    fluidMulticomponentThermophysicalTransportModel::New
+    compressible::momentumTransportModel::New
     (
-        momentumTransport(),
+        rho,
+        U,
+        phi,
         thermo
     )
 );
 
-fluidMulticomponentThermophysicalTransportModel& thermophysicalTransport = thermophysicalTransportPtr();
+Info<< "Creating thermophysical transport model\n" << endl;
+autoPtr<fluidReactionThermophysicalTransportModel>		// OFv10
+thermophysicalTransport
+(
+    fluidReactionThermophysicalTransportModel::New		// OFv10
+    (
+        turbulence(),
+        thermo
+    )
+);
 
 Info<< "Creating reaction model\n" << endl;	// OFv10
-autoPtr<combustionModel> reaction //v12
-(
-    combustionModel::New(thermo, *momentumTransport)
-);
+autoPtr<combustionModel> reaction(combustionModel::New(thermo, turbulence()));
 
 Info<< "Creating field dpdt\n" << endl;
 volScalarField dpdt
@@ -142,7 +147,7 @@ volScalarField dpdt
     IOobject
     (
         "dpdt",
-        runTime.name(), //v12
+        runTime.timeName(),
         mesh
     ),
     mesh,
@@ -177,7 +182,7 @@ volScalarField drg_important_species
     IOobject
     (
         "drg::important_species",
-        runTime.name(), //v12
+        runTime.timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
@@ -191,7 +196,7 @@ volScalarField drg_important_reactions
     IOobject
     (
         "drg::important_reactions",
-        runTime.name(), //v12
+        runTime.timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
@@ -205,7 +210,7 @@ volScalarField cpu_reaction_times
     IOobject
     (
         "cpu::reaction_times",
-        runTime.name(), //v12
+        runTime.timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE

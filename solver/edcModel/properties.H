@@ -57,7 +57,7 @@ if (laminarDiffusion == true)
 	{
 		const scalarField& TCells = T.internalField();
 		const scalarField& pCells = p.internalField();
-		scalarField& lambdaCells = lambda.internalFieldRef(); //v12
+		scalarField& lambdaCells = lambda.ref();
 
 		forAll(TCells, celli)
 		{
@@ -77,7 +77,7 @@ if (laminarDiffusion == true)
 			transportMapXML->MassDiffusionCoefficients(Dmixvector.GetHandle(), moleFractions.GetHandle());
 
 			for(int i=0;i<thermodynamicsMapXML->NumberOfSpecies();i++)
-				Dmix_[i].internalFieldRef()[celli] = Dmixvector[i+1]; //v12
+				Dmix_[i].ref()[celli] = Dmixvector[i+1];
 		}
 	}
 

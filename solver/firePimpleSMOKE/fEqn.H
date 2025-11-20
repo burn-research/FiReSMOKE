@@ -45,9 +45,9 @@
 {
 	fvScalarMatrix fEqn
 	(
-			fvm::ddt(rho, f)
-			+ fvm::div(phi, f)
-			== fvm::laplacian(thermo.kappa()/thermo.Cpv() + rho*momentumTransport->nut()/Sct, f)
+		fvm::ddt(rho, f)
+		+ fvm::div(phi, f)
+		== fvm::laplacian(thermo.alphahe() + rho*turbulence->nut()/Sct, f)
 	);
 
 	fEqn.relax();

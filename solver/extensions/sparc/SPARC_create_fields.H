@@ -50,7 +50,7 @@ volScalarField clusterIndex
 	IOobject
 	(
 		"clusterIndex",
-		runTime.name(), //v12
+		runTime.timeName(),
 		mesh,
 		IOobject::NO_READ,
 		IOobject::AUTO_WRITE
@@ -68,7 +68,7 @@ volScalarField clusterWeight
 	IOobject
 	(
 		"clusterWeight",
-		runTime.name(), //v12
+		runTime.timeName(),
 		mesh,
 		IOobject::NO_READ,
 		IOobject::AUTO_WRITE
@@ -86,7 +86,7 @@ volScalarField clusterSpecies
 	IOobject
 	(
 		"clusterSpecies",
-		runTime.name(), //v12
+		runTime.timeName(),
 		mesh,
 		IOobject::NO_READ,
 		IOobject::AUTO_WRITE
@@ -104,7 +104,7 @@ volScalarField clusterReactions
         IOobject
         (
                 "clusterReactions",
-                runTime.name(), //v12
+                runTime.timeName(),
                 mesh,
                 IOobject::NO_READ,
                 IOobject::AUTO_WRITE
@@ -123,7 +123,7 @@ volScalarField predictedTarget
         IOobject
         (
                 "predictedTarget",
-                runTime.name(), //v12
+                runTime.timeName(),
                 mesh,
                 IOobject::NO_READ,
                 IOobject::AUTO_WRITE
