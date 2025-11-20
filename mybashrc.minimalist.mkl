@@ -14,7 +14,6 @@ export OF_SHARED_LIBS=' -lturbulenceModels -lcompressibleTurbulenceModels -lreac
 #Compulsory path
 export EIGEN_LIBRARY_PATH=/software/libs/eigen/compile_dir/eigen-3.4.0
 export BOOST_LIBRARY_PATH=/software/libs/boost/boost-1.83.0
-export RAPIDXML_LIBRARY_PATH=/home/apequin/compiledir/Libraries/rapidxml-1.13 #/software/libs/rapidxml/1.13
 
 #Options: ISAT support
 export ISAT_SUPPORT='-DOPENSMOKE_USE_ISAT=0'
