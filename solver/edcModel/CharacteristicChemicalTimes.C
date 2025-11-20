@@ -63,7 +63,8 @@
 #include "mkl.h"
 #include "mkl_lapacke.h"
 #else
-#include "/software/libs/OpenBLAS/OpenBLAS-0.3.24/include/lapacke.h"
+// #include "/software/libs/OpenBLAS/OpenBLAS-0.3.24/include/lapacke.h"
+#include "lapacke.h"
 #endif
 
 CharacteristicChemicalTimes::CharacteristicChemicalTimes(
