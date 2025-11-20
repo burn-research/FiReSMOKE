@@ -43,7 +43,6 @@ Compulsory libraries
 --------------------
 - OpenSMOKE++ (already included in fireSMOKE)
 - Eigen (http://eigen.tuxfamily.org/index.php?title=Main_Page)
-- RapidXML (http://rapidxml.sourceforge.net/)
 - Boost C++ (http://www.boost.org/)
 
 Optional libraries
