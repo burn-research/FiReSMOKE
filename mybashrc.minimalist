@@ -14,7 +14,6 @@ export OF_SHARED_LIBS=' -lturbulenceModels -lcompressibleTurbulenceModels -lreac
 #Compulsory path
 export EIGEN_LIBRARY_PATH=/software/chimica2/libraries/eigen/eigen-3.3.7
 export BOOST_LIBRARY_PATH=/software/chimica2/libraries/boost/boost-1.69.0-gcc-4.8.5
-export RAPIDXML_LIBRARY_PATH=/software/chimica2/libraries/rapidxml/rapidxml-1.13
  
 #Options: ISAT support
 export ISAT_SUPPORT='-DOPENSMOKE_USE_ISAT=0'
