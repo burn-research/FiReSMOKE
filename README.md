@@ -1,7 +1,7 @@
 FiReSMOKE with SPARC and mPaSR model
 ========
 
-Finite-rate combustion solvers (ED, ED/FR, EDC, QLFR, PaSR, mPaSR) for OpenFOAM based on the [OpenSMOKE++ framework][1]
+Finite-rate combustion solvers (ED, ED/FR, EDC, QLFR, PaSR, mPaSR) for OpenFOAM based on the [OpenSMOKE++ framework][1].
 Each branch of fireSMOKE requires one of the following OpenFOAM versions, respectively:
 - OpenFOAM-12.x, OpenFOAM-10.x, OpenFOAM-7.x
 
