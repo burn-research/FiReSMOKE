@@ -69,7 +69,7 @@ USAGE
     exit 1
 }
 
-DOCKER_IMAGE='brite/firesmoke-v12-mpasr-sparc:latest' ## 'ubuntu:20.04'
+DOCKER_IMAGE='ruggeroamaduzzi/firesmoke-v12:latest'
 MOUNT_DIR=$(pwd)
 CUSTOM_XAUTH=""
 DOCKER_OPTIONS=""
@@ -142,15 +142,24 @@ done
 
 xhost + "$IP"
 
+//docker run -it \
+//    --rm \
+//    --platform linux/x86_64 \
+//    -e DISPLAY=$IP:0 \
+//    -u $USER_ID:$GROUP_ID \
+//    -v /tmp/.X11-unix:/tmp/.X11-unix \
+//    -v $MOUNT_DIR:$HOME_DIR \
+//    $DOCKER_OPTIONS \
+//    $DOCKER_IMAGE
+
 docker run -it \
     --rm \
     --platform linux/x86_64 \
     -e DISPLAY=$IP:0 \
-    -u $USER_ID:$GROUP_ID \
+    -u 0 \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v $MOUNT_DIR:$HOME_DIR \
     $DOCKER_OPTIONS \
     $DOCKER_IMAGE
-
 
 [ -n "$CUSTOM_XAUTH" -a -e "${XAUTH_PATH}" ] && rm "${XAUTH_PATH}"
