@@ -6,9 +6,6 @@ export OPENFOAM_VERSION='-DOPENFOAM_VERSION=100'
 export DEVVERSION='-DDEVVERSION=0'
 
 #Shared libraries (please select according to the OpenFOAM version)
-#OpenFOAM <=30
-#export OF_SHARED_LIBS=' -lcompressibleTurbulenceModel -lcompressibleRASModels -lcompressibleLESModels -lreactionThermophysicalModels -lspecie -lfluidThermophysicalModels '
-#OpenFOAM >=40
 export OF_SHARED_LIBS=' -lturbulenceModels -lcompressibleTurbulenceModels -lreactionThermophysicalModels -lspecie -lcompressibleTransportModels -lfluidThermophysicalModels '
 
 #Compulsory path
@@ -32,6 +29,11 @@ export EXTERNAL_ODE_SOLVERS=
 #Only if the OPENSMOKE_USE_MKL is turned on
 export MKL_PATH=/software/intel/oneapi/mkl/2023.2.0
 export MKL_LIBS='-Wl,--start-group $(MKL_PATH)/lib/intel64/libmkl_intel_lp64.a $(MKL_PATH)/lib/intel64/libmkl_core.a $(MKL_PATH)/lib/intel64/libmkl_sequential.a -Wl,--end-group -lpthread -lm'
+
+#If OPENSMOKE_USE_MKL is turned off
+export OPENBLAS_PATH=/software/libs/OpenBLAS/OpenBLAS-0.3.24
+export OPENBLAS_SUPPORT="-I${OPENBLAS_PATH}/include"
+export OPENBLAS_LIBS="-L${OPENBLAS_PATH}/lib -lopenblas"
 
 #Optional external ODE solvers
 export MEBDF_LIBS=
