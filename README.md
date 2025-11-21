@@ -77,7 +77,7 @@ Three different options are available to compile the code, according to the leve
   - Compile the unsteady solver: from the `solver/firePimpleSMOKE` folder type `wmake`
 
 -----------------------------------------------------
-2. Instructions to compile the Minimalist+MKL version
+2. Instructions to compile the Minimalist+SPARC version
 
   - Open the `mybashrc` and adjust the paths to the compulsory external libraries (choose to employ either MKL or OpenBLAS by setting the flag `MKL_SUPPORT='-DOPENSMOKE_USE_MKL` to either 1 or 0) and set the SPARC compilation flag to 1: `SPARC_SUPPORT='-DSPARC=1` and adjust SPARC libraries paths.
   -  Type: `source mybashrc`
