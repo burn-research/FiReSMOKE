@@ -76,4 +76,3 @@ EXE_LIBS = \
     -lboost_filesystem \
     -lboost_system \
     -lboost_regex \
-    -lopenblas -llapack -llapacke -lblas \
