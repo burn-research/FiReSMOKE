@@ -1,0 +1,46 @@
+#OpenFOAM VERSION (70, 100)
+#OpenFOAM-dev is equivalent to 1000
+export OPENFOAM_VERSION='-DOPENFOAM_VERSION=100'
+
+#If OpenFOAM dev version is used, this must be equal to 1
+export DEVVERSION='-DDEVVERSION=0'
+
+#Shared libraries (please select according to the OpenFOAM version)
+export OF_SHARED_LIBS=' -lturbulenceModels -lcompressibleTurbulenceModels -lreactionThermophysicalModels -lspecie -lcompressibleTransportModels -lfluidThermophysicalModels '
+
+#Compulsory path
+export EIGEN_LIBRARY_PATH=/software/libs/eigen/compile_dir/eigen-3.4.0
+export BOOST_LIBRARY_PATH=/software/libs/boost/boost-1.83.0
+
+#Options: ISAT support
+export ISAT_SUPPORT='-DOPENSMOKE_USE_ISAT=0'
+export ISAT_INCLUDE=
+export ISAT_LIBS=
+
+#Options: SPARC support
+export SPARC_SUPPORT='-DSPARC=1'
+export SPARC_INCLUDE=/software/libs/armadillo/armadillo-9.800.6/
+export SPARC_LIBS=/software/libs/armadillo/armadillo-9.800.6/lib64/libarmadillo.so
+
+#Options
+export MKL_SUPPORT='-DOPENSMOKE_USE_MKL=0'
+export EXTERNAL_ODE_SOLVERS=
+
+#Only if the OPENSMOKE_USE_MKL is turned on
+export MKL_PATH=/software/intel/oneapi/mkl/2023.2.0
+export MKL_LIBS='-Wl,--start-group $(MKL_PATH)/lib/intel64/libmkl_intel_lp64.a $(MKL_PATH)/lib/intel64/libmkl_core.a $(MKL_PATH)/lib/intel64/libmkl_sequential.a -Wl,--end-group -lpthread -lm'
+
+#If OPENSMOKE_USE_MKL is turned off
+export OPENBLAS_PATH=/software/libs/OpenBLAS/OpenBLAS-0.3.24
+export OPENBLAS_SUPPORT="-I${OPENBLAS_PATH}/include"
+export OPENBLAS_LIBS="-L${OPENBLAS_PATH}/lib -lopenblas"
+
+#Optional external ODE solvers
+export MEBDF_LIBS=
+export RADAU_LIBS=
+export DASPK_LIBS=
+export ODEPACK_LIBS=
+export LINPACK_LIBS=
+export SUNDIALS_PATH=
+export SUNDIALS_LIBS=
+
