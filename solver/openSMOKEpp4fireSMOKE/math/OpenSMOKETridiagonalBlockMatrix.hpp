@@ -47,7 +47,7 @@
 	#else
 		#include "mm_malloc.h"
 	#endif
-#elif OPENSMOKE_USE_OPENBLAS == 1
+#else
 	#include "cblas.h"
 	#include "lapacke.h"
 	#ifndef __APPLE__
