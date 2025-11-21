@@ -69,7 +69,7 @@ USAGE
     exit 1
 }
 
-DOCKER_IMAGE='brite/firesmoke-v10-mpasr-sparc:latest' ## 'ubuntu:20.04'
+DOCKER_IMAGE='ruggeroamaduzzi/firesmoke-v10:latest'
 MOUNT_DIR=$(pwd)
 CUSTOM_XAUTH=""
 DOCKER_OPTIONS=""
