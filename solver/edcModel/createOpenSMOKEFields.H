@@ -1284,7 +1284,7 @@ forAll(Y,i)
 			IOobject
 			(
 				"tauc" + std::__cxx11::to_string(i),
-				mesh.time().name(),
+				mesh.time().timeName(),
 				mesh,
 				IOobject::NO_READ,
 				IOobject::AUTO_WRITE
@@ -1302,7 +1302,7 @@ forAll(Y,i)
 			IOobject
 			(
 				"kappa" + std::__cxx11::to_string(i),
-				mesh.time().name(),
+				mesh.time().timeName(),
 				mesh,
 				IOobject::NO_READ,
 				IOobject::AUTO_WRITE
