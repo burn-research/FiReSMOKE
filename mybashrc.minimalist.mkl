@@ -44,6 +44,10 @@ export MKL_PATH=/software/intel/oneapi/mkl/2023.2.0
 #export MKL_LIBS='-Wl,--start-group $(MKL_PATH)/lib/intel64/libmkl_intel_lp64.a $(MKL_PATH)/lib/intel64/libmkl_core.a $(MKL_PATH)/lib/intel64/libmkl_sequential.a -Wl,--end-group -lpthread -lm'
 export MKL_LIBS="-Wl,--start-group ${MKL_PATH}/lib/intel64/libmkl_intel_lp64.a ${MKL_PATH}/lib/intel64/libmkl_core.a ${MKL_PATH}/lib/intel64/libmkl_sequential.a -Wl,--end-group -lpthread -lm -ldl"
 
+#If OPENSMOKE_USE_MKL is turned off
+export OPENBLAS_PATH=/software/libs/OpenBLAS/OpenBLAS-0.3.24
+export OPENBLAS_SUPPORT="-I${OPENBLAS_PATH}/include"
+export OPENBLAS_LIBS="-L${OPENBLAS_PATH}/lib -lopenblas"
 
 #Optional external ODE solvers
 export MEBDF_LIBS=
