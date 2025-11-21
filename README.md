@@ -64,7 +64,7 @@ Compilation
 Three different options are available to compile the code, according to the level of support for the solution of ODE systems
 1. Minimalist: no external, optional libraries are required. Only the native OpenSMOKE++ ODE solver can be used. Linear algebra operations are managed either by OpenBLAS or by the Intel MKL libraries
 2. Minimalist + SPARC: SPARC plugin is added. Only the native OpenSMOKE++ ODE solver can be used. Linear algebra operations are managed either by OpenBLAS or by the Intel MKL libraries.
-*Note that at the moment, compilation with MKL does not support the use of mPasr and SPARC at the same time*.
+*Note that at the moment, compilation with MKL does not support the use of mPaSR and SPARC at the same time*.
 4. Complete: all the optional libraries are linked to the code, in order to have the possibility to work with different ODE solvers
 
 <a/>
