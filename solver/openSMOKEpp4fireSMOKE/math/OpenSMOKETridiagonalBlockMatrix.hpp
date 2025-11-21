@@ -47,7 +47,7 @@
 	#else
 		#include "mm_malloc.h"
 	#endif
-#elif OPENSMOKE_USE_OPENBLAS == 1
+#else
 	#include "cblas.h"
 	#include "lapacke.h"
 	#ifndef __APPLE__
@@ -536,7 +536,7 @@ namespace OpenSMOKE
 			{
 				std::cout << "Pivot (from 1) " << info << " is equal to zero (singular matrix)." << std::endl;
 				std::cout << "The factorization can be not completed." << std::endl;
-				// std::cout << " (1) Matrix layout:        " << CblasColMajor << std::endl;
+				std::cout << " (1) Matrix layout:        " << CblasColMajor << std::endl;
 				std::cout << " (2) Equations:            " << NE << std::endl;
 				std::cout << " (3) Blocks:               " << N << std::endl;
 				std::cout << " (4) Block size:           " << NB << std::endl;
@@ -547,7 +547,7 @@ namespace OpenSMOKE
 			{
 				std::cout << "Parameter " << -info << " has an illegal value" << std::endl;
 
-				// std::cout << " (1) Matrix layout: " << CblasColMajor << std::endl;
+				std::cout << " (1) Matrix layout: " << CblasColMajor << std::endl;
 				std::cout << " (2) Equations:     " << NE << std::endl;
 				std::cout << " (3) Blocks:        " << N << std::endl;
 				std::cout << " (4) Block size:    " << NB << std::endl;
@@ -582,7 +582,7 @@ namespace OpenSMOKE
 			{
 				std::cout << "Parameter " << -info << " has an illegal value" << std::endl;
 
-				// std::cout << " (1) Matrix layout: " << CblasColMajor << std::endl;
+				std::cout << " (1) Matrix layout: " << CblasColMajor << std::endl;
 				std::cout << " (2) Equations:     " << NE << std::endl;
 				std::cout << " (3) Blocks:        " << N << std::endl;
 				std::cout << " (4) Block size:    " << NB << std::endl;
@@ -616,7 +616,7 @@ namespace OpenSMOKE
 			{
 				std::cout << "Parameter " << -info << " has an illegal value" << std::endl;
 
-				// std::cout << " (1) Matrix layout: " << CblasColMajor << std::endl;
+				std::cout << " (1) Matrix layout: " << CblasColMajor << std::endl;
 				std::cout << " (2) Equations:     " << NE << std::endl;
 				std::cout << " (3) Blocks:        " << N << std::endl;
 				std::cout << " (4) Block size:    " << NB << std::endl;
